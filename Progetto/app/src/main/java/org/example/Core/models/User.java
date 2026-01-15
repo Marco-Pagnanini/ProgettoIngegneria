@@ -1,9 +1,10 @@
 package org.example.Core.models;
 
-import org.example.Core.models.enums.Ruolo;
+import org.example.Core.models.enums.RuoloUser;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Entità User:
@@ -49,7 +50,14 @@ public class User {
     /**
      * Ruolo dell'utente
      */
-    private Ruolo ruolo;
+    private RuoloUser ruolo;
+
+    private Team team;
+    private List<Hackathon> hackathons;
+
+    //TODO
+    // lista INVITI
+    
 
 
 }

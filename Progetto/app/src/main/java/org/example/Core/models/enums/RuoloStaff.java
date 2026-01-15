@@ -1,8 +1,7 @@
 package org.example.Core.models.enums;
 
-public enum Ruolo {
+public enum RuoloStaff {
     ORGANIZZATORE,
     MENTORE,
-    GIUDICE,
-    UTENTE_BASE
+    GIUDICE
 }

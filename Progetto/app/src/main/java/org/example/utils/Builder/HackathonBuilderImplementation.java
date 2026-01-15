@@ -13,7 +13,7 @@ public class HackathonBuilderImplementation implements HackathonBuilder {
 
     public HackathonBuilderImplementation(){
         this.hackathon = new Hackathon();
-        this.hackathon.setStato(State.inPreparazione);
+        this.hackathon.setStato(State.IN_PREPARAZIONE);
     }
 
 

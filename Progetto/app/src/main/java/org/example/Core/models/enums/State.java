@@ -1,16 +1,16 @@
 package org.example.Core.models.enums;
 
 public enum State {
-    inIscrizione,
-    inPreparazione,
-    inCorso,
-    concluso;
+    IN_ISCRIZIONE,
+    IN_PREPARAZIONE,
+    IN_CORSO,
+    CONCLUSO;
 
     public State next(){
         return switch (this){
-            case inIscrizione -> inPreparazione;
-            case inPreparazione -> inCorso;
-            case inCorso, concluso -> concluso;
+            case IN_ISCRIZIONE -> IN_PREPARAZIONE;
+            case IN_PREPARAZIONE -> IN_CORSO;
+            case IN_CORSO, CONCLUSO -> CONCLUSO;
         };
     }
 }
