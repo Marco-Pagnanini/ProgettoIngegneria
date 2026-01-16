@@ -19,9 +19,9 @@ public class Hackathon {
     private Integer dimensioneMinimaTeam;
     private Integer numeroMassimoPersone;
     private Integer numeroMinimoPersone;
-    private User organizzatore;
-    private User giudice;
-    private List<User> mentori;
+    private UserStaff organizzatore;
+    private UserStaff giudice;
+    private List<UserStaff> mentori;
     private List<Team> teams;
     private Team vincitore;
     private State stato;
@@ -105,19 +105,19 @@ public class Hackathon {
         this.dimensioneMinimaTeam = dimensioneMinimaTeam;
     }
 
-    public void setGiudice(User giudice) {
+    public void setGiudice(UserStaff giudice) {
         this.giudice = giudice;
     }
 
-    public User getGiudice() {
+    public UserStaff getGiudice() {
         return giudice;
     }
 
-    public void setMentori(List<User> mentori) {
+    public void setMentori(List<UserStaff> mentori) {
         this.mentori = mentori;
     }
 
-    public List<User> getMentori() {
+    public List<UserStaff> getMentori() {
         return mentori;
     }
 
@@ -137,11 +137,11 @@ public class Hackathon {
         return stato;
     }
 
-    public void setOrganizzatore(User organizzatore) {
+    public void setOrganizzatore(UserStaff organizzatore) {
         this.organizzatore = organizzatore;
     }
 
-    public User getOrganizzatore() {
+    public UserStaff getOrganizzatore() {
         return organizzatore;
     }
 

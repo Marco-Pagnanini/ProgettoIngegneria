@@ -3,8 +3,9 @@ package org.example.utils.Builder;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Team;
 import org.example.Core.models.User;
-import org.example.models.*;
 import org.example.Core.enums.State;
+import org.example.Core.models.UserStaff;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -72,20 +73,20 @@ public class HackathonBuilderImplementation implements HackathonBuilder {
     }
 
     @Override
-    public HackathonBuilder giudice(User giudice) {
+    public HackathonBuilder giudice(UserStaff giudice) {
         hackathon.setGiudice(giudice);
         return this;
     }
 
     @Override
-    public HackathonBuilder mentori(List<User> mentori) {
+    public HackathonBuilder mentori(List<UserStaff> mentori) {
         hackathon.setMentori(mentori);
         return this;
     }
 
 
     @Override
-    public HackathonBuilder organizzatore(User organizzatore) {
+    public HackathonBuilder organizzatore(UserStaff organizzatore) {
         hackathon.setOrganizzatore(organizzatore);
         return this;
     }

@@ -56,4 +56,8 @@ public class UserStaff {
         private List<Hackathon> hackathons;
 
 
+    public UserStaff(Long id, RuoloStaff ruolod) {
+            this.id = id;
+            this.ruolo = ruolod;
+    }
 }
