@@ -1,27 +1,18 @@
 package org.example.Core.models;
 
-import org.example.Core.models.enums.RuoloStaff;
-import org.example.Core.models.enums.RuoloUser;
+import org.example.Core.enums.RuoloStaff;
+import org.example.Core.enums.RuoloUser;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
+/**
+ * Entità UserStaff:
+ * gestisce tutti i MembriDelloStaff
+ *
+ * @author Marco Pagnanini
+ */
 public class UserStaff {
-    package org.example.Core.models;
-
-import org.example.Core.models.enums.RuoloUser;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-
-    /**
-     * Entità User:
-     *
-     * @author Marco Pagnanini
-     */
-    public class User {
         /**
          * identificativo univoco per l'utente
          * future implementazioni: usare {@link java.util.UUID} per una maggiore sicurezza
@@ -61,12 +52,8 @@ import java.util.List;
          * Ruolo dell'utente
          */
         private RuoloStaff ruolo;
-        
+
         private List<Hackathon> hackathons;
 
-
-
-
-    }
 
 }

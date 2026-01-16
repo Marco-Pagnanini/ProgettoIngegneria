@@ -1,6 +1,6 @@
 package org.example.Core.models;
 
-import org.example.Core.models.enums.State;
+import org.example.Core.enums.State;
 
 import java.time.LocalDate;
 import java.util.List;

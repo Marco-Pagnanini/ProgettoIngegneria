@@ -1,4 +1,4 @@
-package org.example.Core.models.enums;
+package org.example.Core.enums;
 
 public enum RuoloUser {
     TEAM_LEADER,

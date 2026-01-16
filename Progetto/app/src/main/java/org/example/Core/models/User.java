@@ -1,6 +1,6 @@
 package org.example.Core.models;
 
-import org.example.Core.models.enums.RuoloUser;
+import org.example.Core.enums.RuoloUser;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

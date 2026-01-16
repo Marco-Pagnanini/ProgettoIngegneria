@@ -4,7 +4,7 @@ import org.example.Core.models.Hackathon;
 import org.example.Core.models.Team;
 import org.example.Core.models.User;
 import org.example.models.*;
-import org.example.Core.models.enums.State;
+import org.example.Core.enums.State;
 import java.time.LocalDate;
 import java.util.List;
 
