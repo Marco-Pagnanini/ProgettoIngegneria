@@ -18,28 +18,9 @@ public class HackathonController {
     }
 
     public Hackathon addHackathon(HackathonRequest request) {
-        //TODO: carica il Giudice con id request.idGiudice e mentori su request.idMentori
-        UserStaff giudice = new UserStaff(request.getGiudice(), RuoloStaff.GIUDICE);
-        List<UserStaff> mentori = new ArrayList<>();
-        mentori.add(new UserStaff(request.getMentori().getFirst(),RuoloStaff.MENTORE));
-        Hackathon hackathon = new HackathonBuilderImplementation()
-                .nome(request.getNome())
-                .regolamento(request.getRegolamento())
-                .argomento(request.getArgomento())
-                .scadenzaIscrizione(request.getScadenzaIscrizioni())
-                .dataInizio(request.getDataInizio())
-                .dataFine(request.getDataFine())
-                .luogo(request.getLuogo())
-                .premio(request.getPremio())
-                .dimensioneMassimaTeam(request.getDimensioneMassimaTeam())
-                .dimensioneMinimaTeam(request.getDimensioneMinimaTeam())
-                .numeroMassimoPersone(request.getNumeroMassimoPersone())
-                .numeroMinimoPersone(request.getNumeroMinimoPersone())
-                .giudice(giudice)
-                .mentori(mentori)
-                .build();
 
-        return hackathonService.addHackathon(hackathon);
+
+        return hackathonService.addHackathon(request);
     }
 
 }

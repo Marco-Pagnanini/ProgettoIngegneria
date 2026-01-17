@@ -15,6 +15,7 @@ public class HackathonRepository implements IHackathonRepository {
 
     @Override
     public Hackathon create(Hackathon hackathon) {
+        hackathon.setId(1L);
         hackathons.add(hackathon);
         return hackathon;
     }
