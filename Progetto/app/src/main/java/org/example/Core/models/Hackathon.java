@@ -3,6 +3,7 @@ package org.example.Core.models;
 import org.example.Core.enums.State;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Hackathon {
@@ -26,9 +27,10 @@ public class Hackathon {
     private Team vincitore;
     private State stato;
     private List<String> sottoMissioni;
+    private List<Segnalazione> segnalazioni;
 
     public Hackathon() {
-
+        segnalazioni = new ArrayList<>();
     }
 
     public Long getId() {
@@ -95,6 +97,14 @@ public class Hackathon {
 
     public int getDimensioneMassimaTeam() {
         return dimensioneMassimaTeam;
+    }
+
+    public List<String> getSottoMissioni() {
+        return sottoMissioni;
+    }
+
+    public List<Segnalazione> getSegnalazioni() {
+        return segnalazioni;
     }
 
     public int getDimensioneMinimaTeam() {
@@ -183,5 +193,33 @@ public class Hackathon {
 
     public int getNumeroMassimoPersone() {
         return numeroMassimoPersone;
+    }
+
+    public void setPremio(Double premio) {
+        this.premio = premio;
+    }
+
+    public void setDimensioneMassimaTeam(Integer dimensioneMassimaTeam) {
+        this.dimensioneMassimaTeam = dimensioneMassimaTeam;
+    }
+
+    public void setDimensioneMinimaTeam(Integer dimensioneMinimaTeam) {
+        this.dimensioneMinimaTeam = dimensioneMinimaTeam;
+    }
+
+    public void setNumeroMassimoPersone(Integer numeroMassimoPersone) {
+        this.numeroMassimoPersone = numeroMassimoPersone;
+    }
+
+    public void setNumeroMinimoPersone(Integer numeroMinimoPersone) {
+        this.numeroMinimoPersone = numeroMinimoPersone;
+    }
+
+    public void setSottoMissioni(List<String> sottoMissioni) {
+        this.sottoMissioni = sottoMissioni;
+    }
+
+    public void setSegnalazioni(List<Segnalazione> segnalazioni) {
+        this.segnalazioni = segnalazioni;
     }
 }

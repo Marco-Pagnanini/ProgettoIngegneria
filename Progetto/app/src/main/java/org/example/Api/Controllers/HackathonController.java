@@ -18,8 +18,6 @@ public class HackathonController {
     }
 
     public Hackathon addHackathon(HackathonRequest request) {
-
-
         return hackathonService.addHackathon(request);
     }
 
