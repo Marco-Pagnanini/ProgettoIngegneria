@@ -3,10 +3,15 @@ package org.example.Infrastructure.Repository;
 import org.example.Application.Abstraction.Repository.IHackathonRepository;
 import org.example.Core.models.Hackathon;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HackathonRepository implements IHackathonRepository {
     private List<Hackathon> hackathons;
+
+    public HackathonRepository() {
+        hackathons = new ArrayList<>();
+    }
 
     @Override
     public Hackathon create(Hackathon hackathon) {

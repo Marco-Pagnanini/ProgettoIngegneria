@@ -14,7 +14,7 @@ public class HackathonValidator implements Validator<Hackathon> {
         if(hackathon == null) return false;
         if(hackathon.getDataFine().isBefore(hackathon.getDataInizio())) return false;
         if(hackathon.getNumeroMassimoPersone() < hackathon.getNumeroMinimoPersone()) return false;
-        if(hackathon.getDimensioneMassimaTeam() < hackathon.getDimensioneMassimaTeam()) return false;
+        if(hackathon.getDimensioneMassimaTeam() < hackathon.getDimensioneMinimaTeam()) return false;
         if(hackathon.getPremio() < 0) return false;
 
         return true;

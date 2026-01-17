@@ -20,6 +20,7 @@ public class HackathonService implements IHackathonService {
 
     @Override
     public Hackathon addHackathon(Hackathon hackathon) {
+
         if(!hackathonValidator.validate(hackathon)) return null;
 
         unitOfWork.hackathonRepository().create(hackathon);
