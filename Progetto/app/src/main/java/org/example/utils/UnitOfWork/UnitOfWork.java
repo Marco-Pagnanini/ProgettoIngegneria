@@ -10,12 +10,12 @@ public class UnitOfWork implements IUnitOfWork{
 
     private IHackathonRepository hackathonRepository;
     private ITeamRepository teamRepository;
-    private InvitoRepository InvitoRepository;
+    private IInvitoRepository invitoRepository;
 
-    public UnitOfWork(IHackathonRepository hackathonRepository, ITeamRepository teamRepository, InvitoRepository invitoRepository) {
+    public UnitOfWork(IHackathonRepository hackathonRepository, ITeamRepository teamRepository, IInvitoRepository invitoRepository) {
         this.hackathonRepository = hackathonRepository;
         this.teamRepository = teamRepository;
-        this.InvitoRepository = invitoRepository;
+        this.invitoRepository = invitoRepository;
     }
 
     public IHackathonRepository hackathonRepository() {
@@ -24,7 +24,7 @@ public class UnitOfWork implements IUnitOfWork{
     public ITeamRepository teamRepository() {
         return teamRepository;
     }
-    public IInvitoRepository invitoRepository() {return  invitoRepository();}
+    public IInvitoRepository invitoRepository() {return  invitoRepository;}
 
     @Override
     public void saveChanges() {

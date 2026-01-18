@@ -19,7 +19,7 @@ public class InvitoRepository implements IInvitoRepository {
     @Override
     public Invito create(Invito invito) {
         invito.setId(1L);
-        invito.setStato(StatoInvito.DA_GESTIRE);
+        invito.setStato(StatoInvito.PENDENTE);
         inviti.add(invito);
         return invito;
     }
