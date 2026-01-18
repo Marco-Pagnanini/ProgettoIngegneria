@@ -6,6 +6,7 @@ import org.example.Application.Service.HackathonService;
 import org.example.Application.Validator.HackathonValidator;
 import org.example.Core.models.Hackathon;
 import org.example.Infrastructure.Repository.HackathonRepository;
+import org.example.Infrastructure.Repository.InvitoRepository;
 import org.example.Infrastructure.Repository.TeamRepository;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
@@ -27,7 +28,8 @@ public class CreazioneHackathonTest {
                 new HackathonService(
                         new UnitOfWork(
                                 new HackathonRepository(),
-                                new TeamRepository()
+                                new TeamRepository(),
+                                new InvitoRepository()
                         ),
                         validator
                 )
