@@ -1,6 +1,7 @@
 package org.example.Infrastructure.Repository;
 
 import org.example.Application.Abstraction.Repository.IInvitoRepository;
+import org.example.Core.enums.StatoInvito;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Invito;
 
@@ -18,6 +19,7 @@ public class InvitoRepository implements IInvitoRepository {
     @Override
     public Invito create(Invito invito) {
         invito.setId(1L);
+        invito.setStato(StatoInvito.DA_GESTIRE);
         inviti.add(invito);
         return invito;
     }

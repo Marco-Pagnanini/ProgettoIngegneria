@@ -4,6 +4,7 @@ import org.example.Api.Models.Request.InvitoRequest;
 import org.example.Application.Abstraction.Service.IInvitoService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.enums.RuoloUser;
+import org.example.Core.enums.StatoInvito;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Invito;
 import org.example.Core.models.Team;
@@ -70,5 +71,19 @@ public class InvitiService implements IInvitoService {
         Invito response = unitOfWork.invitoRepository().getById(id);
         unitOfWork.saveChanges();
         return response;
+    }
+
+    @Override
+    public Invito acceptInvito(Long idInvito) {
+        Invito invito = unitOfWork.invitoRepository().getById(idInvito);
+        invito.setStato(StatoInvito.ACCETTATO);
+
+        //TODO logica per aggiungere al team l'utente
+        //TODO logica per cambiare lo stato da Non Iscritto a Membro del team
+
+        unitOfWork.invitoRepository().update(invito);
+        unitOfWork.saveChanges();
+        return invito;
+
     }
 }

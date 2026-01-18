@@ -17,4 +17,8 @@ public class InvitoController {
         return invitoService.getAllInviti();
     }
 
+    public Invito acceptInvitation(Long idInvito){
+        return invitoService.acceptInvito(idInvito);
+    }
+
 }
