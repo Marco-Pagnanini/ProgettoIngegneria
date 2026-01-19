@@ -17,7 +17,7 @@ public class HackathonController {
         this.hackathonService = hackathonService;
     }
 
-    public Hackathon addHackathon(HackathonRequest request) {
+    public Hackathon creazioneHackathon(HackathonRequest request) {
         return hackathonService.addHackathon(request);
     }
 

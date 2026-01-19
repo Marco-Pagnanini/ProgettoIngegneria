@@ -24,7 +24,7 @@ public class InvitiService implements IInvitoService {
 
 
     @Override
-    public Invito addInvito(InvitoRequest request) {
+    public Invito creaInvito(InvitoRequest request) {
 
         Team team = new Team();
         team.setId(request.getIdDelTeam());
@@ -74,7 +74,7 @@ public class InvitiService implements IInvitoService {
     }
 
     @Override
-    public Invito acceptInvito(Long idInvito) {
+    public Invito accettaInvito(Long idInvito) {
         Invito invito = unitOfWork.invitoRepository().getById(idInvito);
         invito.setStato(StatoInvito.ACCETTATO);
 

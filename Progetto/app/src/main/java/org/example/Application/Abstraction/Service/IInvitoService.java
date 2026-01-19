@@ -6,11 +6,10 @@ import org.example.Core.models.Invito;
 import java.util.List;
 
 public interface IInvitoService {
-    Invito addInvito(InvitoRequest invito);
+    Invito creaInvito(InvitoRequest invito);
     Invito updateInvito(Invito invito);
     Invito deleteInvito(Long id);
     List<Invito> getAllInviti();
     Invito getInvitoById(Long id);
-    Invito acceptInvito(Long idInvito);
-
+    Invito accettaInvito(Long idInvito);
 }

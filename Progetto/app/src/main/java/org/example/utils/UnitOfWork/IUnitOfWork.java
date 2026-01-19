@@ -9,5 +9,6 @@ public interface IUnitOfWork {
     IHackathonRepository hackathonRepository();
     ITeamRepository teamRepository();
     IInvitoRepository invitoRepository();
+    ISegnalazioneRepository segnalazioneRepository();
     void saveChanges();
 }
