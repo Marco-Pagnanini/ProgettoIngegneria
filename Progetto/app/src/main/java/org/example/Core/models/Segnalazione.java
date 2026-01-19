@@ -1,11 +1,15 @@
 package org.example.Core.models;
 
+import org.example.Core.enums.StatoSegnalazione;
+
 public class Segnalazione {
     private Long id;
     private String nome;
     private String descrizione;
+    private StatoSegnalazione  statoSegnalazione;
     private Team teamSegnalato;
     private UserStaff mentore;
+    private Hackathon hackathon;
 
     public Long getId() {
         return id;
