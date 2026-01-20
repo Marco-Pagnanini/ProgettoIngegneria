@@ -5,10 +5,7 @@ import org.example.Api.Models.Request.HackathonRequest;
 import org.example.Application.Service.HackathonService;
 import org.example.Application.Validator.HackathonValidator;
 import org.example.Core.models.Hackathon;
-import org.example.Infrastructure.Repository.HackathonRepository;
-import org.example.Infrastructure.Repository.InvitoRepository;
-import org.example.Infrastructure.Repository.TeamRepository;
-import org.example.Infrastructure.Repository.UserRepository;
+import org.example.Infrastructure.Repository.*;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,6 +28,7 @@ public class CreazioneHackathonTest {
                                 new HackathonRepository(),
                                 new TeamRepository(),
                                 new InvitoRepository(),
+                                new SegnalazioneRepository(),
                                 new UserRepository()
                         ),
                         validator
@@ -42,7 +40,7 @@ public class CreazioneHackathonTest {
     public void testCreazioneHackathonValido() {
         HackathonRequest request = createValidRequest();
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNotNull(response);
         Assert.assertEquals("Macerata AI", response.getNome());
@@ -56,7 +54,7 @@ public class CreazioneHackathonTest {
         request.setDataInizio(oggi.plusDays(5));
         request.setDataFine(oggi.plusDays(2));
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNull(response);
     }
@@ -67,7 +65,7 @@ public class CreazioneHackathonTest {
         request.setNumeroMinimoPersone(50);
         request.setNumeroMassimoPersone(30);
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNull(response);
     }
@@ -78,7 +76,7 @@ public class CreazioneHackathonTest {
         request.setDimensioneMinimaTeam(5);
         request.setDimensioneMassimaTeam(3);
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNull(response);
     }
@@ -88,7 +86,7 @@ public class CreazioneHackathonTest {
         HackathonRequest request = createValidRequest();
         request.setPremio(-1000.0);
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNull(response);
     }
@@ -98,7 +96,7 @@ public class CreazioneHackathonTest {
         HackathonRequest request = createValidRequest();
         request.setPremio(0.0);
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNotNull(response);
     }
@@ -117,7 +115,7 @@ public class CreazioneHackathonTest {
         request.setDataInizio(stessaData);
         request.setDataFine(stessaData);
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNotNull(response);
     }
@@ -129,7 +127,7 @@ public class CreazioneHackathonTest {
         request.setDataInizio(oggi.plusDays(10));
         request.setScadenzaIscrizioni(oggi.plusDays(15));
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNotNull(response);
     }
@@ -140,7 +138,7 @@ public class CreazioneHackathonTest {
         request.setDimensioneMinimaTeam(5);
         request.setDimensioneMassimaTeam(5);
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNotNull(response);
     }
@@ -151,7 +149,7 @@ public class CreazioneHackathonTest {
         request.setNumeroMinimoPersone(100);
         request.setNumeroMassimoPersone(100);
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNotNull(response);
     }
@@ -161,7 +159,7 @@ public class CreazioneHackathonTest {
         HackathonRequest request = createValidRequest();
         request.setMentori(Collections.singletonList(2L));
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNotNull(response);
     }
@@ -171,7 +169,7 @@ public class CreazioneHackathonTest {
         HackathonRequest request = createValidRequest();
         request.setMentori(Arrays.asList(2L, 3L, 4L));
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNotNull(response);
     }
@@ -181,7 +179,7 @@ public class CreazioneHackathonTest {
         HackathonRequest request = createValidRequest();
         request.setPremio(1000000.0);
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNotNull(response);
         Assert.assertEquals(1000000.0, response.getPremio(), 0.01);
@@ -194,7 +192,7 @@ public class CreazioneHackathonTest {
         request.setDataInizio(oggi.plusDays(30));
         request.setDataFine(oggi.plusDays(60));
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNotNull(response);
     }
@@ -206,7 +204,7 @@ public class CreazioneHackathonTest {
         request.setDataInizio(oggi.plusDays(10));
         request.setDataFine(oggi.plusDays(11));
 
-        Hackathon response = controller.addHackathon(request);
+        Hackathon response = controller.creazioneHackathon(request);
 
         Assert.assertNotNull(response);
     }

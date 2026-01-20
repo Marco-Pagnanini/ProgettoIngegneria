@@ -16,14 +16,11 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+    // Use JUnit test framework.
+    testImplementation(libs.junit)
 
     // This dependency is used by the application.
     implementation(libs.guava)
-}
-
-test {
-    useJUnitPlatform()
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

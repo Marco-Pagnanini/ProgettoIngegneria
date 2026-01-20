@@ -5,10 +5,7 @@ import org.example.Api.Models.Request.UserRequest;
 import org.example.Application.Service.UserService;
 import org.example.Application.Validator.UserValidator;
 import org.example.Core.models.User;
-import org.example.Infrastructure.Repository.HackathonRepository;
-import org.example.Infrastructure.Repository.InvitoRepository;
-import org.example.Infrastructure.Repository.TeamRepository;
-import org.example.Infrastructure.Repository.UserRepository;
+import org.example.Infrastructure.Repository.*;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,6 +31,7 @@ public class RegistrazioneUserTest {
         new HackathonRepository(),
         new TeamRepository(),
         new InvitoRepository(),
+        new SegnalazioneRepository(),
         new UserRepository()
     );
         validator = new UserValidator(

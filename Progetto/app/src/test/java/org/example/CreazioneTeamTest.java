@@ -5,10 +5,7 @@ import org.example.Api.Models.Request.TeamRequest;
 import org.example.Application.Service.TeamService;
 import org.example.Application.Validator.TeamValidator;
 import org.example.Core.models.Team;
-import org.example.Infrastructure.Repository.HackathonRepository;
-import org.example.Infrastructure.Repository.InvitoRepository;
-import org.example.Infrastructure.Repository.TeamRepository;
-import org.example.Infrastructure.Repository.UserRepository;
+import org.example.Infrastructure.Repository.*;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,6 +27,7 @@ public class CreazioneTeamTest {
                 new HackathonRepository(),
                 new TeamRepository(),
                 new InvitoRepository(),
+                new SegnalazioneRepository(),
                 new UserRepository()
                 );
         service = new TeamService(unitOfWork, new TeamValidator(unitOfWork));
