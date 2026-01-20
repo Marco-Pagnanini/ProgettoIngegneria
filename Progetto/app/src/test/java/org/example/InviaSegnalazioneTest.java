@@ -8,10 +8,7 @@ import org.example.Core.enums.StatoSegnalazione;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Segnalazione;
 import org.example.Core.models.Team;
-import org.example.Infrastructure.Repository.HackathonRepository;
-import org.example.Infrastructure.Repository.InvitoRepository;
-import org.example.Infrastructure.Repository.TeamRepository;
-import org.example.Infrastructure.Repository.UserRepository;
+import org.example.Infrastructure.Repository.*;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,6 +30,7 @@ public class InviaSegnalazioneTest {
         unitOfWork = new UnitOfWork(new HackathonRepository(),
                 new TeamRepository(),
                 new InvitoRepository(),
+                new SegnalazioneRepository(),
                 new UserRepository());
 
         segnalazioneService = new SegnalazioneService(unitOfWork,  new SegnalazioneValidator());

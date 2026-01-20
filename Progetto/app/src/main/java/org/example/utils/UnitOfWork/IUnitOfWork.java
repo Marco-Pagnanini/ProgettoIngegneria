@@ -1,9 +1,6 @@
 package org.example.utils.UnitOfWork;
 
-import org.example.Application.Abstraction.Repository.IHackathonRepository;
-import org.example.Application.Abstraction.Repository.IInvitoRepository;
-import org.example.Application.Abstraction.Repository.ITeamRepository;
-import org.example.Application.Abstraction.Repository.ISegnalazioneRepository;
+import org.example.Application.Abstraction.Repository.*;
 
 public interface IUnitOfWork {
 
@@ -11,5 +8,7 @@ public interface IUnitOfWork {
     ITeamRepository teamRepository();
     IInvitoRepository invitoRepository();
     ISegnalazioneRepository segnalazioneRepository();
+    IUserRepository userRepository();
     void saveChanges();
+
 }

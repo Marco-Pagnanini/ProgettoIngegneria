@@ -6,10 +6,10 @@ import org.example.Core.models.Hackathon;
 import java.util.List;
 
 public interface IHackathonService {
-    Hackathon addHackathon(HackathonRequest hackathon);
+    Hackathon creazioneHackathon(HackathonRequest hackathon);
     Hackathon updateHackathon(Hackathon hackathon);
     Hackathon deleteHackathon(Long id);
     Hackathon getHackathonById(Long id);
-    List<Hackathon> getAllHackathon();
+    List<Hackathon> visualizzaHackathon();
 
 }

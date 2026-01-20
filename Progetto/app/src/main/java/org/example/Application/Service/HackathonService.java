@@ -25,7 +25,7 @@ public class HackathonService implements IHackathonService {
     }
 
     @Override
-    public Hackathon addHackathon(HackathonRequest request) {
+    public Hackathon creazioneHackathon(HackathonRequest request) {
         UserStaff giudice = new UserStaff(request.getGiudice(), RuoloStaff.GIUDICE);
 
         List<UserStaff> mentori = new ArrayList<>();
@@ -82,7 +82,7 @@ public class HackathonService implements IHackathonService {
     }
 
     @Override
-    public List<Hackathon> getAllHackathon() {
+    public List<Hackathon> visualizzaHackathon() {
         List<Hackathon> response = unitOfWork.hackathonRepository().getAll();
         unitOfWork.saveChanges();
         return response;

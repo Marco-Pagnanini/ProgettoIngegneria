@@ -12,6 +12,6 @@ public class UserController {
     }
 
     public User registerUser(UserRequest userRequest) {
-        return userService.registerUser(userRequest);
+        return userService.registrazioneUtente(userRequest);
     }
 }

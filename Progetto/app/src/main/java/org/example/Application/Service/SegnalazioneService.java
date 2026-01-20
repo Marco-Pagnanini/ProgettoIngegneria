@@ -24,7 +24,7 @@ public class SegnalazioneService implements ISegnalazioneService {
 
 
     @Override
-    public Segnalazione addSegnalazione(Long idHackathon, SegnalazioneRequest request) {
+    public Segnalazione inviaSegnalazione(Long idHackathon, SegnalazioneRequest request) {
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
         if(hackathon == null) return null;
 
@@ -94,7 +94,7 @@ public class SegnalazioneService implements ISegnalazioneService {
     }
 
     @Override
-    public List<Segnalazione> getAllSegnalazioniByHackathon(Long idHackathon) {
+    public List<Segnalazione> visualizzaSegnalazione(Long idHackathon) {
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
         unitOfWork.saveChanges();
         if(hackathon == null) return new ArrayList<>();

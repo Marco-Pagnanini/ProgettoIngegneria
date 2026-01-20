@@ -6,7 +6,7 @@ import org.example.Core.models.Team;
 import java.util.List;
 
 public interface ITeamService {
-    Team addTeam(TeamRequest team);
+    Team creazioneTeam(TeamRequest team);
     Team updateTeam(Team team);
     Team deleteTeam(Long id);
     List<Team> getAllTeams();

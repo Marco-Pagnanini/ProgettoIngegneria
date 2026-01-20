@@ -4,5 +4,6 @@ import org.example.Api.Models.Request.UserRequest;
 import org.example.Core.models.User;
 
 public interface IUserService {
-    User registerUser(UserRequest user);
+    User registrazioneUtente(UserRequest user);
+
 }

@@ -2,7 +2,6 @@ package org.example.Api.Controllers;
 
 import org.example.Api.Models.Request.SegnalazioneRequest;
 import org.example.Application.Abstraction.Service.ISegnalazioneService;
-import org.example.Application.Service.SegnalazioneService;
 import org.example.Core.models.Segnalazione;
 
 import java.util.List;
@@ -15,10 +14,10 @@ public class SegnalazioneController {
     }
 
     public Segnalazione addSegnalazione(Long idHackathon, SegnalazioneRequest request) {
-        return segnalazioneService.addSegnalazione(idHackathon, request);
+        return segnalazioneService.inviaSegnalazione(idHackathon, request);
     }
 
     public List<Segnalazione> getAllSegnalazioni(Long idHackathon){
-       return segnalazioneService.getAllSegnalazioniByHackathon(idHackathon);
+       return segnalazioneService.visualizzaSegnalazione(idHackathon);
     }
 }

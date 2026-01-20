@@ -6,8 +6,8 @@ import org.example.Core.models.Segnalazione;
 import java.util.List;
 
 public interface ISegnalazioneService {
-    Segnalazione addSegnalazione(Long idHackathon, SegnalazioneRequest segnalazione);
+    Segnalazione inviaSegnalazione(Long idHackathon, SegnalazioneRequest segnalazione);
     Segnalazione deleteSegnalazione(Long idHackathon, Long idSegnalazione);
     Segnalazione getSegnalazioneById(Long idHackathon, Long idSegnalazione);
-    List<Segnalazione> getAllSegnalazioniByHackathon(Long idHackathon);
+    List<Segnalazione> visualizzaSegnalazione(Long idHackathon);
 }

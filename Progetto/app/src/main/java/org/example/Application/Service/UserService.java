@@ -21,7 +21,7 @@ public class UserService implements IUserService {
 
 
     @Override
-    public User registerUser(UserRequest user) {
+    public User registrazioneUtente(UserRequest user) {
 
         //MAPPER
         User toAdd = UserMapper.toEntity(user);

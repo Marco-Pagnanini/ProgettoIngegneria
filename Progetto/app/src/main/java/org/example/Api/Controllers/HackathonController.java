@@ -2,12 +2,8 @@ package org.example.Api.Controllers;
 
 import org.example.Api.Models.Request.HackathonRequest;
 import org.example.Application.Abstraction.Service.IHackathonService;
-import org.example.Core.enums.RuoloStaff;
 import org.example.Core.models.Hackathon;
-import org.example.Core.models.UserStaff;
-import org.example.utils.Builder.HackathonBuilderImplementation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HackathonController {
@@ -18,8 +14,8 @@ public class HackathonController {
     }
 
     public Hackathon creazioneHackathon(HackathonRequest request) {
-        return hackathonService.addHackathon(request);
+        return hackathonService.creazioneHackathon(request);
     }
 
-    public List<Hackathon> visualizzaHackathon() { return hackathonService.getAllHackathon(); }
+    public List<Hackathon> visualizzaHackathon() { return hackathonService.visualizzaHackathon(); }
 }

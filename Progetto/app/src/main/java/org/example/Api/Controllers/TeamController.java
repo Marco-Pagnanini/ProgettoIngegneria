@@ -12,7 +12,7 @@ public class TeamController {
     }
 
     public Team addTeam(TeamRequest request) {
-        return teamService.addTeam(request);
+        return teamService.creazioneTeam(request);
 
     }
 }

@@ -5,10 +5,7 @@ import org.example.Application.Service.SegnalazioneService;
 import org.example.Application.Validator.SegnalazioneValidator;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Segnalazione;
-import org.example.Infrastructure.Repository.HackathonRepository;
-import org.example.Infrastructure.Repository.InvitoRepository;
-import org.example.Infrastructure.Repository.TeamRepository;
-import org.example.Infrastructure.Repository.UserRepository;
+import org.example.Infrastructure.Repository.*;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,6 +27,7 @@ public class VisualizzazioneSegnalazioneTest {
                 new HackathonRepository(),
                 new TeamRepository(),
                 new InvitoRepository(),
+                new SegnalazioneRepository(),
                 new UserRepository()
         );
         service = new SegnalazioneService(unitOfWork, new SegnalazioneValidator());
