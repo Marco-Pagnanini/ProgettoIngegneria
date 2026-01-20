@@ -8,6 +8,7 @@ import org.example.Core.models.Hackathon;
 import org.example.Infrastructure.Repository.HackathonRepository;
 import org.example.Infrastructure.Repository.InvitoRepository;
 import org.example.Infrastructure.Repository.TeamRepository;
+import org.example.Infrastructure.Repository.UserRepository;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,7 +30,8 @@ public class CreazioneHackathonTest {
                         new UnitOfWork(
                                 new HackathonRepository(),
                                 new TeamRepository(),
-                                new InvitoRepository()
+                                new InvitoRepository(),
+                                new UserRepository()
                         ),
                         validator
                 )

@@ -26,13 +26,14 @@ public class TeamService implements ITeamService {
     public Team addTeam(TeamRequest request) {
         Team team = new Team();
 
-        User leader = new User(request.getIdTeamLeader(), RuoloUser.TEAM_LEADER);
+        User leader = unitOfWork.userRepository().getById(request.getIdTeamLeader());
+        if(leader == null) return null;
 
         List<User> membriDelTeam = new ArrayList<>();
         for(Long id : request.getIdMembriDelTeam()){
-            User user = new User(id, RuoloUser.TEAM_MEMBER);
-            membriDelTeam.add(user);
+           membriDelTeam.add(unitOfWork.userRepository().getById(id));
         }
+        if(membriDelTeam.isEmpty()) return null;
 
         team.setNome(request.getTeamName());
         team.setTeamLeader(leader);

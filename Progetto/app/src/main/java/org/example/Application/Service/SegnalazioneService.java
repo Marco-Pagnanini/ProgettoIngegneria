@@ -28,8 +28,6 @@ public class SegnalazioneService implements ISegnalazioneService {
         if(hackathon == null) return null;
 
         Team team = unitOfWork.teamRepository().getById(request.getIdTeamSegnalazione());
-        if(team == null) return null;
-
 
         UserStaff mentore = new UserStaff(1L, RuoloStaff.MENTORE);
 

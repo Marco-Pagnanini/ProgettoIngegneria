@@ -8,6 +8,7 @@ import org.example.Core.models.Segnalazione;
 import org.example.Infrastructure.Repository.HackathonRepository;
 import org.example.Infrastructure.Repository.InvitoRepository;
 import org.example.Infrastructure.Repository.TeamRepository;
+import org.example.Infrastructure.Repository.UserRepository;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,7 +26,12 @@ public class VisualizzazioneSegnalazioneTest {
 
     @Before
     public void setUp() {
-        unitOfWork = new UnitOfWork(new HackathonRepository(), new TeamRepository(), new InvitoRepository());
+        unitOfWork = new UnitOfWork(
+                new HackathonRepository(),
+                new TeamRepository(),
+                new InvitoRepository(),
+                new UserRepository()
+        );
         service = new SegnalazioneService(unitOfWork, new SegnalazioneValidator());
         controller = new SegnalazioneController(service);
 

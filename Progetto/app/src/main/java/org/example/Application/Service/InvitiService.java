@@ -26,10 +26,9 @@ public class InvitiService implements IInvitoService {
     @Override
     public Invito addInvito(InvitoRequest request) {
 
-        Team team = new Team();
-        team.setId(request.getIdDelTeam());
+        Team team = unitOfWork.teamRepository().getById(request.getIdDelTeam());
 
-        User user = new User(request.getIdUtente(), RuoloUser.UTENTE_NON_ISCRITTO);
+        User user = unitOfWork.userRepository().getById(request.getIdUtente());
 
         Invito invito = new Invito();
         invito.setDalTeam(team);
