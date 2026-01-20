@@ -21,4 +21,5 @@ public class HackathonController {
         return hackathonService.addHackathon(request);
     }
 
+    public List<Hackathon> visualizzaHackathon() { return hackathonService.getAllHackathon(); }
 }
