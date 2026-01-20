@@ -6,6 +6,8 @@ import java.time.LocalDate;
 
 public class Invito {
     private Long id;
+    private String titolo;
+    private String descrizione;
     private Team dalTeam;
     private User perUtente;
     private StatoInvito stato;

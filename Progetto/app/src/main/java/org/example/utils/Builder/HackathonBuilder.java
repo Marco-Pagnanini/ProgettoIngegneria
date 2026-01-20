@@ -27,4 +27,5 @@ public interface HackathonBuilder {
     HackathonBuilder numeroMassimoPersone(int numeroMassimoPersone);
     HackathonBuilder numeroMinimoPersone(int numeroMinimoPersone);
     Hackathon build();
+    Hackathon reset();
 }
