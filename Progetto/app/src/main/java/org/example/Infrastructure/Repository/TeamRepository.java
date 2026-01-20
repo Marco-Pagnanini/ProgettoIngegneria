@@ -9,6 +9,8 @@ import java.util.List;
 public class TeamRepository implements ITeamRepository {
     private List<Team> teams;
 
+    private long nextId = 1L;
+
     public TeamRepository() {
         this.teams = new ArrayList<>();
     }
@@ -16,7 +18,7 @@ public class TeamRepository implements ITeamRepository {
 
     @Override
     public Team create(Team team) {
-        team.setId(1L);
+        team.setId(nextId++);
         teams.add(team);
         return team;
     }

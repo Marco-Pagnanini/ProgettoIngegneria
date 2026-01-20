@@ -8,6 +8,7 @@ import java.util.List;
 
 public class HackathonRepository implements IHackathonRepository {
     private List<Hackathon> hackathons;
+    private long nextId = 1L;
 
     public HackathonRepository() {
         hackathons = new ArrayList<>();
@@ -16,7 +17,7 @@ public class HackathonRepository implements IHackathonRepository {
     @Override
     public Hackathon create(Hackathon hackathon) {
         //Creazione degli Id
-        hackathon.setId(1L);
+        hackathon.setId(nextId++);
         hackathons.add(hackathon);
         return hackathon;
     }

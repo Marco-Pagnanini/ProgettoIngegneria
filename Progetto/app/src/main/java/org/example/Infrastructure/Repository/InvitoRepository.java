@@ -11,6 +11,7 @@ import java.util.List;
 public class InvitoRepository implements IInvitoRepository {
     private List<Invito> inviti;
 
+    private long nextId = 1L;
     public InvitoRepository() {
         this.inviti = new ArrayList<>();
     }
@@ -18,7 +19,7 @@ public class InvitoRepository implements IInvitoRepository {
 
     @Override
     public Invito create(Invito invito) {
-        invito.setId(1L);
+        invito.setId(nextId++);
         invito.setStato(StatoInvito.PENDENTE);
         inviti.add(invito);
         return invito;

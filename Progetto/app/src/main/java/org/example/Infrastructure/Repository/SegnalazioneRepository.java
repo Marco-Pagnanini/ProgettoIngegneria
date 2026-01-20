@@ -11,13 +11,15 @@ import java.util.List;
 public class SegnalazioneRepository implements ISegnalazioneRepository {
     private List<Segnalazione> segnalazioni;
 
+    private long nextId = 1L;
+
     public SegnalazioneRepository(){
         this.segnalazioni=new ArrayList<>();
     }
 
     @Override
     public Segnalazione create(Segnalazione segnalazione) {
-        segnalazione.setId(1L);
+        segnalazione.setId(nextId++);
         segnalazione.setStatoSegnalazione(StatoSegnalazione.APERTA);
         this.segnalazioni.add(segnalazione);
         return segnalazione;
