@@ -6,8 +6,6 @@ import org.example.Core.models.Hackathon;
 public class HackathonValidator implements Validator<Hackathon> {
     private Hackathon hackathon;
 
-    public HackathonValidator() {
-    }
 
     public boolean validate(Hackathon hackathon){
 

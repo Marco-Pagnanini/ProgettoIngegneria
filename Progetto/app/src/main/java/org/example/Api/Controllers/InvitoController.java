@@ -1,13 +1,14 @@
 package org.example.Api.Controllers;
 
+import org.example.Api.Models.Request.InvitoRequest;
 import org.example.Application.Abstraction.Service.IInvitoService;
 import org.example.Core.models.Invito;
-import org.example.Infrastructure.Repository.InvitoRepository;
 
 import java.util.List;
 
 public class InvitoController {
-    private IInvitoService invitoService;
+    private final IInvitoService invitoService;
+
 
     public InvitoController(IInvitoService invitoService) {
         this.invitoService = invitoService;
@@ -17,8 +18,12 @@ public class InvitoController {
         return invitoService.getAllInviti();
     }
 
-    public Invito acceptInvitation(Long idInvito){
-        return invitoService.acceptInvito(idInvito);
+    public Invito accettaInvito(Long idInvito){
+        return invitoService.accettaInvito(idInvito);
+    }
+
+    public Invito creaInvito(InvitoRequest invitoRequest){
+        return invitoService.creaInvito(invitoRequest);
     }
 
 }

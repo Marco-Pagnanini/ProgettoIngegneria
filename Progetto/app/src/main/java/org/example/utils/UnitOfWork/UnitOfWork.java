@@ -3,7 +3,6 @@ package org.example.utils.UnitOfWork;
 import org.example.Application.Abstraction.Repository.IHackathonRepository;
 import org.example.Application.Abstraction.Repository.IInvitoRepository;
 import org.example.Application.Abstraction.Repository.ITeamRepository;
-import org.example.Application.Abstraction.Repository.IUserRepository;
 import org.example.Core.models.Invito;
 import org.example.Infrastructure.Repository.InvitoRepository;
 
@@ -12,13 +11,16 @@ public class UnitOfWork implements IUnitOfWork{
     private IHackathonRepository hackathonRepository;
     private ITeamRepository teamRepository;
     private IInvitoRepository invitoRepository;
-    private IUserRepository userRepository;
+    private ISegnalazioneRepository segnalazioneRepository;
 
-    public UnitOfWork(IHackathonRepository hackathonRepository, ITeamRepository teamRepository, IInvitoRepository invitoRepository, IUserRepository userRepository) {
+    public UnitOfWork(IHackathonRepository hackathonRepository,
+                      ITeamRepository teamRepository,
+                      IInvitoRepository invitoRepository,
+                      ISegnalazioneRepository segnalazioneRepository) {
         this.hackathonRepository = hackathonRepository;
         this.teamRepository = teamRepository;
         this.invitoRepository = invitoRepository;
-        this.userRepository = userRepository;
+        this.segnalazioneRepository = segnalazioneRepository;
     }
 
     public IHackathonRepository hackathonRepository() {
@@ -28,7 +30,7 @@ public class UnitOfWork implements IUnitOfWork{
         return teamRepository;
     }
     public IInvitoRepository invitoRepository() {return  invitoRepository;}
-    public IUserRepository userRepository() {return userRepository;}
+    public ISegnalazioneRepository segnalazioneRepository() { return segnalazioneRepository;}
 
     @Override
     public void saveChanges() {

@@ -125,4 +125,9 @@ public class HackathonBuilderImplementation implements HackathonBuilder {
         //DA CAPIRE SE INSERIRE UNA SORTA DI VALIDAZIONE
         return hackathon;
     }
+
+    public Hackathon reset() {
+        hackathon.setStato(State.IN_PREPARAZIONE);
+        return hackathon;
+    }
 }

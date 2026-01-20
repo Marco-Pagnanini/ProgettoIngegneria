@@ -13,53 +13,52 @@ public class SegnalazioneRepository implements ISegnalazioneRepository {
 
     private long nextId = 1L;
 
-    public SegnalazioneRepository(){
-        this.segnalazioni=new ArrayList<>();
+    public SegnalazioneRepository() {
+        this.segnalazioni = new ArrayList<>();
     }
 
-    @Override
-    public Segnalazione create(Segnalazione segnalazione) {
-        segnalazione.setId(nextId++);
-        segnalazione.setStatoSegnalazione(StatoSegnalazione.APERTA);
-        this.segnalazioni.add(segnalazione);
-        return segnalazione;
-    }
-
-    @Override
-    public Segnalazione delete(Long id) {
-        for(Segnalazione i : segnalazioni){
-            if(i.getId().equals(id)){
-                segnalazioni.remove(i);
-                return i;
-            }
+        public Segnalazione create (Segnalazione segnalazione){
+            segnalazione.setId(nextId++);
+            segnalazione.setStatoSegnalazione(StatoSegnalazione.APERTA);
+            this.segnalazioni.add(segnalazione);
+            return segnalazione;
         }
-        return null;
-    }
 
-    @Override
-    public Segnalazione update(Segnalazione segnalazione) {
-        for(Segnalazione i : segnalazioni){
-            if(i.getId().equals(segnalazione.getId())){
-                segnalazioni.remove(i);
-                segnalazioni.add(segnalazione);
-                return segnalazione;
+        @Override
+        public Segnalazione delete (Long id){
+            for (Segnalazione i : segnalazioni) {
+                if (i.getId().equals(id)) {
+                    segnalazioni.remove(i);
+                    return i;
+                }
             }
+            return null;
         }
-        return null;
-    }
 
-    @Override
-    public Segnalazione getById(Long id) {
-        for(Segnalazione i : segnalazioni){
-            if(i.getId().equals(id)){
-                return i;
+        @Override
+        public Segnalazione update (Segnalazione segnalazione){
+            for (Segnalazione i : segnalazioni) {
+                if (i.getId().equals(segnalazione.getId())) {
+                    segnalazioni.remove(i);
+                    segnalazioni.add(segnalazione);
+                    return segnalazione;
+                }
             }
+            return null;
         }
-        return null;
-    }
 
-    @Override
-    public List<Segnalazione> getAll() {
-        return segnalazioni;
+        @Override
+        public Segnalazione getById (Long id){
+            for (Segnalazione i : segnalazioni) {
+                if (i.getId().equals(id)) {
+                    return i;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public List<Segnalazione> getAll () {
+            return segnalazioni;
+        }
     }
-}
