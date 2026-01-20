@@ -58,4 +58,9 @@ public class TeamRepository implements ITeamRepository {
     public List<Team> getAll() {
         return teams;
     }
+
+    @Override
+    public boolean existInHackathon(Long idTeam, Long idHackathon) {
+        return false;
+    }
 }

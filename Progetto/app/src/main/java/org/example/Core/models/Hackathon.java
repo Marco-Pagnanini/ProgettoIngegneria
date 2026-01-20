@@ -31,6 +31,7 @@ public class Hackathon {
 
     public Hackathon() {
         segnalazioni = new ArrayList<>();
+        teams =  new ArrayList<>();
     }
 
     public Long getId() {

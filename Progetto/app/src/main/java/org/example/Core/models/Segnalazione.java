@@ -65,4 +65,8 @@ public class Segnalazione {
     public StatoSegnalazione getStatoSegnalazione() {
         return statoSegnalazione;
     }
+
+    public void setStatoSegnalazione(StatoSegnalazione statoSegnalazione) {
+        this.statoSegnalazione = statoSegnalazione;
+    }
 }

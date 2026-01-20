@@ -4,6 +4,7 @@ import org.example.Api.Models.Request.SegnalazioneRequest;
 import org.example.Application.Abstraction.Service.ISegnalazioneService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.enums.RuoloStaff;
+import org.example.Core.enums.StatoSegnalazione;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Segnalazione;
 import org.example.Core.models.Team;
@@ -28,14 +29,21 @@ public class SegnalazioneService implements ISegnalazioneService {
         if(hackathon == null) return null;
 
         Team team = unitOfWork.teamRepository().getById(request.getIdTeamSegnalazione());
-
-        UserStaff mentore = new UserStaff(1L, RuoloStaff.MENTORE);
+        if (team == null) return  null;
+        UserStaff mentore = new UserStaff(request.getIdMentore(), RuoloStaff.MENTORE);
 
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setNome(request.getNome());
         segnalazione.setDescrizione(request.getDescrizione());
         segnalazione.setTeamSegnalato(team);
         segnalazione.setMentore(mentore);
+        segnalazione.setStatoSegnalazione(StatoSegnalazione.APERTA);
+
+        if (!validator.validate(segnalazione)) return  null;
+
+        if (hackathon.getTeams() == null || hackathon.getTeams().stream().noneMatch(t -> t.getId().equals(team.getId()))) {
+            return   null;
+        }
 
         if(hackathon.getSegnalazioni() == null) {
             hackathon.setSegnalazioni(new ArrayList<>());
