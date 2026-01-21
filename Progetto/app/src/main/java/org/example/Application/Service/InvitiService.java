@@ -76,11 +76,25 @@ public class InvitiService implements IInvitoService {
     public Invito accettaInvito(Long idInvito) {
         Invito invito = unitOfWork.invitoRepository().getById(idInvito);
         invito.setStato(StatoInvito.ACCETTATO);
-
-        //TODO logica per aggiungere al team l'utente
-        //TODO logica per cambiare lo stato da Non Iscritto a Membro del team
-
         unitOfWork.invitoRepository().update(invito);
+
+        User utente = invito.getPerUtente();
+        Team team = invito.getDalTeam();
+
+        //logica per cambiare lo stato da Non Iscritto a Membro del team
+
+        utente.setRuolo(RuoloUser.TEAM_MEMBER);
+        unitOfWork.userRepository().update(utente);
+
+        // logica per aggiungere al team l'utente
+
+        List<User> membri = unitOfWork.teamRepository().getById(team.getId()).getMembriTeam();
+        membri.add(utente);
+
+        team.setMembriTeam(membri);
+        unitOfWork.teamRepository().update(team);
+
+
         unitOfWork.saveChanges();
         return invito;
 
