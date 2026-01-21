@@ -18,4 +18,8 @@ public class HackathonController {
     }
 
     public List<Hackathon> visualizzaHackathon() { return hackathonService.visualizzaHackathon(); }
+
+    public Hackathon iscrizioneTeam(Long idTeam, Long idHackathon){
+        return hackathonService.iscrizioneTeam(idTeam, idHackathon);
+    }
 }
