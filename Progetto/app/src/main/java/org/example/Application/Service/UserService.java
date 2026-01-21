@@ -2,13 +2,12 @@ package org.example.Application.Service;
 
 import org.example.Api.Models.Mapper.UserMapper;
 import org.example.Api.Models.Request.UserRequest;
-import org.example.Application.Abstraction.Repository.IUserRepository;
+import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.IUserService;
 import org.example.Application.Abstraction.Validator.Validator;
+import org.example.Core.models.Team;
 import org.example.Core.models.User;
 import org.example.utils.UnitOfWork.IUnitOfWork;
-
-import java.util.List;
 
 public class UserService implements IUserService {
     private IUnitOfWork unitOfWork;
@@ -33,5 +32,14 @@ public class UserService implements IUserService {
         unitOfWork.userRepository().create(toAdd);
         unitOfWork.saveChanges();
         return toAdd;
+    }
+
+    @Override
+    public UserResponse visualizzaProfilo(Long idUtente) {
+        User user = unitOfWork.userRepository().getById(idUtente);
+        if (user == null){
+            throw new IllegalArgumentException("Utente non trovato");
+        }
+        return UserMapper.toResponse(user);
     }
 }

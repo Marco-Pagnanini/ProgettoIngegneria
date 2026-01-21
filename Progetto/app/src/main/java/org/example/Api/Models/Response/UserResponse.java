@@ -23,7 +23,7 @@ public class UserResponse {
 
     // Dati del team se presente
     private Long teamId;
-    private String teamNome;
+    private String teamNome = "-";
 
     public Long getId() {
         return id;
@@ -104,4 +104,5 @@ public class UserResponse {
     public void setTeamNome(String teamNome) {
         this.teamNome = teamNome;
     }
+
 }
