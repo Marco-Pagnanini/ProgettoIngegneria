@@ -25,10 +25,10 @@ public class TeamRepository implements ITeamRepository {
 
     @Override
     public Team delete(Long id) {
-        for(Team team : teams) {
-            if(team.getId().equals(id)) {
-                teams.remove(team);
-                return team;
+        for (int idx = 0; idx < teams.size(); idx++) {
+            Team t = teams.get(idx);
+            if (t.getId().equals(id)) {
+                return teams.remove(idx);
             }
         }
         return null;
@@ -36,15 +36,16 @@ public class TeamRepository implements ITeamRepository {
 
     @Override
     public Team update(Team team) {
-        for(Team t : teams) {
-            if(t.getId().equals(team.getId())) {
-                teams.remove(t);
-                teams.add(team);
+        for (int idx = 0; idx < teams.size(); idx++) {
+            Team t = teams.get(idx);
+            if (t.getId().equals(team.getId())) {
+                teams.set(idx, team);
                 return team;
             }
         }
         return null;
     }
+
 
     @Override
     public Team getById(Long id) {

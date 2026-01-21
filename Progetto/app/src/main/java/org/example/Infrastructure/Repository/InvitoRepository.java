@@ -27,27 +27,27 @@ public class InvitoRepository implements IInvitoRepository {
 
     @Override
     public Invito delete(Long id) {
-        for(Invito i : inviti){
-            if(i.getId().equals(id)){
-                inviti.remove(i);
-                return i;
+        for (int idx = 0; idx < inviti.size(); idx++) {
+            Invito i = inviti.get(idx);
+            if (i.getId().equals(id)) {
+                return inviti.remove(idx);
             }
         }
         return null;
-
     }
 
     @Override
     public Invito update(Invito invito) {
-        for(Invito i : inviti){
-            if(i.getId().equals(invito.getId())){
-                inviti.remove(i);
-                inviti.add(invito);
+        for (int idx = 0; idx < inviti.size(); idx++) {
+            Invito i = inviti.get(idx);
+            if (i.getId().equals(invito.getId())) {
+                inviti.set(idx, invito);
                 return invito;
             }
         }
         return null;
     }
+
 
     @Override
     public Invito getById(Long id) {

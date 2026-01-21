@@ -24,28 +24,27 @@ public class HackathonRepository implements IHackathonRepository {
 
     @Override
     public Hackathon update(Hackathon hackathon) {
-        for(Hackathon h : hackathons){
-            if(hackathon.getId().equals(h.getId())){
-                hackathons.remove(h);
-                hackathons.add(hackathon);
-                return h;
+        for (int i = 0; i < hackathons.size(); i++) {
+            Hackathon h = hackathons.get(i);
+            if (hackathon.getId().equals(h.getId())) {
+                hackathons.set(i, hackathon);
+                return h; // oppure return hackathon, dipende da cosa vuoi
             }
         }
         return null;
     }
-
-
 
     @Override
     public Hackathon delete(Long id) {
-        for(Hackathon h : hackathons){
-            if(h.getId().equals(id)){
-                hackathons.remove(h);
-                return h;
+        for (int i = 0; i < hackathons.size(); i++) {
+            if (hackathons.get(i).getId().equals(id)) {
+                return hackathons.remove(i);
             }
         }
         return null;
     }
+
+
 
     @Override
     public Hackathon getById(Long id) {

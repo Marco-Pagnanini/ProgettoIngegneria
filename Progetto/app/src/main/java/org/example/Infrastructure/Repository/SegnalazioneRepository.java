@@ -24,30 +24,31 @@ public class SegnalazioneRepository implements ISegnalazioneRepository {
             return segnalazione;
         }
 
-        @Override
-        public Segnalazione delete (Long id){
-            for (Segnalazione i : segnalazioni) {
-                if (i.getId().equals(id)) {
-                    segnalazioni.remove(i);
-                    return i;
-                }
+    @Override
+    public Segnalazione delete(Long id) {
+        for (int idx = 0; idx < segnalazioni.size(); idx++) {
+            Segnalazione s = segnalazioni.get(idx);
+            if (s.getId().equals(id)) {
+                return segnalazioni.remove(idx);
             }
-            return null;
         }
+        return null;
+    }
 
-        @Override
-        public Segnalazione update (Segnalazione segnalazione){
-            for (Segnalazione i : segnalazioni) {
-                if (i.getId().equals(segnalazione.getId())) {
-                    segnalazioni.remove(i);
-                    segnalazioni.add(segnalazione);
-                    return segnalazione;
-                }
+    @Override
+    public Segnalazione update(Segnalazione segnalazione) {
+        for (int idx = 0; idx < segnalazioni.size(); idx++) {
+            Segnalazione s = segnalazioni.get(idx);
+            if (s.getId().equals(segnalazione.getId())) {
+                segnalazioni.set(idx, segnalazione);
+                return segnalazione;
             }
-            return null;
         }
+        return null;
+    }
 
-        @Override
+
+    @Override
         public Segnalazione getById (Long id){
             for (Segnalazione i : segnalazioni) {
                 if (i.getId().equals(id)) {

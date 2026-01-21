@@ -21,10 +21,10 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public User delete(Long id) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                users.remove(user);
-                return user;
+        for (int idx = 0; idx < users.size(); idx++) {
+            User u = users.get(idx);
+            if (u.getId().equals(id)) {
+                return users.remove(idx);
             }
         }
         return null;
@@ -32,15 +32,16 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public User update(User user) {
-        for (User user1 : users) {
-            if (user1.getId().equals(user.getId())) {
-                users.remove(user1);
-                users.add(user);
+        for (int idx = 0; idx < users.size(); idx++) {
+            User u = users.get(idx);
+            if (u.getId().equals(user.getId())) {
+                users.set(idx, user);
                 return user;
             }
         }
         return null;
     }
+
 
     @Override
     public User getById(Long id) {
