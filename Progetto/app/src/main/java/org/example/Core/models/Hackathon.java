@@ -26,8 +26,8 @@ public class Hackathon {
     private List<Team> teams;
     private Team vincitore;
     private State stato;
-    private List<String> sottoMissioni;
     private List<Segnalazione> segnalazioni;
+    private List<SottoMissione> sottoMissioni;
 
     public Hackathon() {
         segnalazioni = new ArrayList<>();
@@ -100,7 +100,7 @@ public class Hackathon {
         return dimensioneMassimaTeam;
     }
 
-    public List<String> getSottoMissioni() {
+    public List<SottoMissione> getSottoMissioni() {
         return sottoMissioni;
     }
 
@@ -172,11 +172,11 @@ public class Hackathon {
         return argomento;
     }
 
-    public void setSottomissioni(List<String> sottoMissioni) {
+    public void setSottomissioni(List<SottoMissione> sottoMissioni) {
         this.sottoMissioni = sottoMissioni;
     }
 
-    public List<String> getSottomissioni() {
+    public List<SottoMissione> getSottomissioni() {
         return sottoMissioni;
     }
 
@@ -216,7 +216,7 @@ public class Hackathon {
         this.numeroMinimoPersone = numeroMinimoPersone;
     }
 
-    public void setSottoMissioni(List<String> sottoMissioni) {
+    public void setSottoMissioni(List<SottoMissione> sottoMissioni) {
         this.sottoMissioni = sottoMissioni;
     }
 
