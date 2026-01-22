@@ -9,6 +9,7 @@ public interface IUnitOfWork {
     IInvitoRepository invitoRepository();
     ISegnalazioneRepository segnalazioneRepository();
     IUserRepository userRepository();
+    ISottoMissioneRepository sottoMissioneRepository();
     void saveChanges();
 
 }

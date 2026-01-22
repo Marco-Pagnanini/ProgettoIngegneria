@@ -3,6 +3,7 @@ package org.example.Api.Controllers;
 import org.example.Api.Models.Request.HackathonRequest;
 import org.example.Application.Abstraction.Service.IHackathonService;
 import org.example.Core.models.Hackathon;
+import org.example.Core.models.SottoMissione;
 
 import java.util.List;
 
@@ -21,5 +22,9 @@ public class HackathonController {
 
     public Hackathon iscrizioneTeam(Long idTeam, Long idHackathon){
         return hackathonService.iscrizioneTeam(idTeam, idHackathon);
+    }
+
+    public Hackathon aggiungiSottoMissione(Long idHackathon, SottoMissione sottoMissione){
+        return
     }
 }
