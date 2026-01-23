@@ -1,6 +1,32 @@
 package org.example.Application.Service;
 
+import org.example.Api.Models.Mapper.RispostaMapper;
+import org.example.Api.Models.Request.RispostaRequest;
 import org.example.Application.Abstraction.Service.IRispostaService;
+import org.example.Application.Abstraction.Validator.Validator;
+import org.example.Core.models.Risposta;
+import org.example.utils.UnitOfWork.IUnitOfWork;
 
 public class RispostaService implements IRispostaService {
+
+    private final IUnitOfWork unitOfWork;
+    private Validator<Risposta> validator;
+
+    public RispostaService(IUnitOfWork unitOfWork, Validator<Risposta> validator) {
+        this.unitOfWork = unitOfWork;
+        this.validator = validator;
+    }
+    @Override
+    public Risposta inviaRisposta(RispostaRequest request) {
+
+        Risposta risposta = new RispostaMapper(unitOfWork).toEntity(request);
+
+        if(!validator.validate(risposta)) {
+            return null;
+        }
+
+        unitOfWork.rispostaRepository().create(risposta);
+        unitOfWork.saveChanges();
+        return risposta;
+    }
 }
