@@ -34,7 +34,10 @@ public class IscrizioneHackathonTest {
                 new TeamRepository(),
                 new InvitoRepository(),
                 new SegnalazioneRepository(),
-                new UserRepository()
+                new UserRepository(),
+                new SottoMissioniRepository(),
+                new RispostaRepository(),
+                new ValutazioneRepository()
         );
 
         service = new HackathonService(unitOfWork, new AlwaysValidHackathonValidator());

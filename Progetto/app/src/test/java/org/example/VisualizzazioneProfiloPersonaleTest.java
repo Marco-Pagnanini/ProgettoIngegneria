@@ -32,7 +32,10 @@ public class VisualizzazioneProfiloPersonaleTest {
                 new TeamRepository(),
                 new InvitoRepository(),
                 new SegnalazioneRepository(),
-                new UserRepository()
+                new UserRepository(),
+                new SottoMissioniRepository(),
+                new RispostaRepository(),
+                new ValutazioneRepository()
         );
 
         service = new UserService(unitOfWork, new UserValidator(unitOfWork));

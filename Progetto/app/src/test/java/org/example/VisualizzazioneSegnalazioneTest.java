@@ -28,7 +28,10 @@ public class VisualizzazioneSegnalazioneTest {
                 new TeamRepository(),
                 new InvitoRepository(),
                 new SegnalazioneRepository(),
-                new UserRepository()
+                new UserRepository(),
+                new SottoMissioniRepository(),
+                new RispostaRepository(),
+                new ValutazioneRepository()
         );
         service = new SegnalazioneService(unitOfWork, new SegnalazioneValidator());
         controller = new SegnalazioneController(service);

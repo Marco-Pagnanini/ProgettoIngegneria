@@ -10,6 +10,8 @@ public interface IUnitOfWork {
     ISegnalazioneRepository segnalazioneRepository();
     IUserRepository userRepository();
     ISottoMissioneRepository sottoMissioneRepository();
+    IRispostaRepository rispostaRepository();
+    IValutazioneRepository valutazioneRepository();
     void saveChanges();
 
 }

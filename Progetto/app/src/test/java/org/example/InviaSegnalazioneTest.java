@@ -27,11 +27,16 @@ public class InviaSegnalazioneTest {
 
     @Before
     public void setUp() {
-        unitOfWork = new UnitOfWork(new HackathonRepository(),
+        unitOfWork = new UnitOfWork(
+                new HackathonRepository(),
                 new TeamRepository(),
                 new InvitoRepository(),
                 new SegnalazioneRepository(),
-                new UserRepository());
+                new UserRepository(),
+                new SottoMissioniRepository(),
+                new RispostaRepository(),
+                new ValutazioneRepository()
+        );
 
         segnalazioneService = new SegnalazioneService(unitOfWork,  new SegnalazioneValidator());
         segnalazioneController =  new SegnalazioneController(segnalazioneService);

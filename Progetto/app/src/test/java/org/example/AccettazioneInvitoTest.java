@@ -28,7 +28,10 @@ public class AccettazioneInvitoTest {
                 new TeamRepository(),
                 new InvitoRepository(),
                 new SegnalazioneRepository(),
-                new UserRepository()
+                new UserRepository(),
+                new SottoMissioniRepository(),
+                new RispostaRepository(),
+                new ValutazioneRepository()
         );
         service = new InvitiService(unitOfWork, new InvitoValidator());
         controller = new InvitoController(service);

@@ -28,11 +28,14 @@ public class RegistrazioneUserTest {
     public void setUp() {
 
     unitOfWork = new UnitOfWork(
-        new HackathonRepository(),
-        new TeamRepository(),
-        new InvitoRepository(),
-        new SegnalazioneRepository(),
-        new UserRepository()
+            new HackathonRepository(),
+            new TeamRepository(),
+            new InvitoRepository(),
+            new SegnalazioneRepository(),
+            new UserRepository(),
+            new SottoMissioniRepository(),
+            new RispostaRepository(),
+            new ValutazioneRepository()
     );
         validator = new UserValidator(
             unitOfWork

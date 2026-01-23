@@ -26,7 +26,10 @@ public class VisualizzazioneElencoHackathonTest {
                 new TeamRepository(),
                 new InvitoRepository(),
                 new SegnalazioneRepository(),
-                new UserRepository()
+                new UserRepository(),
+                new SottoMissioniRepository(),
+                new RispostaRepository(),
+                new ValutazioneRepository()
         );
 
         // Se non hai validator per Hackathon, puoi passare null o rimuoverlo dal service
