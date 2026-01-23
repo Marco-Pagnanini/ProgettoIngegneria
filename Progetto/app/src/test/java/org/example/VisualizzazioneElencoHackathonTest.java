@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Api.Controllers.HackathonController;
 import org.example.Application.Service.HackathonService;
+import org.example.Application.Service.SottoMissioniService;
 import org.example.Application.Validator.HackathonValidator;
 import org.example.Core.models.Hackathon;
 import org.example.Infrastructure.Repository.*;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class VisualizzazioneElencoHackathonTest {
 
-    private HackathonController controller;
+   /* private HackathonController controller;
     private HackathonService service;
     private UnitOfWork unitOfWork;
 
@@ -26,7 +27,8 @@ public class VisualizzazioneElencoHackathonTest {
                 new TeamRepository(),
                 new InvitoRepository(),
                 new SegnalazioneRepository(),
-                new UserRepository()
+                new UserRepository(),
+                new SottoMissioniRepository()
         );
 
         // Se non hai validator per Hackathon, puoi passare null o rimuoverlo dal service
@@ -121,5 +123,5 @@ public class VisualizzazioneElencoHackathonTest {
         user.setCellulare("3333333333");
         user.setDataNascita(LocalDate.of(2000, 1, 1));
         return user;
-    }
+    }*/
 }

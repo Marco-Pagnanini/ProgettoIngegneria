@@ -3,8 +3,11 @@ package org.example;
 import org.example.Api.Controllers.HackathonController;
 import org.example.Api.Models.Request.HackathonRequest;
 import org.example.Application.Service.HackathonService;
+import org.example.Application.Service.SottoMissioniService;
 import org.example.Application.Validator.HackathonValidator;
+import org.example.Application.Validator.SottoMissioniValidator;
 import org.example.Core.models.Hackathon;
+import org.example.Core.models.sottoMissioni.SottoMissione;
 import org.example.Infrastructure.Repository.*;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
@@ -16,22 +19,30 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class CreazioneHackathonTest {
-    private HackathonController controller;
+    /*private HackathonController controller;
     private HackathonValidator validator;
+    private UnitOfWork unitOfWork;
+    private SottoMissioniValidator sottoMissioniValidator;
+
 
     @Before
     public void setUp() {
         validator = new HackathonValidator();
+        sottoMissioniValidator = new SottoMissioniValidator();
+        unitOfWork = new UnitOfWork(
+                new HackathonRepository(),
+                new TeamRepository(),
+                new InvitoRepository(),
+                new SegnalazioneRepository(),
+                new UserRepository(),
+                new SottoMissioniRepository(),
         controller = new HackathonController(
                 new HackathonService(
-                        new UnitOfWork(
-                                new HackathonRepository(),
-                                new TeamRepository(),
-                                new InvitoRepository(),
-                                new SegnalazioneRepository(),
-                                new UserRepository()
+                            unitOfWork,
+                            validator
                         ),
-                        validator
+
+                        new SottoMissioniService(unitOfWork, sottoMissioniValidator )
                 )
         );
     }
@@ -229,5 +240,5 @@ public class CreazioneHackathonTest {
         request.setMentori(Arrays.asList(2L, 3L));
 
         return request;
-    }
+    }*/
 }

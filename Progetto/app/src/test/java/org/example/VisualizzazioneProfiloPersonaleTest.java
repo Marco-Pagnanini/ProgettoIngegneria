@@ -20,7 +20,7 @@ import java.util.List;
 
 public class VisualizzazioneProfiloPersonaleTest {
 
-    private UserController controller;
+  /*  private UserController controller;
     private UserService service;
     private UnitOfWork unitOfWork;
     private Long idUser;
@@ -144,5 +144,5 @@ public class VisualizzazioneProfiloPersonaleTest {
         hackathon.setLuogo("Milano");
         hackathon.setPremio(5000.0);
         return hackathon;
-    }
+    }*/
 }

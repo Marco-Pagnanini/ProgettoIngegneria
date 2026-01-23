@@ -1,14 +1,10 @@
-package org.example.Core.models;
+package org.example.Api.Models.Request.sottomissione;
 
-public class SottoMissione {
-    private Long id;
+import org.example.Core.enums.TipoSottomissione;
+
+public abstract class SottoMissioneRequest {
     private String titolo;
     private String descrizione;
-    private Hackathon hackathon;
-
-    public Long getId() {
-        return id;
-    }
 
     public String getTitolo() {
         return titolo;
@@ -18,11 +14,7 @@ public class SottoMissione {
         return descrizione;
     }
 
-    public Hackathon getHackathon(){return hackathon;}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public void setTitolo(String titolo) {
         this.titolo = titolo;
@@ -32,5 +24,8 @@ public class SottoMissione {
         this.descrizione = descrizione;
     }
 
-    public void setHackathon(Hackathon hackathon) { this.hackathon = hackathon; }
+
+    public abstract String getTipoSottomissione();
+
+
 }

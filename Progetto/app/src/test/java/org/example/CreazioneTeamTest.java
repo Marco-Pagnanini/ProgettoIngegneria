@@ -28,7 +28,8 @@ public class CreazioneTeamTest {
                 new TeamRepository(),
                 new InvitoRepository(),
                 new SegnalazioneRepository(),
-                new UserRepository()
+                new UserRepository(),
+                new SottoMissioniRepository()
                 );
         service = new TeamService(unitOfWork, new TeamValidator(unitOfWork));
         controller = new TeamController(service);

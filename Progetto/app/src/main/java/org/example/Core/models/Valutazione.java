@@ -1,5 +1,7 @@
 package org.example.Core.models;
 
+import org.example.Core.models.sottoMissioni.SottoMissione;
+
 public class Valutazione {
     private Long id;
     private Hackathon hackathon;

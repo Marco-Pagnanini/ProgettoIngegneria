@@ -32,7 +32,8 @@ public class RegistrazioneUserTest {
         new TeamRepository(),
         new InvitoRepository(),
         new SegnalazioneRepository(),
-        new UserRepository()
+        new UserRepository(),
+            new SottoMissioniRepository()
     );
         validator = new UserValidator(
             unitOfWork

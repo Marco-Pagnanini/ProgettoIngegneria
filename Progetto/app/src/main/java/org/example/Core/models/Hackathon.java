@@ -1,6 +1,7 @@
 package org.example.Core.models;
 
 import org.example.Core.enums.State;
+import org.example.Core.models.sottoMissioni.SottoMissione;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class Hackathon {
     public Hackathon() {
         segnalazioni = new ArrayList<>();
         teams =  new ArrayList<>();
+        sottoMissioni = new ArrayList<>();
     }
 
     public Long getId() {

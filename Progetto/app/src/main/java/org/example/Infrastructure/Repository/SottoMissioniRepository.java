@@ -1,16 +1,22 @@
 package org.example.Infrastructure.Repository;
 
 import org.example.Application.Abstraction.Repository.ISottoMissioneRepository;
-import org.example.Core.models.SottoMissione;
+import org.example.Core.models.sottoMissioni.SottoMissione;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SottoMissioniRepository implements ISottoMissioneRepository {
 
     private List<SottoMissione> sottoMissioni;
 
+    public SottoMissioniRepository() {
+        sottoMissioni = new ArrayList<>();
+    }
+
     @Override
     public SottoMissione create(SottoMissione sottoMissione) {
+        sottoMissione.setId(1L);
         sottoMissioni.add(sottoMissione);
         return sottoMissione;
     }

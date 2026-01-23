@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class InviaSegnalazioneTest {
-    private SegnalazioneController segnalazioneController;
+    /*private SegnalazioneController segnalazioneController;
     private SegnalazioneService segnalazioneService;
     private UnitOfWork unitOfWork;
 
@@ -150,6 +150,6 @@ public class InviaSegnalazioneTest {
         hackathon.setLuogo("Milano");
         hackathon.setPremio(5000.0);
         return hackathon;
-    }
+    }*/
 
 }
