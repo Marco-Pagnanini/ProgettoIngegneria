@@ -27,8 +27,6 @@ public class UserService implements IUserService {
 
         if(!validator.validate(toAdd)) return null;
 
-
-
         unitOfWork.userRepository().create(toAdd);
         unitOfWork.saveChanges();
         return toAdd;

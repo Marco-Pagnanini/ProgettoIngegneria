@@ -4,6 +4,7 @@ public class SottoMissione {
     private Long id;
     private String titolo;
     private String descrizione;
+    private Hackathon hackathon;
 
     public Long getId() {
         return id;
@@ -17,6 +18,8 @@ public class SottoMissione {
         return descrizione;
     }
 
+    public Hackathon getHackathon(){return hackathon;}
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -28,4 +31,6 @@ public class SottoMissione {
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
+
+    public void setHackathon(Hackathon hackathon) { this.hackathon = hackathon; }
 }
