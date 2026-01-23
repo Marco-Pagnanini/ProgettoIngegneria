@@ -24,7 +24,4 @@ public class HackathonController {
         return hackathonService.iscrizioneTeam(idTeam, idHackathon);
     }
 
-    public Hackathon aggiungiSottoMissione(Long idHackathon, SottoMissione sottoMissione){
-        return
-    }
 }
