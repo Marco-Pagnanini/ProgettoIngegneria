@@ -1,5 +1,7 @@
 package org.example.Application.Service;
 
+import org.example.Api.Models.Mapper.SottoMissioneMapper;
+import org.example.Api.Models.Request.SottoMissioneRequest;
 import org.example.Application.Abstraction.Service.ISottoMissioniService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Application.Validator.SottoMissioniValidator;
@@ -18,7 +20,10 @@ public class SottoMissioniService implements ISottoMissioniService {
     }
 
     @Override
-    public SottoMissione createSottoMissione(Long idHackathon,SottoMissione sottoMissione) {
+    public SottoMissione createSottoMissione(Long idHackathon, SottoMissioneRequest request) {
+
+        SottoMissione sottoMissione = SottoMissioneMapper.toEntity(request);
+
         if(!validator.validate(sottoMissione)) return null;
 
         SottoMissione response = unitOfWork.sottoMissioneRepository().create(sottoMissione);

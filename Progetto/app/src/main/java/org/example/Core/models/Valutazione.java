@@ -1,49 +1,39 @@
 package org.example.Core.models;
-
 public class Valutazione {
     private Long id;
-    private Hackathon hackathon;
-    private SottoMissione sottoMissione;
-    private Team team;
-    private Double punteggio;
-
-    public Long getId() {
-        return id;
-    }
-
-    public Hackathon getHackathon() {
-        return hackathon;
-    }
-
-    public SottoMissione getSottoMissione() {
-        return sottoMissione;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public Double getPunteggio() {
-        return punteggio;
-    }
+    private Risposta risposta;  // cosa sta valutando
+    private Integer punteggio;
+    private String giudizio;
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setHackathon(Hackathon hackathon) {
-        this.hackathon = hackathon;
+    public void setRisposta(Risposta risposta) {
+        this.risposta = risposta;
     }
 
-    public void setSottoMissione(SottoMissione sottoMissione) {
-        this.sottoMissione = sottoMissione;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public void setPunteggio(Double punteggio) {
+    public void setPunteggio(Integer punteggio) {
         this.punteggio = punteggio;
+    }
+
+    public void setGiudizio(String giudizio) {
+        this.giudizio = giudizio;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Risposta getRisposta() {
+        return risposta;
+    }
+
+    public Integer getPunteggio() {
+        return punteggio;
+    }
+
+    public String getGiudizio() {
+        return giudizio;
     }
 }

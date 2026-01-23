@@ -1,13 +1,9 @@
-package org.example.Core.models;
+package org.example.Api.Models.Request;
 
-public class SottoMissione {
-    private Long id;
+public class SottoMissioneRequest {
     private String titolo;
     private String descrizione;
 
-    public Long getId() {
-        return id;
-    }
 
     public String getTitolo() {
         return titolo;
@@ -17,10 +13,6 @@ public class SottoMissione {
         return descrizione;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setTitolo(String titolo) {
         this.titolo = titolo;
     }
@@ -28,5 +20,4 @@ public class SottoMissione {
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
-
 }
