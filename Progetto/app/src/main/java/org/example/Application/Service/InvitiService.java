@@ -99,4 +99,13 @@ public class InvitiService implements IInvitoService {
         return invito;
 
     }
+
+    public Invito rifiutaInvito(Long idInvito){
+        Invito invito = unitOfWork.invitoRepository().getById(idInvito);
+        invito.setStato(StatoInvito.RIFIUTATO);
+        unitOfWork.invitoRepository().update(invito);
+
+        unitOfWork.saveChanges();
+        return invito;
+    }
 }

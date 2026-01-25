@@ -1,10 +1,7 @@
 package org.example.utils.Builder;
 
-import org.example.Core.models.Hackathon;
-import org.example.Core.models.Team;
-import org.example.Core.models.User;
+import org.example.Core.models.*;
 import org.example.Core.enums.State;
-import org.example.Core.models.UserStaff;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -104,7 +101,7 @@ public class HackathonBuilderImplementation implements HackathonBuilder {
     }
 
     @Override
-    public HackathonBuilder sottomissioni(List<String> sottomissioni) {
+    public HackathonBuilder sottomissioni(List<SottoMissione> sottomissioni) {
         hackathon.setSottomissioni(sottomissioni);
         return this;
     }

@@ -1,8 +1,5 @@
 package org.example.utils.Builder;
-import org.example.Core.models.Hackathon;
-import org.example.Core.models.Team;
-import org.example.Core.models.User;
-import org.example.Core.models.UserStaff;
+import org.example.Core.models.*;
 
 
 import java.time.LocalDate;
@@ -23,7 +20,7 @@ public interface HackathonBuilder {
     HackathonBuilder organizzatore(UserStaff organizzatore);
     HackathonBuilder teams(List<Team> teams);
     HackathonBuilder argomento(String argomento);
-    HackathonBuilder sottomissioni(List<String> sottomissioni);
+    HackathonBuilder sottomissioni(List<SottoMissione> sottomissioni);
     HackathonBuilder numeroMassimoPersone(int numeroMassimoPersone);
     HackathonBuilder numeroMinimoPersone(int numeroMinimoPersone);
     Hackathon build();

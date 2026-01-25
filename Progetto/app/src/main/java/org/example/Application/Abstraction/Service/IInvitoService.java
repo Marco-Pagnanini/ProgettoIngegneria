@@ -12,4 +12,5 @@ public interface IInvitoService {
     List<Invito> getAllInviti();
     Invito getInvitoById(Long id);
     Invito accettaInvito(Long idInvito);
+    Invito rifiutaInvito(Long idInvito);
 }

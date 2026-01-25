@@ -22,6 +22,10 @@ public class InvitoController {
         return invitoService.accettaInvito(idInvito);
     }
 
+    public Invito rifiutaInvito(Long idInvito){
+        return invitoService.rifiutaInvito(idInvito);
+    }
+
     public Invito creaInvito(InvitoRequest invitoRequest){
         return invitoService.creaInvito(invitoRequest);
     }
