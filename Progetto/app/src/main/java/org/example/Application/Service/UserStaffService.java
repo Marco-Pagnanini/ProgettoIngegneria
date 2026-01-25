@@ -25,7 +25,10 @@ public class UserStaffService implements IUserStaffService {
 
     @Override
     public UserStaff visitaProfilo(Long id) {
-        return unitOfWork.userStaffRepository().getById(id);
+        UserStaff user =  unitOfWork.userStaffRepository().getById(id);
+        unitOfWork.saveChanges();
+        return user;
+
     }
 
     @Override
@@ -36,8 +39,10 @@ public class UserStaffService implements IUserStaffService {
             tokenResponse.setAccess_token("ACCESS");
             tokenResponse.setToken_type("JWT");
             tokenResponse.setExpires_in("...");
+            unitOfWork.saveChanges();
             return tokenResponse;
         }
+        unitOfWork.saveChanges();
         return null;
     }
 }

@@ -48,11 +48,14 @@ public class UserService implements IUserService {
     @Override
     public List<Invito> consultaInviti(Long idUtente) {
         User user = unitOfWork.userRepository().getById(idUtente);
+        unitOfWork.saveChanges();
         return user.getInviti();
     }
 
     @Override
     public User accesso(UserLoginRequest request) {
-        return unitOfWork.userRepository().findByEmail(request.getEmail());
+        User user = unitOfWork.userRepository().findByEmail(request.getEmail());
+        unitOfWork.saveChanges();
+        return user;
     }
 }

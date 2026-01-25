@@ -3,10 +3,15 @@ package org.example.Infrastructure.Repository;
 import org.example.Application.Abstraction.Repository.IValutazioneRepository;
 import org.example.Core.models.Valutazione;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ValutazioneRepository implements IValutazioneRepository {
     private List<Valutazione> valutazioni;
+
+    public ValutazioneRepository() {
+        valutazioni = new ArrayList<>();
+    }
 
     @Override
     public Valutazione create(Valutazione valutazione) {
