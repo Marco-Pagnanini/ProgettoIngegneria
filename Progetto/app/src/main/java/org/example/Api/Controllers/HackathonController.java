@@ -25,4 +25,8 @@ public class HackathonController {
         return hackathonService.iscrizioneTeam(idTeam, idHackathon);
     }
 
+    public Hackathon visualizzaHackathonById(Long idHackathon) {
+        return hackathonService.getHackathonById(idHackathon);
+    }
+
 }
