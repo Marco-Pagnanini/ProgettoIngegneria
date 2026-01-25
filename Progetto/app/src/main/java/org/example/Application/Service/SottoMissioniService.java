@@ -9,6 +9,8 @@ import org.example.Core.models.Hackathon;
 import org.example.Core.models.SottoMissione;
 import org.example.utils.UnitOfWork.IUnitOfWork;
 
+import java.util.List;
+
 public class SottoMissioniService implements ISottoMissioniService {
 
     private final IUnitOfWork unitOfWork;
@@ -38,5 +40,11 @@ public class SottoMissioniService implements ISottoMissioniService {
 
         return response;
 
+    }
+
+    public List<SottoMissione> visualizzaSottoMissione(Long hackathonId) {
+        Hackathon hackathon = unitOfWork.hackathonRepository().getById(hackathonId);
+
+        return hackathon.getSottoMissioni();
     }
 }

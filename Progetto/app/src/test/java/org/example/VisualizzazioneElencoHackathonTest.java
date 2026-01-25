@@ -3,7 +3,9 @@ package org.example;
 import org.example.Api.Controllers.HackathonController;
 import org.example.Application.Service.HackathonService;
 import org.example.Application.Validator.HackathonValidator;
+import org.example.Core.enums.RuoloUser;
 import org.example.Core.models.Hackathon;
+import org.example.Core.models.User;
 import org.example.Infrastructure.Repository.*;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
@@ -114,9 +116,9 @@ public class VisualizzazioneElencoHackathonTest {
         return team;
     }
 
-    private org.example.Core.models.User createTestUser(Long id, String email) {
-        org.example.Core.models.User user =
-                new org.example.Core.models.User(id, org.example.Core.enums.RuoloUser.UTENTE_NON_ISCRITTO);
+    private User createTestUser(Long id, String email) {
+       User user =
+                new User(id, RuoloUser.UTENTE_NON_ISCRITTO);
         user.setEmail(email);
         user.setNome("Luigi");
         user.setCognome("Bianchi");

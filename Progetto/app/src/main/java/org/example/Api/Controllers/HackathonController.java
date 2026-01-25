@@ -2,6 +2,7 @@ package org.example.Api.Controllers;
 
 import org.example.Api.Models.Request.HackathonRequest;
 import org.example.Application.Abstraction.Service.IHackathonService;
+import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.SottoMissione;
 
