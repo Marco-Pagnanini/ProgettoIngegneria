@@ -28,11 +28,11 @@ public class HackathonService implements IHackathonService {
 
     @Override
     public Hackathon creazioneHackathon(HackathonRequest request) {
-        UserStaff giudice = new UserStaff(request.getGiudice(), RuoloStaff.GIUDICE);
+        UserStaff giudice = unitOfWork.userStaffRepository().getById(request.getGiudice());
 
         List<UserStaff> mentori = new ArrayList<>();
         for(Long idMentore : request.getMentori()) {
-            UserStaff mentore = new UserStaff(idMentore, RuoloStaff.MENTORE);
+            UserStaff mentore = unitOfWork.userStaffRepository().getById(idMentore);
             mentori.add(mentore);
         }
 

@@ -30,7 +30,7 @@ public class SegnalazioneService implements ISegnalazioneService {
 
         Team team = unitOfWork.teamRepository().getById(request.getIdTeamSegnalazione());
         if (team == null) return  null;
-        UserStaff mentore = new UserStaff(request.getIdMentore(), RuoloStaff.MENTORE);
+        UserStaff mentore = unitOfWork.userStaffRepository().getById(request.getIdMentore());
 
         Segnalazione segnalazione = new Segnalazione();
         segnalazione.setNome(request.getNome());
