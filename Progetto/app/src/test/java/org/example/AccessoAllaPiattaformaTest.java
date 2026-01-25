@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Api.Controllers.UserStaffController;
 import org.example.Api.Models.Request.UserLoginRequest;
+import org.example.Api.Models.Response.TokenResponse;
 import org.example.Application.Service.UserStaffService;
 import org.example.Core.models.UserStaff;
 import org.example.Infrastructure.Repository.*;
@@ -44,10 +45,10 @@ public class AccessoAllaPiattaformaTest {
         loginRequest.setEmail("staff@email.com");
         loginRequest.setPassword("Password123!");
 
-        UserStaff result = controller.accesso(loginRequest);
+        TokenResponse result = controller.accesso(loginRequest);
 
         Assert.assertNotNull(result);
-        Assert.assertEquals("staff@email.com", result.getEmail());
+        Assert.assertEquals("ACCESS", result.getAccess_token());
     }
 
     @Test
@@ -60,7 +61,7 @@ public class AccessoAllaPiattaformaTest {
         loginRequest.setEmail("nonexistent@email.com");
         loginRequest.setPassword("Password123!");
 
-        UserStaff result = controller.accesso(loginRequest);
+        TokenResponse result = controller.accesso(loginRequest);
 
         Assert.assertNull(result);
     }
@@ -71,7 +72,7 @@ public class AccessoAllaPiattaformaTest {
         loginRequest.setEmail("staff@email.com");
         loginRequest.setPassword("Password123!");
 
-        UserStaff result = controller.accesso(loginRequest);
+        TokenResponse result = controller.accesso(loginRequest);
 
         Assert.assertNull(result);
     }

@@ -2,6 +2,7 @@ package org.example.Application.Service;
 
 import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
+import org.example.Api.Models.Response.TokenResponse;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.IUserService;
 import org.example.Application.Abstraction.Service.IUserStaffService;
@@ -28,10 +29,14 @@ public class UserStaffService implements IUserStaffService {
     }
 
     @Override
-    public UserStaff accesso(UserLoginRequest request) {
+    public TokenResponse accesso(UserLoginRequest request) {
         UserStaff userStaff = unitOfWork.userStaffRepository().findByEmail(request.getEmail());
         if (userStaff != null && userStaff.getPassword().equals(request.getPassword())) {
-            return userStaff;
+            TokenResponse tokenResponse = new TokenResponse();
+            tokenResponse.setAccess_token("ACCESS");
+            tokenResponse.setToken_type("JWT");
+            tokenResponse.setExpires_in("...");
+            return tokenResponse;
         }
         return null;
     }

@@ -1,6 +1,7 @@
 package org.example.Api.Controllers;
 
 import org.example.Api.Models.Request.UserLoginRequest;
+import org.example.Api.Models.Response.TokenResponse;
 import org.example.Application.Abstraction.Repository.IUserStaffRepository;
 import org.example.Application.Abstraction.Service.IUserService;
 import org.example.Application.Abstraction.Service.IUserStaffService;
@@ -13,7 +14,7 @@ public class UserStaffController {
         this.userService = userService;
     }
 
-    public UserStaff accesso(UserLoginRequest userLoginRequest) {
+    public TokenResponse accesso(UserLoginRequest userLoginRequest) {
         return userService.accesso(userLoginRequest);
     }
 
