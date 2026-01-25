@@ -4,7 +4,10 @@ import org.example.Api.Models.Mapper.UserMapper;
 import org.example.Api.Models.Request.UserRequest;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.IUserService;
+import org.example.Core.models.Invito;
 import org.example.Core.models.User;
+
+import java.util.List;
 
 public class UserController {
     private final IUserService userService;
@@ -20,4 +23,7 @@ public class UserController {
     public UserResponse visualizzaProfilo(Long idUtente){return  userService.visualizzaProfilo(idUtente);}
 
 
+    public List<Invito> consultaInviti(Long idUtente){
+        return userService.consultaInviti(idUtente);
+    }
 }

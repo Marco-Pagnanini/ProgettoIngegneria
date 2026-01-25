@@ -8,6 +8,7 @@ import java.util.List;
 
 public class UserRepository implements IUserRepository {
     private List<User> users;
+
     public UserRepository() {
         users = new ArrayList<>();
     }
@@ -15,6 +16,7 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public User create(User user) {
+        user.setId(1L);
         users.add(user);
         return user;
     }

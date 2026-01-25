@@ -4,6 +4,7 @@ import org.example.Core.enums.RuoloUser;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,16 +54,18 @@ public class User {
     private RuoloUser ruolo;
 
     private Team team;
-    private List<Hackathon> hackathons;
+    private List<Hackathon> hackathons = new ArrayList<>();
+
+    private List<Invito> inviti = new ArrayList<>();
 
     public User(Long id, RuoloUser ruoloUser) {
         this.id = id;
         this.ruolo = ruoloUser;
     }
 
-    //TODO
-    // lista INVITI
-
+    public void setInviti(List<Invito> inviti) {
+        this.inviti = inviti;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -150,5 +153,8 @@ public class User {
 
     public List<Hackathon> getHackathons() {
         return hackathons;
+    }
+    public List<Invito> getInviti() {
+        return inviti;
     }
 }
