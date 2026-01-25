@@ -35,7 +35,8 @@ public class VisualizzazioneProfiloPersonaleTest {
                 new UserRepository(),
                 new SottoMissioniRepository(),
                 new RispostaRepository(),
-                new ValutazioneRepository()
+                new ValutazioneRepository(),
+                new UserStaffRepository()
         );
 
         service = new UserService(unitOfWork, new UserValidator(unitOfWork));

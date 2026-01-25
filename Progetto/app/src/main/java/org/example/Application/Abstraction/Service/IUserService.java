@@ -1,5 +1,6 @@
 package org.example.Application.Abstraction.Service;
 
+import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Core.models.Invito;
@@ -13,5 +14,7 @@ public interface IUserService {
     UserResponse visualizzaProfilo(Long idUtente);
 
     List<Invito> consultaInviti(Long idUtente);
+
+    User accesso(UserLoginRequest request);
 
 }

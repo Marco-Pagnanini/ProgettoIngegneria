@@ -1,6 +1,7 @@
 package org.example.Api.Controllers;
 
 import org.example.Api.Models.Mapper.UserMapper;
+import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.IUserService;
@@ -25,5 +26,9 @@ public class UserController {
 
     public List<Invito> consultaInviti(Long idUtente){
         return userService.consultaInviti(idUtente);
+    }
+
+    public User accesso(UserLoginRequest request){
+        return userService.accesso(request);
     }
 }

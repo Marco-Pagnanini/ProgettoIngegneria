@@ -31,7 +31,8 @@ public class CreazioneTeamTest {
                 new UserRepository(),
                 new SottoMissioniRepository(),
                 new RispostaRepository(),
-                new ValutazioneRepository()
+                new ValutazioneRepository(),
+                new UserStaffRepository()
         );
         service = new TeamService(unitOfWork, new TeamValidator(unitOfWork));
         controller = new TeamController(service);

@@ -35,7 +35,8 @@ public class InviaSegnalazioneTest {
                 new UserRepository(),
                 new SottoMissioniRepository(),
                 new RispostaRepository(),
-                new ValutazioneRepository()
+                new ValutazioneRepository(),
+                new UserStaffRepository()
         );
 
         segnalazioneService = new SegnalazioneService(unitOfWork,  new SegnalazioneValidator());

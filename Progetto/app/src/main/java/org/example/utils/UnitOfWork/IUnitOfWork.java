@@ -12,6 +12,7 @@ public interface IUnitOfWork {
     ISottoMissioneRepository sottoMissioneRepository();
     IRispostaRepository rispostaRepository();
     IValutazioneRepository valutazioneRepository();
+    IUserStaffRepository userStaffRepository();
     void saveChanges();
 
 }

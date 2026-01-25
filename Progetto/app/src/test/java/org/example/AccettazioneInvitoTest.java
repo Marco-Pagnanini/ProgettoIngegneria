@@ -31,7 +31,8 @@ public class AccettazioneInvitoTest {
                 new UserRepository(),
                 new SottoMissioniRepository(),
                 new RispostaRepository(),
-                new ValutazioneRepository()
+                new ValutazioneRepository(),
+                new UserStaffRepository()
         );
         service = new InvitiService(unitOfWork, new InvitoValidator());
         controller = new InvitoController(service);

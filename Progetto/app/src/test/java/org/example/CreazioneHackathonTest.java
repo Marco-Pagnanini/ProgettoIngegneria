@@ -33,7 +33,8 @@ public class CreazioneHackathonTest {
                                 new UserRepository(),
                                 new SottoMissioniRepository(),
                                 new RispostaRepository(),
-                                new ValutazioneRepository()
+                                new ValutazioneRepository(),
+                                new UserStaffRepository()
                         ),
                         validator
                 )

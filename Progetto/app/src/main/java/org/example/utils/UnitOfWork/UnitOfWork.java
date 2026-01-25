@@ -3,6 +3,7 @@ package org.example.utils.UnitOfWork;
 import org.example.Application.Abstraction.Repository.*;
 import org.example.Application.Abstraction.Service.IRispostaService;
 import org.example.Application.Abstraction.Service.ISottoMissioniService;
+import org.example.Application.Abstraction.Service.IUserStaffService;
 import org.example.Core.models.Invito;
 import org.example.Infrastructure.Repository.InvitoRepository;
 
@@ -16,6 +17,7 @@ public class UnitOfWork implements IUnitOfWork{
     private ISottoMissioneRepository sottoMissioneRepository;
     private IRispostaRepository rispostaRepository;
     private IValutazioneRepository valutazioneRepository;
+    private IUserStaffRepository userStaffRepository;
 
     public UnitOfWork(IHackathonRepository hackathonRepository,
                       ITeamRepository teamRepository,
@@ -24,7 +26,8 @@ public class UnitOfWork implements IUnitOfWork{
                       IUserRepository userRepository,
                       ISottoMissioneRepository sottoMissioneRepository,
                       IRispostaRepository rispostaRepository,
-                      IValutazioneRepository valutazioneRepository
+                      IValutazioneRepository valutazioneRepository,
+                      IUserStaffRepository userStaffRepository
 
     ) {
         this.hackathonRepository = hackathonRepository;
@@ -35,6 +38,7 @@ public class UnitOfWork implements IUnitOfWork{
         this.sottoMissioneRepository = sottoMissioneRepository;
         this.rispostaRepository = rispostaRepository;
         this.valutazioneRepository = valutazioneRepository;
+        this.userStaffRepository = userStaffRepository;
     }
 
     public IHackathonRepository hackathonRepository() {
@@ -48,6 +52,11 @@ public class UnitOfWork implements IUnitOfWork{
     public IUserRepository userRepository() {return userRepository;}
     public IRispostaRepository rispostaRepository() { return rispostaRepository;}
     public IValutazioneRepository valutazioneRepository() { return valutazioneRepository;}
+
+    @Override
+    public IUserStaffRepository userStaffRepository() {
+        return userStaffRepository;
+    }
 
     @Override
     public ISottoMissioneRepository sottoMissioneRepository() {

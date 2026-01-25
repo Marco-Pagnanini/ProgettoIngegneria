@@ -38,7 +38,8 @@ public class VisualizzaSottoMissioniTest {
                 new UserRepository(),
                 new SottoMissioniRepository(),
                 new RispostaRepository(),
-                new ValutazioneRepository()
+                new ValutazioneRepository(),
+                new UserStaffRepository()
         );
 
         service = new SottoMissioniService(unitOfWork, new SottoMissioniValidator());

@@ -1,6 +1,7 @@
 package org.example.Application.Service;
 
 import org.example.Api.Models.Mapper.UserMapper;
+import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.IUserService;
@@ -48,5 +49,10 @@ public class UserService implements IUserService {
     public List<Invito> consultaInviti(Long idUtente) {
         User user = unitOfWork.userRepository().getById(idUtente);
         return user.getInviti();
+    }
+
+    @Override
+    public User accesso(UserLoginRequest request) {
+        return unitOfWork.userRepository().findByEmail(request.getEmail());
     }
 }

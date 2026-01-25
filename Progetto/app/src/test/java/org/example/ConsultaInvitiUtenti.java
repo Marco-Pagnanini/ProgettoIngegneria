@@ -31,7 +31,8 @@ public class ConsultaInvitiUtenti {
                 new UserRepository(),
                 new SottoMissioniRepository(),
                 new RispostaRepository(),
-                new ValutazioneRepository()
+                new ValutazioneRepository(),
+                new UserStaffRepository()
         );
 
         userService = new UserService(unitOfWork, new UserValidator(unitOfWork));
