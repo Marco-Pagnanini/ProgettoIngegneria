@@ -1,15 +1,18 @@
 package org.example.Application.Service;
 
 import org.example.Application.Abstraction.Service.IValutazioniService;
+import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Risposta;
 import org.example.Core.models.Valutazione;
 import org.example.utils.UnitOfWork.IUnitOfWork;
 
 public class ValutazioneService implements IValutazioniService {
-    private IUnitOfWork unitOfWork;
+    private final IUnitOfWork unitOfWork;
+    private final Validator<Valutazione> validator;
 
-    public ValutazioneService(IUnitOfWork unitOfWork) {
+    public ValutazioneService(IUnitOfWork unitOfWork, Validator<Valutazione> validator) {
         this.unitOfWork = unitOfWork;
+        this.validator = validator;
     }
 
 
@@ -22,10 +25,12 @@ public class ValutazioneService implements IValutazioniService {
         valutazione.setPunteggio(punteggio);
         valutazione.setGiudizio(testo);
 
-        valutazione = unitOfWork.valutazioneRepository().create(valutazione);
+        if(!validator.validate(valutazione)) return null;
+
+        Valutazione response = unitOfWork.valutazioneRepository().create(valutazione);
 
         unitOfWork.saveChanges();
-        return valutazione;
+        return response;
 
 
     }

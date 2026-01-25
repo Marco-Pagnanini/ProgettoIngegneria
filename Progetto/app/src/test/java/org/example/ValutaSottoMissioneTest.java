@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Api.Controllers.ValutazioneController;
 import org.example.Application.Service.ValutazioneService;
+import org.example.Application.Validator.ValutazioneValidator;
 import org.example.Core.models.Risposta;
 import org.example.Core.models.Valutazione;
 import org.example.Infrastructure.Repository.*;
@@ -30,7 +31,7 @@ public class ValutaSottoMissioneTest {
                 new UserStaffRepository()
         );
 
-        service = new ValutazioneService(unitOfWork);
+        service = new ValutazioneService(unitOfWork, new ValutazioneValidator());
         controller = new ValutazioneController(service);
     }
 
@@ -90,9 +91,7 @@ public class ValutaSottoMissioneTest {
 
         Valutazione result = controller.valutaSottoMissione(1L, 70, "");
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(Integer.valueOf(70), result.getPunteggio());
-        Assert.assertEquals("", result.getGiudizio());
+        Assert.assertNull(result);
     }
 
     private Risposta createRisposta() {
