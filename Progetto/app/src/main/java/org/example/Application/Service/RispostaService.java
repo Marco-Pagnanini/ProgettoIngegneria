@@ -33,9 +33,8 @@ public class RispostaService implements IRispostaService {
     @Override
     public Risposta aggiornaRisposta(RispostaRequest request) {
 
-        if (request == null || request.getIdRisposta() == null) return null;
+        if (request == null || request.getIdRisposta() == null || request.getRisposta() == null) return null;
         Risposta risposta = unitOfWork.rispostaRepository().getById(request.getIdRisposta());
-        if (risposta == null) return null;
         risposta.setTesto(request.getRisposta());
 
         if (!validator.validate(risposta)) return  null;
