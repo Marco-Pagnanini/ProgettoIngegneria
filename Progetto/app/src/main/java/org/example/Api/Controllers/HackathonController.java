@@ -7,10 +7,7 @@ import org.example.Application.Abstraction.Service.IHackathonService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.SottoMissione;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,19 +21,20 @@ public class HackathonController {
     }
 
     @PostMapping
-    public Hackathon creazioneHackathon(HackathonRequest request) {
+    public Hackathon creazioneHackathon(@RequestBody HackathonRequest request) {
         return hackathonService.creazioneHackathon(request);
     }
 
     @GetMapping
     public List<Hackathon> visualizzaHackathon() { return hackathonService.visualizzaHackathon(); }
 
-    
-    public Hackathon iscrizioneTeam(Long idTeam, Long idHackathon){
+    @PostMapping("/iscrizione/{idTeam}/{idHackathon}")
+    public Hackathon iscrizioneTeam(@PathVariable  Long idTeam, @PathVariable Long idHackathon){
         return hackathonService.iscrizioneTeam(idTeam, idHackathon);
     }
 
-    public Hackathon visualizzaHackathonById(Long idHackathon) {
+    @GetMapping("/{idHackathon}")
+    public Hackathon visualizzaHackathonById(@PathVariable Long idHackathon) {
         return hackathonService.getHackathonById(idHackathon);
     }
 
