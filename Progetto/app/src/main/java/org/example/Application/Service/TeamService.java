@@ -51,11 +51,17 @@ public class TeamService implements ITeamService {
         team.setTeamLeader(leader);
         team.setMembriTeam(membriDelTeam);
 
+
+
         if(!validator.validate(team)) {
             throw new ValidationException("Dati team non validi");
         }
 
+
+
         unitOfWork.teamRepository().create(team);
+        leader.setTeam(team);
+        unitOfWork.userRepository().update(leader);
         unitOfWork.saveChanges();
 
         return team;

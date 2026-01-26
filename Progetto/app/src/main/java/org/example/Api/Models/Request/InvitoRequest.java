@@ -15,7 +15,6 @@ import java.time.LocalDate;
 public class InvitoRequest {
     private Long idDelTeam;
     private Long idUtente;
-    private StatoInvito stato;
     private LocalDate dataInvito;
 
 
