@@ -9,6 +9,7 @@ import org.example.Core.models.Invito;
 import org.example.Core.models.Team;
 import org.example.Core.models.User;
 import org.example.Infrastructure.Repository.*;
+import org.example.utils.UnitOfWork.IUnitOfWork;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,21 +20,11 @@ import java.time.LocalDate;
 public class AccettazioneInvitoTest {
     private InvitoController controller;
     private InvitiService service;
-    private UnitOfWork unitOfWork;
+    private IUnitOfWork unitOfWork;
 
     @Before
     public void setUp() {
-        unitOfWork = new UnitOfWork(
-                new HackathonRepository(),
-                new TeamRepository(),
-                new InvitoRepository(),
-                new SegnalazioneRepository(),
-                new UserRepository(),
-                new SottoMissioniRepository(),
-                new RispostaRepository(),
-                new ValutazioneRepository(),
-                new UserStaffRepository()
-        );
+
         service = new InvitiService(unitOfWork, new InvitoValidator());
         controller = new InvitoController(service);
     }
@@ -121,7 +112,7 @@ public class AccettazioneInvitoTest {
         Team team = new Team();
         team.setNome("Team Test");
 
-        User user = new User(1L, RuoloUser.UTENTE_NON_ISCRITTO);
+        User user = new User();
         user.setNome("User Test");
 
         Invito invito = new Invito();
