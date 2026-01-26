@@ -1,5 +1,6 @@
 package org.example.Core.models;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,11 +19,15 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
+@Entity
+@Table(name = "users")
 public class User {
     /**
      * identificativo univoco per l'utente
      * future implementazioni: usare {@link java.util.UUID} per una maggiore sicurezza
       */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     /**
      * nome dell'utente
@@ -57,12 +62,16 @@ public class User {
     /**
      * Ruolo dell'utente
      */
+    @Enumerated(EnumType.STRING)
     private RuoloUser ruolo;
 
+    // Molti User (MembriDelTeam) appartengono a 1 Team
+    @ManyToOne
+    @JoinColumn(name = "team_id")
     private Team team;
 
-    private List<Hackathon> hackathons = new ArrayList<>();
-
+    // 1 User riceve Molti Inviti
+    @OneToMany(mappedBy = "perUtente")
     private List<Invito> inviti = new ArrayList<>();
 
 }

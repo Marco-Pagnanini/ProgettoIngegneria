@@ -37,6 +37,9 @@ dependencies {
 
     // Spring Boot Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // Swagger / OpenAPI
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

@@ -1,61 +1,64 @@
 package org.example.Application.Service;
 
+import lombok.RequiredArgsConstructor;
 import org.example.Api.Models.Mapper.UserMapper;
 import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.IUserService;
-import org.example.Application.Abstraction.Validator.Validator;
+import org.example.Infrastructure.Abstraction.UserRepositoryJpa;
 import org.example.Core.models.Invito;
-import org.example.Core.models.Team;
 import org.example.Core.models.User;
-import org.example.utils.UnitOfWork.IUnitOfWork;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class UserService implements IUserService {
-    private IUnitOfWork unitOfWork;
-    private Validator<User> validator;
 
-    public UserService(IUnitOfWork unitOfWork, Validator<User> validator) {
-        this.unitOfWork = unitOfWork;
-        this.validator = validator;
-    }
-
+    private final UserRepositoryJpa userRepository;
 
     @Override
     public User registrazioneUtente(UserRequest user) {
-
-        //MAPPER
         User toAdd = UserMapper.toEntity(user);
-
-        if(!validator.validate(toAdd)) return null;
-
-        unitOfWork.userRepository().create(toAdd);
-        unitOfWork.saveChanges();
-        return toAdd;
+        return userRepository.save(toAdd);
     }
 
     @Override
     public UserResponse visualizzaProfilo(Long idUtente) {
-        User user = unitOfWork.userRepository().getById(idUtente);
-        if (user == null){
-            throw new IllegalArgumentException("Utente non trovato");
-        }
+        User user = userRepository.findById(idUtente)
+                .orElseThrow(() -> new IllegalArgumentException("Utente non trovato"));
         return UserMapper.toResponse(user);
     }
 
     @Override
     public List<Invito> consultaInviti(Long idUtente) {
-        User user = unitOfWork.userRepository().getById(idUtente);
-        unitOfWork.saveChanges();
+        User user = userRepository.findById(idUtente)
+                .orElseThrow(() -> new IllegalArgumentException("Utente non trovato"));
         return user.getInviti();
     }
 
     @Override
     public User accesso(UserLoginRequest request) {
-        User user = unitOfWork.userRepository().findByEmail(request.getEmail());
-        unitOfWork.saveChanges();
+        User user = userRepository.findByEmail(request.getEmail());
+        if (user == null) {
+            throw new IllegalArgumentException("Utente non trovato");
+        }
         return user;
     }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User deleteById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Utente non trovato"));
+        userRepository.deleteById(id);
+        return user;
+    }
+
 }

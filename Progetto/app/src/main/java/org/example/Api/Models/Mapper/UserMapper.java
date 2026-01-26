@@ -21,7 +21,7 @@ public class UserMapper {
      * @return l'entità User popolata
      */
     public static User toEntity(UserRequest request) {
-        User user = new User(null, RuoloUser.UTENTE_NON_ISCRITTO);
+        User user = new User();
         user.setNome(request.getNome());
         user.setCognome(request.getCognome());
         user.setEmail(request.getEmail());

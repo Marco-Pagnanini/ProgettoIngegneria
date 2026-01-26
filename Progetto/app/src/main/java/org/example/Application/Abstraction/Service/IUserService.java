@@ -17,4 +17,8 @@ public interface IUserService {
 
     User accesso(UserLoginRequest request);
 
+    List<User> findAll();
+
+    User deleteById(Long id);
+
 }
