@@ -1,9 +1,11 @@
 package org.example.Application.Service;
 
+import org.example.Api.Exception.BadRequestException;
+import org.example.Api.Exception.ResourceNotFoundException;
+import org.example.Api.Exception.ValidationException;
 import org.example.Api.Models.Request.SegnalazioneRequest;
 import org.example.Application.Abstraction.Service.ISegnalazioneService;
 import org.example.Application.Abstraction.Validator.Validator;
-import org.example.Core.enums.RuoloStaff;
 import org.example.Core.enums.StatoSegnalazione;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Segnalazione;
@@ -28,10 +30,15 @@ public class SegnalazioneService implements ISegnalazioneService {
     @Override
     public Segnalazione inviaSegnalazione(Long idHackathon, SegnalazioneRequest request) {
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
-        if(hackathon == null) throw new IllegalArgumentException();
+        if(hackathon == null) {
+            throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
+        }
 
         Team team = unitOfWork.teamRepository().getById(request.getIdTeamSegnalazione());
-        if (team == null) throw new IllegalArgumentException();
+        if (team == null) {
+            throw new ResourceNotFoundException("Team con id " + request.getIdTeamSegnalazione() + " non trovato");
+        }
+
         UserStaff mentore = unitOfWork.userStaffRepository().getById(request.getIdMentore());
 
         Segnalazione segnalazione = new Segnalazione();
@@ -41,10 +48,12 @@ public class SegnalazioneService implements ISegnalazioneService {
         segnalazione.setMentore(mentore);
         segnalazione.setStatoSegnalazione(StatoSegnalazione.APERTA);
 
-        if (!validator.validate(segnalazione)) throw new IllegalArgumentException();
+        if (!validator.validate(segnalazione)) {
+            throw new ValidationException("Dati segnalazione non validi");
+        }
 
         if (hackathon.getTeams() == null || hackathon.getTeams().stream().noneMatch(t -> t.getId().equals(team.getId()))) {
-            throw new IllegalArgumentException();
+            throw new BadRequestException("Il team non partecipa a questo hackathon");
         }
 
         if(hackathon.getSegnalazioni() == null) {
@@ -61,7 +70,9 @@ public class SegnalazioneService implements ISegnalazioneService {
     @Override
     public Segnalazione deleteSegnalazione(Long idHackathon, Long idSegnalazione) {
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
-        if(hackathon == null) throw new IllegalArgumentException();
+        if(hackathon == null) {
+            throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
+        }
 
         Segnalazione toRemove = null;
         for(Segnalazione s : hackathon.getSegnalazioni()) {
@@ -71,7 +82,9 @@ public class SegnalazioneService implements ISegnalazioneService {
             }
         }
 
-        if(toRemove == null) throw new IllegalArgumentException();
+        if(toRemove == null) {
+            throw new ResourceNotFoundException("Segnalazione con id " + idSegnalazione + " non trovata");
+        }
 
         hackathon.getSegnalazioni().remove(toRemove);
         unitOfWork.hackathonRepository().update(hackathon);
@@ -83,8 +96,10 @@ public class SegnalazioneService implements ISegnalazioneService {
     @Override
     public Segnalazione getSegnalazioneById(Long idHackathon, Long idSegnalazione) {
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
+        if(hackathon == null) {
+            throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
+        }
         unitOfWork.saveChanges();
-        if(hackathon == null) throw new IllegalArgumentException();
 
         for(Segnalazione s : hackathon.getSegnalazioni()) {
             if(s.getId().equals(idSegnalazione)) {
@@ -98,7 +113,9 @@ public class SegnalazioneService implements ISegnalazioneService {
     @Override
     public List<Segnalazione> visualizzaSegnalazione(Long idHackathon) {
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
-        if(hackathon == null) throw new IllegalArgumentException();
+        if(hackathon == null) {
+            throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
+        }
         unitOfWork.saveChanges();
         return hackathon.getSegnalazioni();
     }

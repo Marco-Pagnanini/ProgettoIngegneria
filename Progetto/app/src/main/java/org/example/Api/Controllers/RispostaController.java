@@ -3,10 +3,9 @@ package org.example.Api.Controllers;
 import org.example.Api.Models.Request.RispostaRequest;
 import org.example.Application.Abstraction.Service.IRispostaService;
 import org.example.Core.models.Risposta;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/risposta")
@@ -18,9 +17,20 @@ public class RispostaController {
     }
 
     @PostMapping
-    public Risposta inviaRisposta(RispostaRequest request) {
-        return rispostaService.inviaRisposta(request);
+    public ResponseEntity<Risposta> inviaRisposta(@RequestBody RispostaRequest request) {
+        if (request == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Risposta risposta = rispostaService.inviaRisposta(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(risposta);
     }
+
     @PutMapping
-    public Risposta aggiornaRisposta(RispostaRequest request){return rispostaService.aggiornaRisposta(request);}
+    public ResponseEntity<Risposta> aggiornaRisposta(@RequestBody RispostaRequest request) {
+        if (request == null || request.getIdRisposta() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Risposta risposta = rispostaService.aggiornaRisposta(request);
+        return ResponseEntity.ok(risposta);
+    }
 }

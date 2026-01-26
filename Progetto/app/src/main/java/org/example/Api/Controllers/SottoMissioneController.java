@@ -1,9 +1,10 @@
 package org.example.Api.Controllers;
 
-
 import org.example.Api.Models.Request.SottoMissioneRequest;
 import org.example.Application.Abstraction.Service.ISottoMissioniService;
 import org.example.Core.models.SottoMissione;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +18,20 @@ public class SottoMissioneController {
         this.sottoMissioniService = service;
     }
 
-    @PostMapping
-    public SottoMissione aggiungiSottoMissione(@RequestBody Long idHackathon,@RequestBody SottoMissioneRequest request){
-        return sottoMissioniService.createSottoMissione(idHackathon, request);
+    @PostMapping("/{idHackathon}")
+    public ResponseEntity<SottoMissione> aggiungiSottoMissione(
+            @PathVariable Long idHackathon,
+            @RequestBody SottoMissioneRequest request) {
+        if (request == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        SottoMissione sottoMissione = sottoMissioniService.createSottoMissione(idHackathon, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(sottoMissione);
     }
 
     @GetMapping("/{idHackathon}")
-    public List<SottoMissione> visualisiSottoMissione(@PathVariable Long idHackathon){
-        return sottoMissioniService.visualizzaSottoMissione(idHackathon);
+    public ResponseEntity<List<SottoMissione>> visualizzaSottoMissione(@PathVariable Long idHackathon) {
+        List<SottoMissione> sottoMissioni = sottoMissioniService.visualizzaSottoMissione(idHackathon);
+        return ResponseEntity.ok(sottoMissioni);
     }
 }

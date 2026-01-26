@@ -3,6 +3,8 @@ package org.example.Api.Controllers;
 import org.example.Api.Models.Request.InvitoRequest;
 import org.example.Application.Abstraction.Service.IInvitoService;
 import org.example.Core.models.Invito;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,23 +19,41 @@ public class InvitoController {
     }
 
     @GetMapping
-    public List<Invito> getAllInviti(){
-        return invitoService.getAllInviti();
+    public ResponseEntity<List<Invito>> getAllInviti() {
+        List<Invito> inviti = invitoService.getAllInviti();
+        return ResponseEntity.ok(inviti);
+    }
+
+    @GetMapping("/{idInvito}")
+    public ResponseEntity<Invito> getInvitoById(@PathVariable Long idInvito) {
+        Invito invito = invitoService.getInvitoById(idInvito);
+        return ResponseEntity.ok(invito);
     }
 
     @PutMapping("/accetta/{idInvito}")
-    public Invito accettaInvito(Long idInvito){
-        return invitoService.accettaInvito(idInvito);
+    public ResponseEntity<Invito> accettaInvito(@PathVariable Long idInvito) {
+        Invito invito = invitoService.accettaInvito(idInvito);
+        return ResponseEntity.ok(invito);
     }
 
     @PutMapping("/rifiuta/{idInvito}")
-    public Invito rifiutaInvito(Long idInvito){
-        return invitoService.rifiutaInvito(idInvito);
+    public ResponseEntity<Invito> rifiutaInvito(@PathVariable Long idInvito) {
+        Invito invito = invitoService.rifiutaInvito(idInvito);
+        return ResponseEntity.ok(invito);
     }
 
     @PostMapping
-    public Invito creaInvito(@RequestBody InvitoRequest invitoRequest){
-        return invitoService.creaInvito(invitoRequest);
+    public ResponseEntity<Invito> creaInvito(@RequestBody InvitoRequest invitoRequest) {
+        if (invitoRequest == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Invito invito = invitoService.creaInvito(invitoRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(invito);
     }
 
+    @DeleteMapping("/{idInvito}")
+    public ResponseEntity<Invito> deleteInvito(@PathVariable Long idInvito) {
+        Invito invito = invitoService.deleteInvito(idInvito);
+        return ResponseEntity.ok(invito);
+    }
 }

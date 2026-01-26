@@ -63,7 +63,7 @@ public class User {
      * Ruolo dell'utente
      */
     @Enumerated(EnumType.STRING)
-    private RuoloUser ruolo;
+    private RuoloUser ruolo = RuoloUser.UTENTE_NON_ISCRITTO;
 
     // Molti User (MembriDelTeam) appartengono a 1 Team
     @ManyToOne
