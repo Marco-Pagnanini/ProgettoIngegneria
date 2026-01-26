@@ -3,6 +3,7 @@ package org.example.Api.Controllers;
 import lombok.RequiredArgsConstructor;
 import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
+import org.example.Api.Models.Response.TokenResponse;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.IUserService;
 import org.example.Core.models.Invito;
@@ -47,10 +48,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody UserLoginRequest request) {
+    public ResponseEntity<TokenResponse> login(@RequestBody UserLoginRequest request) {
         try {
-            User user = userService.accesso(request);
-            return ResponseEntity.ok(user);
+            TokenResponse tokenResponse = userService.accesso(request);
+            return ResponseEntity.ok(tokenResponse);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

@@ -2,7 +2,9 @@ package org.example.Application.Validator;
 
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Valutazione;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ValutazioneValidator implements Validator<Valutazione> {
 
     @Override

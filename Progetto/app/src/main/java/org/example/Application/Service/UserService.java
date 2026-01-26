@@ -1,8 +1,12 @@
 package org.example.Application.Service;
 
+import org.example.Api.Exception.ResourceNotFoundException;
+import org.example.Api.Exception.UnauthorizedException;
+import org.example.Api.Exception.ValidationException;
 import org.example.Api.Models.Mapper.UserMapper;
 import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
+import org.example.Api.Models.Response.TokenResponse;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.IUserService;
 import org.example.Application.Abstraction.Validator.Validator;
@@ -28,7 +32,7 @@ public class UserService implements IUserService {
     public User registrazioneUtente(UserRequest user) {
         User toAdd = UserMapper.toEntity(user);
         if (!validator.validate(toAdd)) {
-            throw new IllegalArgumentException("Validazione fallita");
+            throw new ValidationException("Dati utente non validi");
         }
         User created = unitOfWork.userRepository().create(toAdd);
         unitOfWork.saveChanges();
@@ -39,7 +43,7 @@ public class UserService implements IUserService {
     public UserResponse visualizzaProfilo(Long idUtente) {
         User user = unitOfWork.userRepository().getById(idUtente);
         if (user == null) {
-            throw new IllegalArgumentException("Utente non trovato");
+            throw new ResourceNotFoundException("Utente con id " + idUtente + " non trovato");
         }
         return UserMapper.toResponse(user);
     }
@@ -48,18 +52,27 @@ public class UserService implements IUserService {
     public List<Invito> consultaInviti(Long idUtente) {
         User user = unitOfWork.userRepository().getById(idUtente);
         if (user == null) {
-            throw new IllegalArgumentException("Utente non trovato");
+            throw new ResourceNotFoundException("Utente con id " + idUtente + " non trovato");
         }
         return user.getInviti();
     }
 
     @Override
-    public User accesso(UserLoginRequest request) {
+    public TokenResponse accesso(UserLoginRequest request) {
         User user = unitOfWork.userRepository().findByEmail(request.getEmail());
         if (user == null) {
-            throw new IllegalArgumentException("Utente non trovato");
+            throw new UnauthorizedException("Credenziali non valide");
         }
-        return user;
+        if (user.getPassword().equals(request.getPassword())) {
+            TokenResponse tokenResponse = new TokenResponse();
+            tokenResponse.setAccess_token("ACCESS");
+            tokenResponse.setToken_type("JWT");
+            tokenResponse.setExpires_in("...");
+            unitOfWork.saveChanges();
+            return tokenResponse;
+        }
+        throw new UnauthorizedException("Password o email errati");
+
     }
 
     @Override
@@ -70,6 +83,9 @@ public class UserService implements IUserService {
     @Override
     public User deleteById(Long id) {
         User deleted = unitOfWork.userRepository().delete(id);
+        if (deleted == null) {
+            throw new ResourceNotFoundException("Utente con id " + id + " non trovato");
+        }
         unitOfWork.saveChanges();
         return deleted;
     }

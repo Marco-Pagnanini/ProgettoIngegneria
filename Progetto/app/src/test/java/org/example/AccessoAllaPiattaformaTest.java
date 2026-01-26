@@ -6,6 +6,7 @@ import org.example.Api.Models.Response.TokenResponse;
 import org.example.Application.Service.UserStaffService;
 import org.example.Core.models.UserStaff;
 import org.example.Infrastructure.Repository.*;
+import org.example.utils.UnitOfWork.IUnitOfWork;
 import org.example.utils.UnitOfWork.UnitOfWork;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,21 +16,10 @@ public class AccessoAllaPiattaformaTest {
 
     private UserStaffController controller;
     private UserStaffService service;
-    private UnitOfWork unitOfWork;
+    private IUnitOfWork unitOfWork;
 
     @Before
     public void setUp() {
-        unitOfWork = new UnitOfWork(
-                new HackathonRepository(),
-                new TeamRepository(),
-                new InvitoRepository(),
-                new SegnalazioneRepository(),
-                new UserRepository(),
-                new SottoMissioniRepository(),
-                new RispostaRepository(),
-                new ValutazioneRepository(),
-                new UserStaffRepository()
-        );
 
         service = new UserStaffService(unitOfWork);
         controller = new UserStaffController(service);
