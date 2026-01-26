@@ -29,4 +29,19 @@ public class RispostaService implements IRispostaService {
         unitOfWork.saveChanges();
         return risposta;
     }
+
+    @Override
+    public Risposta aggiornaRisposta(RispostaRequest request) {
+
+        if (request == null || request.getIdRisposta() == null) return null;
+        Risposta risposta = unitOfWork.rispostaRepository().getById(request.getIdRisposta());
+        if (risposta == null) return null;
+        risposta.setTesto(request.getRisposta());
+
+        if (!validator.validate(risposta)) return  null;
+
+        Risposta aggiornata =  unitOfWork.rispostaRepository().update(risposta);
+        unitOfWork.saveChanges();
+        return aggiornata;
+    }
 }

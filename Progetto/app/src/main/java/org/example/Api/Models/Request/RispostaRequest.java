@@ -1,10 +1,19 @@
 package org.example.Api.Models.Request;
 
 public class RispostaRequest {
+    private Long idRisposta;
     private Long idHackathon;
     private Long idTeam;
     private Long idSottomissione;
     private String risposta;
+
+    public Long getIdRisposta() {
+        return idRisposta;
+    }
+
+    public void setIdRisposta(Long idRisposta) {
+        this.idRisposta = idRisposta;
+    }
 
     public void setIdHackathon(Long idHackathon) {
         this.idHackathon = idHackathon;

@@ -13,4 +13,5 @@ public class RispostaController {
     public Risposta inviaRisposta(RispostaRequest request) {
         return rispostaService.inviaRisposta(request);
     }
+    public Risposta aggiornaRisposta(RispostaRequest request){return rispostaService.aggiornaRisposta(request);}
 }

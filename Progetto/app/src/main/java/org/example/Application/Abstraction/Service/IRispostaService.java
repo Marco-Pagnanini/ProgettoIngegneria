@@ -5,4 +5,6 @@ import org.example.Core.models.Risposta;
 
 public interface IRispostaService {
     public Risposta inviaRisposta(RispostaRequest request);
+
+    public Risposta aggiornaRisposta(RispostaRequest request);
 }
