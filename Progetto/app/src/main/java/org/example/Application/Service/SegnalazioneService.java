@@ -7,10 +7,7 @@ import org.example.Api.Models.Request.SegnalazioneRequest;
 import org.example.Application.Abstraction.Service.ISegnalazioneService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.enums.StatoSegnalazione;
-import org.example.Core.models.Hackathon;
-import org.example.Core.models.Segnalazione;
-import org.example.Core.models.Team;
-import org.example.Core.models.UserStaff;
+import org.example.Core.models.*;
 import org.example.utils.UnitOfWork.IUnitOfWork;
 import org.springframework.stereotype.Service;
 
@@ -108,6 +105,13 @@ public class SegnalazioneService implements ISegnalazioneService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<Segnalazione> getAllSegnalazioni() {
+        List<Segnalazione> response =  unitOfWork.segnalazioneRepository().getAll();
+        unitOfWork.saveChanges();
+        return  response;
     }
 
     @Override

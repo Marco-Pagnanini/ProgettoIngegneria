@@ -1,6 +1,8 @@
 package org.example.Api.Controllers;
 
+import org.example.Api.Models.Mapper.RispostaMapper;
 import org.example.Api.Models.Request.RispostaRequest;
+import org.example.Api.Models.Response.RispostaResponse;
 import org.example.Application.Abstraction.Service.IRispostaService;
 import org.example.Core.models.Risposta;
 import org.springframework.http.HttpStatus;
@@ -17,12 +19,12 @@ public class RispostaController {
     }
 
     @PostMapping
-    public ResponseEntity<Risposta> inviaRisposta(@RequestBody RispostaRequest request) {
+    public ResponseEntity<RispostaResponse> inviaRisposta(@RequestBody RispostaRequest request) {
         if (request == null) {
             return ResponseEntity.badRequest().build();
         }
         Risposta risposta = rispostaService.inviaRisposta(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(risposta);
+        return ResponseEntity.status(HttpStatus.CREATED).body(RispostaMapper.toResponse(risposta));
     }
 
     @PutMapping

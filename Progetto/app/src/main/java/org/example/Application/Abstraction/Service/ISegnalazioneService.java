@@ -10,4 +10,5 @@ public interface ISegnalazioneService {
     Segnalazione deleteSegnalazione(Long idHackathon, Long idSegnalazione);
     Segnalazione getSegnalazioneById(Long idHackathon, Long idSegnalazione);
     List<Segnalazione> visualizzaSegnalazione(Long idHackathon);
+    List<Segnalazione> getAllSegnalazioni();
 }

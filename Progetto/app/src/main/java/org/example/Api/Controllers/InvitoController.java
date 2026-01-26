@@ -35,6 +35,7 @@ public class InvitoController {
     public ResponseEntity<InvitoResponse> getInvitoById(@PathVariable Long idInvito) {
         Invito invito = invitoService.getInvitoById(idInvito);
         return ResponseEntity.ok(InvitoMapper.toResponse(invito));
+
     }
 
     @PutMapping("/accetta/{idInvito}")
