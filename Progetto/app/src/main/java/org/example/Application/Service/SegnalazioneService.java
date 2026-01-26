@@ -10,10 +10,12 @@ import org.example.Core.models.Segnalazione;
 import org.example.Core.models.Team;
 import org.example.Core.models.UserStaff;
 import org.example.utils.UnitOfWork.IUnitOfWork;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class SegnalazioneService implements ISegnalazioneService {
     private IUnitOfWork unitOfWork;
     private Validator<Segnalazione> validator;
@@ -26,10 +28,10 @@ public class SegnalazioneService implements ISegnalazioneService {
     @Override
     public Segnalazione inviaSegnalazione(Long idHackathon, SegnalazioneRequest request) {
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
-        if(hackathon == null) return null;
+        if(hackathon == null) throw new IllegalArgumentException();
 
         Team team = unitOfWork.teamRepository().getById(request.getIdTeamSegnalazione());
-        if (team == null) return  null;
+        if (team == null) throw new IllegalArgumentException();
         UserStaff mentore = unitOfWork.userStaffRepository().getById(request.getIdMentore());
 
         Segnalazione segnalazione = new Segnalazione();
@@ -39,10 +41,10 @@ public class SegnalazioneService implements ISegnalazioneService {
         segnalazione.setMentore(mentore);
         segnalazione.setStatoSegnalazione(StatoSegnalazione.APERTA);
 
-        if (!validator.validate(segnalazione)) return  null;
+        if (!validator.validate(segnalazione)) throw new IllegalArgumentException();
 
         if (hackathon.getTeams() == null || hackathon.getTeams().stream().noneMatch(t -> t.getId().equals(team.getId()))) {
-            return   null;
+            throw new IllegalArgumentException();
         }
 
         if(hackathon.getSegnalazioni() == null) {
@@ -59,7 +61,7 @@ public class SegnalazioneService implements ISegnalazioneService {
     @Override
     public Segnalazione deleteSegnalazione(Long idHackathon, Long idSegnalazione) {
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
-        if(hackathon == null) return null;
+        if(hackathon == null) throw new IllegalArgumentException();
 
         Segnalazione toRemove = null;
         for(Segnalazione s : hackathon.getSegnalazioni()) {
@@ -69,7 +71,7 @@ public class SegnalazioneService implements ISegnalazioneService {
             }
         }
 
-        if(toRemove == null) return null;
+        if(toRemove == null) throw new IllegalArgumentException();
 
         hackathon.getSegnalazioni().remove(toRemove);
         unitOfWork.hackathonRepository().update(hackathon);
@@ -82,7 +84,7 @@ public class SegnalazioneService implements ISegnalazioneService {
     public Segnalazione getSegnalazioneById(Long idHackathon, Long idSegnalazione) {
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
         unitOfWork.saveChanges();
-        if(hackathon == null) return null;
+        if(hackathon == null) throw new IllegalArgumentException();
 
         for(Segnalazione s : hackathon.getSegnalazioni()) {
             if(s.getId().equals(idSegnalazione)) {
@@ -96,9 +98,8 @@ public class SegnalazioneService implements ISegnalazioneService {
     @Override
     public List<Segnalazione> visualizzaSegnalazione(Long idHackathon) {
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
+        if(hackathon == null) throw new IllegalArgumentException();
         unitOfWork.saveChanges();
-        if(hackathon == null) return new ArrayList<>();
-
         return hackathon.getSegnalazioni();
     }
 }
