@@ -2,10 +2,12 @@ package org.example.Infrastructure.Repository;
 
 import org.example.Application.Abstraction.Repository.IUserStaffRepository;
 import org.example.Core.models.UserStaff;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class UserStaffRepository implements IUserStaffRepository {
 
     private final List<UserStaff> userStaffs;

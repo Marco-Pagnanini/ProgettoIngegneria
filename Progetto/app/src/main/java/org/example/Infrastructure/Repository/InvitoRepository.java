@@ -4,10 +4,12 @@ import org.example.Application.Abstraction.Repository.IInvitoRepository;
 import org.example.Core.enums.StatoInvito;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Invito;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class InvitoRepository implements IInvitoRepository {
     private List<Invito> inviti;
 

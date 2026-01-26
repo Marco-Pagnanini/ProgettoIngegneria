@@ -4,10 +4,12 @@ import org.example.Application.Abstraction.Repository.ISegnalazioneRepository;
 import org.example.Core.enums.StatoSegnalazione;
 import org.example.Core.models.Invito;
 import org.example.Core.models.Segnalazione;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class SegnalazioneRepository implements ISegnalazioneRepository {
     private List<Segnalazione> segnalazioni;
 

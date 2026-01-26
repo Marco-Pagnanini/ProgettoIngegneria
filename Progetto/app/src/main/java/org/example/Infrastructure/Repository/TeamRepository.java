@@ -1,7 +1,9 @@
 package org.example.Infrastructure.Repository;
+
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Team;
 import org.example.Application.Abstraction.Repository.ITeamRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;

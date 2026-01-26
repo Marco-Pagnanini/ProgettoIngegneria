@@ -2,10 +2,12 @@ package org.example.Infrastructure.Repository;
 
 import org.example.Application.Abstraction.Repository.IRispostaRepository;
 import org.example.Core.models.Risposta;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class RispostaRepository implements IRispostaRepository {
 
     private List<Risposta> risposte;

@@ -6,7 +6,9 @@ import org.example.Application.Abstraction.Service.ISottoMissioniService;
 import org.example.Application.Abstraction.Service.IUserStaffService;
 import org.example.Core.models.Invito;
 import org.example.Infrastructure.Repository.InvitoRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UnitOfWork implements IUnitOfWork{
 
     private IHackathonRepository hackathonRepository;

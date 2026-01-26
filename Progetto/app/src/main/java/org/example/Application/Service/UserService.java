@@ -1,47 +1,61 @@
 package org.example.Application.Service;
 
-import lombok.RequiredArgsConstructor;
 import org.example.Api.Models.Mapper.UserMapper;
 import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.IUserService;
-import org.example.Infrastructure.Abstraction.UserRepositoryJpa;
+import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Invito;
 import org.example.Core.models.User;
+import org.example.utils.UnitOfWork.IUnitOfWork;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class UserService implements IUserService {
 
-    private final UserRepositoryJpa userRepository;
+    private final IUnitOfWork unitOfWork;
+    private final Validator<User> validator;
+
+    public UserService(IUnitOfWork unitOfWork, Validator<User> validator) {
+        this.unitOfWork = unitOfWork;
+        this.validator = validator;
+    }
 
     @Override
     public User registrazioneUtente(UserRequest user) {
         User toAdd = UserMapper.toEntity(user);
-        return userRepository.save(toAdd);
+        if (!validator.validate(toAdd)) {
+            throw new IllegalArgumentException("Validazione fallita");
+        }
+        User created = unitOfWork.userRepository().create(toAdd);
+        unitOfWork.saveChanges();
+        return created;
     }
 
     @Override
     public UserResponse visualizzaProfilo(Long idUtente) {
-        User user = userRepository.findById(idUtente)
-                .orElseThrow(() -> new IllegalArgumentException("Utente non trovato"));
+        User user = unitOfWork.userRepository().getById(idUtente);
+        if (user == null) {
+            throw new IllegalArgumentException("Utente non trovato");
+        }
         return UserMapper.toResponse(user);
     }
 
     @Override
     public List<Invito> consultaInviti(Long idUtente) {
-        User user = userRepository.findById(idUtente)
-                .orElseThrow(() -> new IllegalArgumentException("Utente non trovato"));
+        User user = unitOfWork.userRepository().getById(idUtente);
+        if (user == null) {
+            throw new IllegalArgumentException("Utente non trovato");
+        }
         return user.getInviti();
     }
 
     @Override
     public User accesso(UserLoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail());
+        User user = unitOfWork.userRepository().findByEmail(request.getEmail());
         if (user == null) {
             throw new IllegalArgumentException("Utente non trovato");
         }
@@ -50,15 +64,14 @@ public class UserService implements IUserService {
 
     @Override
     public List<User> findAll() {
-        return userRepository.findAll();
+        return unitOfWork.userRepository().getAll();
     }
 
     @Override
     public User deleteById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Utente non trovato"));
-        userRepository.deleteById(id);
-        return user;
+        User deleted = unitOfWork.userRepository().delete(id);
+        unitOfWork.saveChanges();
+        return deleted;
     }
 
 }

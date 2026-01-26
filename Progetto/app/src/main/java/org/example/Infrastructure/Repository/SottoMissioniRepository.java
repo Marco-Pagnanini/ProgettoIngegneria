@@ -2,10 +2,12 @@ package org.example.Infrastructure.Repository;
 
 import org.example.Application.Abstraction.Repository.ISottoMissioneRepository;
 import org.example.Core.models.SottoMissione;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class SottoMissioniRepository implements ISottoMissioneRepository {
 
     private List<SottoMissione> sottoMissioni;
