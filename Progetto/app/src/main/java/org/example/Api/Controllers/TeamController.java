@@ -1,12 +1,15 @@
 package org.example.Api.Controllers;
 
+import org.example.Api.Models.Mapper.TeamMapper;
 import org.example.Api.Models.Request.TeamRequest;
+import org.example.Api.Models.Response.TeamResponse;
 import org.example.Application.Abstraction.Service.ITeamService;
 import org.example.Core.models.Team;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,18 +22,22 @@ public class TeamController {
     }
 
     @PostMapping
-    public ResponseEntity<Team> addTeam(@RequestBody TeamRequest request) {
+    public ResponseEntity<String> addTeam(@RequestBody TeamRequest request) {
         if (request == null) {
             return ResponseEntity.badRequest().build();
         }
         Team team = teamService.creazioneTeam(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(team);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new String("Team Creato"));
     }
 
     @GetMapping
-    public ResponseEntity<List<Team>> getAllTeams() {
+    public ResponseEntity<List<TeamResponse>> getAllTeams() {
         List<Team> teams = teamService.getAllTeams();
-        return ResponseEntity.ok(teams);
+        List<TeamResponse> response = new ArrayList<>();
+        for (Team team : teams) {
+            response.add(TeamMapper.toResponse(team));
+        }
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")

@@ -42,7 +42,7 @@ public class InvitiService implements IInvitoService {
         Invito invito = new Invito();
         invito.setDalTeam(team);
         invito.setPerUtente(user);
-        invito.setStato(request.getStato());
+        invito.setStato(StatoInvito.PENDENTE);
         invito.setDataInvito(request.getDataInvito());
 
         if(!validator.validate(invito)) {
