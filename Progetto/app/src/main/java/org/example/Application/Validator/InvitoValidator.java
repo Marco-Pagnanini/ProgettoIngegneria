@@ -2,7 +2,9 @@ package org.example.Application.Validator;
 
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Invito;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InvitoValidator implements Validator<Invito> {
     private Invito  invito;
 
