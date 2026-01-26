@@ -1,54 +1,71 @@
 package org.example.Infrastructure.Repository;
+
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Team;
 import org.example.Application.Abstraction.Repository.ITeamRepository;
-import org.example.Infrastructure.Abstraction.HackathonRepositoryJpa;
-import org.example.Infrastructure.Abstraction.TeamRepositoryJpa;
+import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TeamRepository implements ITeamRepository {
+    private List<Team> teams;
 
-    private final TeamRepositoryJpa repository;
-    private final HackathonRepositoryJpa hackathonRepositoryJpa;
+    private long nextId = 1L;
 
-    public TeamRepository(TeamRepositoryJpa repository,  HackathonRepositoryJpa hackathonRepositoryJpa) {
-        this.repository = repository;
-        this.hackathonRepositoryJpa = hackathonRepositoryJpa;
+    public TeamRepository() {
+        this.teams = new ArrayList<>();
     }
+
 
     @Override
     public Team create(Team team) {
-        return repository.save(team);
-    }
-
-    @Override
-    public Team delete(Long id) {
-        Team team = repository.findById(id).orElse(null);
-        repository.delete(team);
+        team.setId(nextId++);
+        teams.add(team);
         return team;
     }
 
     @Override
+    public Team delete(Long id) {
+        for (int idx = 0; idx < teams.size(); idx++) {
+            Team t = teams.get(idx);
+            if (t.getId().equals(id)) {
+                return teams.remove(idx);
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Team update(Team team) {
-        return  repository.save(team);
+        for (int idx = 0; idx < teams.size(); idx++) {
+            Team t = teams.get(idx);
+            if (t.getId().equals(team.getId())) {
+                teams.set(idx, team);
+                return team;
+            }
+        }
+        return null;
     }
 
 
     @Override
     public Team getById(Long id) {
-        return repository.findById(id).orElse(null);
+        for(Team team : teams) {
+            if(team.getId().equals(id)) {
+                return team;
+            }
+        }
+        return null;
     }
 
     @Override
     public List<Team> getAll() {
-        return repository.findAll();
+        return teams;
     }
 
     @Override
     public boolean existInHackathon(Long idTeam, Long idHackathon) {
-        Team team  = repository.findById(idTeam).orElse(null);
-        Hackathon hackathon =  hackathonRepositoryJpa.findById(idHackathon).orElse(null);
-        return hackathon.getTeams().contains(team);
+        return false;
     }
 }

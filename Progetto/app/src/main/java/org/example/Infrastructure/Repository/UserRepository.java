@@ -3,10 +3,12 @@ package org.example.Infrastructure.Repository;
 import org.example.Application.Abstraction.Repository.IUserRepository;
 import org.example.Core.models.User;
 import org.example.Infrastructure.Abstraction.UserRepositoryJpa;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class UserRepository implements IUserRepository {
     private final UserRepositoryJpa repository;
 
