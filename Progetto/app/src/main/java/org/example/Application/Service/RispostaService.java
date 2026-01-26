@@ -6,7 +6,9 @@ import org.example.Application.Abstraction.Service.IRispostaService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Risposta;
 import org.example.utils.UnitOfWork.IUnitOfWork;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RispostaService implements IRispostaService {
 
     private final IUnitOfWork unitOfWork;
@@ -22,7 +24,7 @@ public class RispostaService implements IRispostaService {
         Risposta risposta = new RispostaMapper(unitOfWork).toEntity(request);
 
         if(!validator.validate(risposta)) {
-            return null;
+           throw new IllegalArgumentException();
         }
 
         unitOfWork.rispostaRepository().create(risposta);
@@ -33,11 +35,12 @@ public class RispostaService implements IRispostaService {
     @Override
     public Risposta aggiornaRisposta(RispostaRequest request) {
 
-        if (request == null || request.getIdRisposta() == null || request.getRisposta() == null) return null;
+        if (request == null || request.getIdRisposta() == null || request.getRisposta() == null) throw new IllegalArgumentException();
         Risposta risposta = unitOfWork.rispostaRepository().getById(request.getIdRisposta());
+        if(risposta == null) throw new IllegalArgumentException();
         risposta.setTesto(request.getRisposta());
 
-        if (!validator.validate(risposta)) return  null;
+        if (!validator.validate(risposta)) throw new IllegalArgumentException();
 
         Risposta aggiornata =  unitOfWork.rispostaRepository().update(risposta);
         unitOfWork.saveChanges();
