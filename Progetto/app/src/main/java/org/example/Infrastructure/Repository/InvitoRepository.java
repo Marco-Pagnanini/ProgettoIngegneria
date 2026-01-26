@@ -1,68 +1,46 @@
 package org.example.Infrastructure.Repository;
 
 import org.example.Application.Abstraction.Repository.IInvitoRepository;
-import org.example.Core.enums.StatoInvito;
-import org.example.Core.models.Hackathon;
 import org.example.Core.models.Invito;
+import org.example.Infrastructure.Abstraction.InvitoRepositoryJpa;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class InvitoRepository implements IInvitoRepository {
-    private List<Invito> inviti;
+    private final InvitoRepositoryJpa repository;
 
-    private long nextId = 1L;
-    public InvitoRepository() {
-        this.inviti = new ArrayList<>();
+    public InvitoRepository(InvitoRepositoryJpa repository) {
+        this.repository = repository;
     }
-
 
     @Override
     public Invito create(Invito invito) {
-        invito.setId(nextId++);
-        invito.setStato(StatoInvito.PENDENTE);
-        inviti.add(invito);
-        return invito;
+        return repository.save(invito);
     }
 
     @Override
     public Invito delete(Long id) {
-        for (int idx = 0; idx < inviti.size(); idx++) {
-            Invito i = inviti.get(idx);
-            if (i.getId().equals(id)) {
-                return inviti.remove(idx);
-            }
+        Invito invito = repository.findById(id).orElse(null);
+        if (invito != null) {
+            repository.delete(invito);
         }
-        return null;
+        return invito;
     }
 
     @Override
     public Invito update(Invito invito) {
-        for (int idx = 0; idx < inviti.size(); idx++) {
-            Invito i = inviti.get(idx);
-            if (i.getId().equals(invito.getId())) {
-                inviti.set(idx, invito);
-                return invito;
-            }
-        }
-        return null;
+        return repository.save(invito);
     }
-
 
     @Override
     public Invito getById(Long id) {
-        for(Invito i : inviti){
-            if(i.getId().equals(id)){
-                return i;
-            }
-        }
-        return null;
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     public List<Invito> getAll() {
-       return inviti;
+        return repository.findAll();
     }
 }

@@ -2,61 +2,45 @@ package org.example.Infrastructure.Repository;
 
 import org.example.Application.Abstraction.Repository.ISottoMissioneRepository;
 import org.example.Core.models.SottoMissione;
+import org.example.Infrastructure.Abstraction.SottoMissioneRepositoryJpa;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class SottoMissioniRepository implements ISottoMissioneRepository {
+    private final SottoMissioneRepositoryJpa repository;
 
-    private List<SottoMissione> sottoMissioni;
-
-    public SottoMissioniRepository() {
-        sottoMissioni = new ArrayList<>();
+    public SottoMissioniRepository(SottoMissioneRepositoryJpa repository) {
+        this.repository = repository;
     }
 
     @Override
     public SottoMissione create(SottoMissione sottoMissione) {
-        sottoMissioni.add(sottoMissione);
-        return sottoMissione;
+        return repository.save(sottoMissione);
     }
 
     @Override
     public SottoMissione delete(Long id) {
-        for (SottoMissione m : sottoMissioni) {
-            if (m.getId().equals(id)) {
-                sottoMissioni.remove(m);
-                return m;
-            }
+        SottoMissione sottoMissione = repository.findById(id).orElse(null);
+        if (sottoMissione != null) {
+            repository.delete(sottoMissione);
         }
-        return null;
+        return sottoMissione;
     }
 
     @Override
     public SottoMissione update(SottoMissione sottoMissione) {
-        for (SottoMissione m : sottoMissioni) {
-            if (m.getId().equals(sottoMissione.getId())) {
-                sottoMissioni.remove(m);
-                sottoMissioni.add(sottoMissione);
-                return m;
-            }
-        }
-        return null;
+        return repository.save(sottoMissione);
     }
 
     @Override
     public SottoMissione getById(Long id) {
-        for (SottoMissione m : sottoMissioni) {
-            if (m.getId().equals(id)) {
-                return m;
-            }
-        }
-        return null;
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     public List<SottoMissione> getAll() {
-        return sottoMissioni;
+        return repository.findAll();
     }
 }
