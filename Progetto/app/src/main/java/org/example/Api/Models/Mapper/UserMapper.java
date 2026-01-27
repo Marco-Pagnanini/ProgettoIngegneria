@@ -41,7 +41,6 @@ public class UserMapper {
      */
     public static UserResponse toResponse(User user) {
         UserResponse response = new UserResponse();
-        response.setId(user.getId());
         response.setNome(user.getNome());
         response.setCognome(user.getCognome());
         response.setEmail(user.getEmail());

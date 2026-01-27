@@ -6,9 +6,30 @@ import org.example.Api.Models.Response.UserStaffResponse;
 import org.example.Core.models.User;
 import org.example.Core.models.UserStaff;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class UserStaffMapper {
+
+    public static UserStaff toEntity(UserStaffRequest userStaff) {
+        UserStaff user = new UserStaff();
+        user.setEmail(userStaff.getEmail());
+        user.setCellulare(userStaff.getCellulare());
+        user.setDataCreazione(LocalDateTime.now());
+        user.setDataNascita(userStaff.getDataDiNascita());
+        user.setRuolo(userStaff.getRuolo());
+        user.setNome(userStaff.getNome());
+        user.setPassword(userStaff.getPassword());
+        user.setCognome(userStaff.getCognome());
+        user.setHackathonOrganizzati(new ArrayList<>());
+        user.setHackathonSupportati(new ArrayList<>());
+        user.setHackathonValutati(new ArrayList<>());
+
+        return user;
+
+    }
+
     public static UserStaffResponse toResponse(UserStaff request) {
         UserStaffResponse userStaff = new UserStaffResponse();
         userStaff.setNome(request.getNome());
@@ -23,7 +44,6 @@ public class UserStaffMapper {
         userStaff.setHackathonOrganizzati(userStaff.getHackathonOrganizzati());
         userStaff.setHackathonValutati(userStaff.getHackathonValutati());
         userStaff.setHackathonSupportati(userStaff.getHackathonSupportati());
-        userStaff.setSegnalazioniRicevute(userStaff.getSegnalazioniRicevute());
         return userStaff;
     }
 }

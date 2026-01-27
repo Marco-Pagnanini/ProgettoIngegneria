@@ -22,10 +22,9 @@ public class UserStaffResponse {
     private String cellulare;
     private LocalDate dataNascita;
     private LocalDateTime dataCreazione;
-    private RuoloStaff  ruolo;
+    private RuoloStaff ruolo;
     private List<Hackathon> hackathonOrganizzati;
     private List<Hackathon> hackathonValutati;
     private List<Hackathon> hackathonSupportati;
-    private List<Segnalazione>  segnalazioniRicevute;
 
 }

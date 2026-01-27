@@ -29,12 +29,13 @@ public class HackathonController {
         this.hackathonService = hackathonService;
     }
 
-    @PostMapping
-    public ResponseEntity<HackathonResponse> creazioneHackathon(@RequestBody HackathonRequest request) {
+    @PostMapping("/{idOrganizzatore}")
+    public ResponseEntity<HackathonResponse> creazioneHackathon(@PathVariable Long idOrganizzatore,@RequestBody HackathonRequest request) {
         if (request == null) {
             return ResponseEntity.badRequest().build();
         }
-        Hackathon hackathon = hackathonService.creazioneHackathon(request);
+
+        Hackathon hackathon = hackathonService.creazioneHackathon(idOrganizzatore,request);
         return ResponseEntity.ok(HackathonMapper.toResponse(hackathon));
     }
 

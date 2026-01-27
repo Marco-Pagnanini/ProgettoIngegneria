@@ -8,7 +8,6 @@ public class SegnalazioneMapper {
     public static SegnalazioneResponse toResponse(Segnalazione segnalazione) {
         SegnalazioneResponse res = new SegnalazioneResponse();
 
-        res.setId(segnalazione.getId());
         res.setNome(segnalazione.getNome());
         res.setDescrizione(segnalazione.getDescrizione());
 

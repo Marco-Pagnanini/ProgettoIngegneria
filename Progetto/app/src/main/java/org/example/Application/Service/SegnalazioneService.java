@@ -58,6 +58,8 @@ public class SegnalazioneService implements ISegnalazioneService {
         }
 
         hackathon.getSegnalazioni().add(segnalazione);
+        segnalazione.setHackathon(hackathon);
+        unitOfWork.segnalazioneRepository().create(segnalazione);
         unitOfWork.hackathonRepository().update(hackathon);
         unitOfWork.saveChanges();
 

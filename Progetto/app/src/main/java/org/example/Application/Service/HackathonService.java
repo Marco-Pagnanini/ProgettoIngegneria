@@ -32,7 +32,7 @@ public class HackathonService implements IHackathonService {
     }
 
     @Override
-    public Hackathon creazioneHackathon(HackathonRequest request) {
+    public Hackathon creazioneHackathon(Long idOrganizzatore,HackathonRequest request) {
         UserStaff giudice = unitOfWork.userStaffRepository().getById(request.getIdGiudice());
         if(giudice == null) throw new ResourceNotFoundException("giudice con id " + request.getIdGiudice() + " non trovato");
 
@@ -42,6 +42,8 @@ public class HackathonService implements IHackathonService {
             if(mentore == null) throw new ResourceNotFoundException("mentore non trovato");
             mentori.add(mentore);
         }
+
+        UserStaff organizzatore =  unitOfWork.userStaffRepository().getById(idOrganizzatore);
 
 
         Hackathon hackathon = new HackathonBuilderImplementation()
@@ -59,6 +61,7 @@ public class HackathonService implements IHackathonService {
                 .numeroMinimoPersone(request.getNumeroMinimoPersone())
                 .giudice(giudice)
                 .mentori(mentori)
+                .organizzatore(organizzatore)
                 .build();
 
         if(!hackathonValidator.validate(hackathon)){

@@ -77,8 +77,5 @@ public class UserStaff {
     @ManyToMany(mappedBy = "mentori")
     private List<Hackathon> hackathonSupportati = new ArrayList<>();
 
-    // 1 Mentore riceve Molte Segnalazioni
-    @OneToMany(mappedBy = "mentore")
-    private List<Segnalazione> segnalazioniRicevute = new ArrayList<>();
 
 }

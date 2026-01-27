@@ -3,6 +3,7 @@ package org.example.Api.Models.Request;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.Core.enums.RuoloStaff;
 
 import java.time.LocalDate;
 @Getter
@@ -16,4 +17,5 @@ public class UserStaffRequest {
     private String cellulare;
     private LocalDate dataDiNascita;
     private LocalDate dataCreazione;
+    private RuoloStaff ruolo;
 }

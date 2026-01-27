@@ -49,9 +49,7 @@ public class UserStaffService implements IUserStaffService {
 
     @Override
     public UserStaff add(UserStaffRequest userStaff) {
-        UserStaff  user = new UserStaff();
-        user.setEmail(userStaff.getEmail());
-        user.setPassword(userStaff.getPassword());
+        UserStaff  user = UserStaffMapper.toEntity(userStaff);
 
         return unitOfWork.userStaffRepository().create(user);
     }

@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class SegnalazioneResponse {
-    private Long id;
     private String nome;
     private String descrizione;
 
