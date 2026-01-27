@@ -2,14 +2,22 @@ package org.example.Api.Controllers;
 
 import jakarta.annotation.Resource;
 import lombok.Getter;
+import org.example.Api.Models.Mapper.HackathonMapper;
+import org.example.Api.Models.Mapper.InvitoMapper;
+import org.example.Api.Models.Mapper.SegnalazioneMapper;
 import org.example.Api.Models.Request.HackathonRequest;
+import org.example.Api.Models.Response.HackathonResponse;
+import org.example.Api.Models.Response.InvitoResponse;
 import org.example.Application.Abstraction.Service.IHackathonService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Hackathon;
+import org.example.Core.models.Invito;
+import org.example.Core.models.Segnalazione;
 import org.example.Core.models.SottoMissione;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,23 +30,36 @@ public class HackathonController {
     }
 
     @PostMapping
-    public ResponseEntity<Hackathon> creazioneHackathon(@RequestBody HackathonRequest request) {
-        return ResponseEntity.ok(hackathonService.creazioneHackathon(request));
+    public ResponseEntity<HackathonResponse> creazioneHackathon(@RequestBody HackathonRequest request) {
+        if (request == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Hackathon hackathon = hackathonService.creazioneHackathon(request);
+        return ResponseEntity.ok(HackathonMapper.toResponse(hackathon));
     }
 
     @GetMapping
-    public ResponseEntity<List<Hackathon>> visualizzaHackathon() {
-        return ResponseEntity.ok(hackathonService.visualizzaHackathon());
+    public ResponseEntity<List<HackathonResponse>> visualizzaHackathon() {
+        List<Hackathon> hackathon = hackathonService.getAllHackathon();
+        List<HackathonResponse> response = new ArrayList<>();
+        for(Hackathon h : hackathon) {
+            response.add(HackathonMapper.toResponse(h));
+        }
+        return ResponseEntity.ok(response);
+
     }
 
     @PutMapping("/iscrizione/{idTeam}/{idHackathon}")
-    public ResponseEntity<Hackathon> iscrizioneTeam(@PathVariable  Long idTeam, @PathVariable Long idHackathon){
-        return ResponseEntity.ok(hackathonService.iscrizioneTeam(idTeam, idHackathon));
+    public ResponseEntity<HackathonResponse> iscrizioneTeam(@PathVariable  Long idTeam, @PathVariable Long idHackathon){
+        Hackathon hackathon = hackathonService.iscrizioneTeam(idTeam,idHackathon);
+        return ResponseEntity.ok(HackathonMapper.toResponse(hackathon));
+
     }
 
     @GetMapping("/{idHackathon}")
-    public ResponseEntity<Hackathon> visualizzaHackathonById(@PathVariable Long idHackathon) {
-        return ResponseEntity.ok(hackathonService.getHackathonById(idHackathon));
+    public ResponseEntity<HackathonResponse> visualizzaHackathonById(@PathVariable Long idHackathon) {
+        Hackathon hackathon =  hackathonService.getHackathonById(idHackathon);
+        return ResponseEntity.ok(HackathonMapper.toResponse(hackathon));
     }
 
 }

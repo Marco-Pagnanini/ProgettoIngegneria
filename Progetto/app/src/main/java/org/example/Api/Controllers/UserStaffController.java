@@ -1,7 +1,10 @@
 package org.example.Api.Controllers;
 
+import org.example.Api.Models.Mapper.UserStaffMapper;
 import org.example.Api.Models.Request.UserLoginRequest;
+import org.example.Api.Models.Request.UserStaffRequest;
 import org.example.Api.Models.Response.TokenResponse;
+import org.example.Api.Models.Response.UserStaffResponse;
 import org.example.Application.Abstraction.Service.IUserStaffService;
 import org.example.Core.models.UserStaff;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +29,13 @@ public class UserStaffController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserStaff> visitaProfilo(@PathVariable Long id) {
+    public ResponseEntity<UserStaffResponse> visitaProfilo(@PathVariable Long id) {
         UserStaff user = userService.visitaProfilo(id);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(UserStaffMapper.toResponse(user));
+    }
+
+    @PostMapping
+    public ResponseEntity<UserStaff> postaProfilo(@RequestBody UserStaffRequest userStaffRequest) {
+        return ResponseEntity.ok(userService.add(userStaffRequest));
     }
 }

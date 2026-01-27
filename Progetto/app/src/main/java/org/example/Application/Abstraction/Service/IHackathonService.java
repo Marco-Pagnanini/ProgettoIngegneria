@@ -12,6 +12,7 @@ public interface IHackathonService {
     Hackathon getHackathonById(Long id);
     List<Hackathon> visualizzaHackathon();
     Hackathon iscrizioneTeam(Long idTeam, Long idHackathon);
+    List<Hackathon> getAllHackathon();
 
 
 }

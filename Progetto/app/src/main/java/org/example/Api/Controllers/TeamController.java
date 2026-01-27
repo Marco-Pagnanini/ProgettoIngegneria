@@ -1,10 +1,13 @@
 package org.example.Api.Controllers;
 
 import org.example.Api.Models.Mapper.TeamMapper;
+import org.example.Api.Models.Mapper.UserMapper;
 import org.example.Api.Models.Request.TeamRequest;
 import org.example.Api.Models.Response.TeamResponse;
+import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.ITeamService;
 import org.example.Core.models.Team;
+import org.example.Core.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,29 +44,30 @@ public class TeamController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Team> getTeamById(@PathVariable Long id) {
+    public ResponseEntity<TeamResponse> getTeamById(@PathVariable Long id) {
         Team team = teamService.getTeamById(id);
         if (team == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(team);
+        return ResponseEntity.ok(TeamMapper.toResponse(team));
     }
 
+
     @PutMapping
-    public ResponseEntity<Team> updateTeam(@RequestBody Team team) {
-        if (team == null || team.getId() == null) {
+    public ResponseEntity<TeamResponse> updateTeam(@RequestBody Team team) {
+        if (team == null) {
             return ResponseEntity.badRequest().build();
         }
         Team updated = teamService.updateTeam(team);
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(TeamMapper.toResponse(updated));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Team> deleteTeam(@PathVariable Long id) {
+    public ResponseEntity<TeamResponse> deleteTeam(@PathVariable Long id) {
         Team deleted = teamService.deleteTeam(id);
         if (deleted == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(deleted);
+        return ResponseEntity.ok(TeamMapper.toResponse(deleted));
     }
 }

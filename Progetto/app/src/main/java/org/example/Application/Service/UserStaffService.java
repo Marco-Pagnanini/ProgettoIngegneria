@@ -2,7 +2,9 @@ package org.example.Application.Service;
 
 import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Exception.UnauthorizedException;
+import org.example.Api.Models.Mapper.UserStaffMapper;
 import org.example.Api.Models.Request.UserLoginRequest;
+import org.example.Api.Models.Request.UserStaffRequest;
 import org.example.Api.Models.Response.TokenResponse;
 import org.example.Application.Abstraction.Service.IUserStaffService;
 import org.example.Core.models.UserStaff;
@@ -44,4 +46,15 @@ public class UserStaffService implements IUserStaffService {
         }
         throw new UnauthorizedException("Credenziali non valide");
     }
+
+    @Override
+    public UserStaff add(UserStaffRequest userStaff) {
+        UserStaff  user = new UserStaff();
+        user.setEmail(userStaff.getEmail());
+        user.setPassword(userStaff.getPassword());
+
+        return unitOfWork.userStaffRepository().create(user);
+    }
+
+
 }

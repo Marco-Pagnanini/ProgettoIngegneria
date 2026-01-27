@@ -9,6 +9,7 @@ import org.example.Application.Abstraction.Service.IHackathonService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.enums.State;
 import org.example.Core.models.Hackathon;
+import org.example.Core.models.Segnalazione;
 import org.example.Core.models.Team;
 import org.example.Core.models.UserStaff;
 import org.example.utils.Builder.HackathonBuilderImplementation;
@@ -150,6 +151,13 @@ public class HackathonService implements IHackathonService {
         unitOfWork.saveChanges();
 
         return hackathon;
+    }
+
+    @Override
+    public List<Hackathon> getAllHackathon() {
+        List<Hackathon> response =  unitOfWork.hackathonRepository().getAll();
+        unitOfWork.saveChanges();
+        return  response;
     }
 
     private int numPersone(List<Team> teams){
