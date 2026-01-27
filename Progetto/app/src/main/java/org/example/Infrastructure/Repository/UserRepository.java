@@ -47,7 +47,7 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public java.util.Optional<User> findByEmail(String email) {
         return repository.findByEmail(email);
     }
 }

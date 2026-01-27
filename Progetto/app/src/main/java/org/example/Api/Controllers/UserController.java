@@ -14,10 +14,15 @@ import org.example.Core.models.Invito;
 import org.example.Core.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -31,6 +36,7 @@ public class UserController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ORGANIZZATORE','MENTORE','GIUDICE')")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         List<User> users = userService.findAll();
         List<UserResponse> response = new ArrayList<>();
@@ -84,6 +90,16 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('TEAM_LEADER', 'TEAM_MEMBER', 'UTENTE_NON_ISCRITTO')")
+    public ResponseEntity<Map<String, Object>> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Map<String, Object> response = new HashMap<>();
+        response.put("email", authentication.getName());
+        response.put("authorities", authentication.getAuthorities());
+        return ResponseEntity.ok(response);
     }
 
 }

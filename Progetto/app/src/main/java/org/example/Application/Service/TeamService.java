@@ -6,6 +6,7 @@ import org.example.Api.Exception.ValidationException;
 import org.example.Api.Models.Request.TeamRequest;
 import org.example.Application.Abstraction.Service.ITeamService;
 import org.example.Application.Abstraction.Validator.Validator;
+import org.example.Core.enums.RuoloUser;
 import org.example.Core.models.Team;
 import org.example.Core.models.User;
 import org.example.utils.UnitOfWork.IUnitOfWork;
@@ -35,6 +36,7 @@ public class TeamService implements ITeamService {
             throw new ResourceNotFoundException("Team leader con id " + request.getIdTeamLeader() + " non trovato");
         }
 
+        //TODO InvitoService per inviare l'invito
         List<User> membriDelTeam = new ArrayList<>();
         for(Long id : request.getIdMembriDelTeam()) {
             User membro = unitOfWork.userRepository().getById(id);
@@ -47,6 +49,7 @@ public class TeamService implements ITeamService {
             throw new BadRequestException("Il team deve avere almeno un membro");
         }
 
+        leader.setRuolo(RuoloUser.TEAM_LEADER);
         team.setNome(request.getTeamName());
         team.setTeamLeader(leader);
         team.setMembriTeam(membriDelTeam);

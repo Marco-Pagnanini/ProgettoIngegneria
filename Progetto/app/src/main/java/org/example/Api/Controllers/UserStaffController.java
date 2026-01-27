@@ -8,10 +8,16 @@ import org.example.Api.Models.Response.UserStaffResponse;
 import org.example.Application.Abstraction.Service.IUserStaffService;
 import org.example.Core.models.UserStaff;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
-@RequestMapping("api/v1/userStaff")
+@RequestMapping("/api/v1/userStaff")
 public class UserStaffController {
     private final IUserStaffService userService;
 
@@ -37,5 +43,15 @@ public class UserStaffController {
     @PostMapping
     public ResponseEntity<UserStaff> postaProfilo(@RequestBody UserStaffRequest userStaffRequest) {
         return ResponseEntity.ok(userService.add(userStaffRequest));
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('ORGANIZZATORE', 'MENTORE', 'GIUDICE')")
+    public ResponseEntity<Map<String, Object>> getCurrentStaff() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Map<String, Object> response = new HashMap<>();
+        response.put("email", authentication.getName());
+        response.put("authorities", authentication.getAuthorities());
+        return ResponseEntity.ok(response);
     }
 }

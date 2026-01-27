@@ -12,20 +12,31 @@ import org.example.Application.Abstraction.Service.IUserService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Invito;
 import org.example.Core.models.User;
+import org.example.config.JwtService;
 import org.example.utils.UnitOfWork.IUnitOfWork;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService implements IUserService {
 
     private final IUnitOfWork unitOfWork;
     private final Validator<User> validator;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public UserService(IUnitOfWork unitOfWork, Validator<User> validator) {
+    public UserService(IUnitOfWork unitOfWork, Validator<User> validator,
+                       PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.unitOfWork = unitOfWork;
         this.validator = validator;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -34,6 +45,8 @@ public class UserService implements IUserService {
         if (!validator.validate(toAdd)) {
             throw new ValidationException("Dati utente non validi");
         }
+        // Hash della password prima di salvarla
+        toAdd.setPassword(passwordEncoder.encode(toAdd.getPassword()));
         User created = unitOfWork.userRepository().create(toAdd);
         unitOfWork.saveChanges();
         return created;
@@ -61,20 +74,35 @@ public class UserService implements IUserService {
     public TokenResponse accesso(UserLoginRequest request) {
         if(request == null || request.getEmail() == null || request.getPassword() == null)
             throw new ValidationException("Email e password sono obbligatorie");
-        User user = unitOfWork.userRepository().findByEmail(request.getEmail());
-        if (user == null) {
-            throw new UnauthorizedException("Credenziali non valide");
-        }
-        if (user.getPassword().equals(request.getPassword())) {
-            TokenResponse tokenResponse = new TokenResponse();
-            tokenResponse.setAccess_token("ACCESS");
-            tokenResponse.setToken_type("JWT");
-            tokenResponse.setExpires_in("...");
-            unitOfWork.saveChanges();
-            return tokenResponse;
-        }
-        throw new UnauthorizedException("Password o email errati");
+        User user = unitOfWork.userRepository().findByEmail(request.getEmail())
+                .orElseThrow(() -> new UnauthorizedException("Credenziali non valide"));
 
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new UnauthorizedException("Password o email errati");
+        }
+
+        // Crea UserDetails per generare il token
+        org.springframework.security.core.userdetails.User userDetails =
+                new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getPassword(),
+                        Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRuolo().name()))
+                );
+
+        // Aggiungi claims extra (email, id, ruolo)
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("id", user.getId());
+        extraClaims.put("email", user.getEmail());
+        extraClaims.put("ruolo", user.getRuolo().name());
+
+        String jwtToken = jwtService.generateToken(extraClaims, userDetails);
+
+        TokenResponse tokenResponse = new TokenResponse();
+        tokenResponse.setAccess_token(jwtToken);
+        tokenResponse.setToken_type("Bearer");
+        tokenResponse.setExpires_in(String.valueOf(jwtService.getExpirationTime()));
+
+        return tokenResponse;
     }
 
     @Override

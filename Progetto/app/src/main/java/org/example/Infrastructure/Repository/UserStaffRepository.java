@@ -45,7 +45,7 @@ public class UserStaffRepository implements IUserStaffRepository {
     }
 
     @Override
-    public UserStaff findByEmail(String email) {
+    public java.util.Optional<UserStaff> findByEmail(String email) {
         return repository.findByEmail(email);
     }
 }
