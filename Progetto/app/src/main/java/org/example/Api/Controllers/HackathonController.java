@@ -31,7 +31,7 @@ public class HackathonController {
         return ResponseEntity.ok(hackathonService.visualizzaHackathon());
     }
 
-    @PostMapping("/iscrizione/{idTeam}/{idHackathon}")
+    @PutMapping("/iscrizione/{idTeam}/{idHackathon}")
     public ResponseEntity<Hackathon> iscrizioneTeam(@PathVariable  Long idTeam, @PathVariable Long idHackathon){
         return ResponseEntity.ok(hackathonService.iscrizioneTeam(idTeam, idHackathon));
     }

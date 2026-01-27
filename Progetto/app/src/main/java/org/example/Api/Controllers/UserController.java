@@ -1,6 +1,9 @@
 package org.example.Api.Controllers;
 
+import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
+import org.example.Api.Exception.BadRequestException;
+import org.example.Api.Exception.UnauthorizedException;
 import org.example.Api.Models.Mapper.UserMapper;
 import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     private final IUserService userService;
@@ -47,7 +50,7 @@ public class UserController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/registrazione")
     public ResponseEntity<User> createUser(@RequestBody UserRequest userRequest) {
         User created = userService.registrazioneUtente(userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);

@@ -59,6 +59,8 @@ public class UserService implements IUserService {
 
     @Override
     public TokenResponse accesso(UserLoginRequest request) {
+        if(request == null || request.getEmail() == null || request.getPassword() == null)
+            throw new ValidationException("Email e password sono obbligatorie");
         User user = unitOfWork.userRepository().findByEmail(request.getEmail());
         if (user == null) {
             throw new UnauthorizedException("Credenziali non valide");

@@ -33,12 +33,15 @@ public class HackathonService implements IHackathonService {
     @Override
     public Hackathon creazioneHackathon(HackathonRequest request) {
         UserStaff giudice = unitOfWork.userStaffRepository().getById(request.getIdGiudice());
+        if(giudice == null) throw new ResourceNotFoundException("giudice con id " + request.getIdGiudice() + " non trovato");
 
         List<UserStaff> mentori = new ArrayList<>();
         for(Long idMentore : request.getIdMentori()) {
             UserStaff mentore = unitOfWork.userStaffRepository().getById(idMentore);
+            if(mentore == null) throw new ResourceNotFoundException("mentore non trovato");
             mentori.add(mentore);
         }
+
 
         Hackathon hackathon = new HackathonBuilderImplementation()
                 .nome(request.getNome())
