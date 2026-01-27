@@ -1,34 +1,89 @@
 package org.example.Api.Controllers;
 
+import jakarta.xml.bind.ValidationException;
+import lombok.RequiredArgsConstructor;
+import org.example.Api.Exception.BadRequestException;
+import org.example.Api.Exception.UnauthorizedException;
 import org.example.Api.Models.Mapper.UserMapper;
 import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
+import org.example.Api.Models.Response.TokenResponse;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.IUserService;
 import org.example.Core.models.Invito;
 import org.example.Core.models.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/v1/users")
 public class UserController {
+
     private final IUserService userService;
 
     public UserController(IUserService userService) {
         this.userService = userService;
     }
 
-    public User registerUser(UserRequest userRequest) {
-        return userService.registrazioneUtente(userRequest);
+
+    @GetMapping
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<User> users = userService.findAll();
+        List<UserResponse> response = new ArrayList<>();
+        for (User user : users) {
+            response.add(UserMapper.toResponse(user));
+        }
+        return ResponseEntity.ok(response);
     }
 
-    public UserResponse visualizzaProfilo(Long idUtente){return  userService.visualizzaProfilo(idUtente);}
-
-
-    public List<Invito> consultaInviti(Long idUtente){
-        return userService.consultaInviti(idUtente);
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
+        try {
+            UserResponse user = userService.visualizzaProfilo(id);
+            return ResponseEntity.ok(user);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    public User accesso(UserLoginRequest request){
-        return userService.accesso(request);
+    @PostMapping("/registrazione")
+    public ResponseEntity<User> createUser(@RequestBody UserRequest userRequest) {
+        User created = userService.registrazioneUtente(userRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponse> login(@RequestBody UserLoginRequest request) {
+        try {
+            TokenResponse tokenResponse = userService.accesso(request);
+            return ResponseEntity.ok(tokenResponse);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @GetMapping("/{id}/inviti")
+    public ResponseEntity<List<Invito>> getInviti(@PathVariable Long id) {
+        try {
+            List<Invito> inviti = userService.consultaInviti(id);
+            return ResponseEntity.ok(inviti);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        try {
+            userService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

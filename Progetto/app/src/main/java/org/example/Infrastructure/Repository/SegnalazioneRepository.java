@@ -1,65 +1,46 @@
 package org.example.Infrastructure.Repository;
 
 import org.example.Application.Abstraction.Repository.ISegnalazioneRepository;
-import org.example.Core.enums.StatoSegnalazione;
-import org.example.Core.models.Invito;
 import org.example.Core.models.Segnalazione;
+import org.example.Infrastructure.Abstraction.SegnalazioneRepositoryJpa;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class SegnalazioneRepository implements ISegnalazioneRepository {
-    private List<Segnalazione> segnalazioni;
+    private final SegnalazioneRepositoryJpa repository;
 
-    private long nextId = 1L;
-
-    public SegnalazioneRepository() {
-        this.segnalazioni = new ArrayList<>();
+    public SegnalazioneRepository(SegnalazioneRepositoryJpa repository) {
+        this.repository = repository;
     }
 
-        public Segnalazione create (Segnalazione segnalazione){
-            segnalazione.setId(nextId++);
-            segnalazione.setStatoSegnalazione(StatoSegnalazione.APERTA);
-            this.segnalazioni.add(segnalazione);
-            return segnalazione;
-        }
+    @Override
+    public Segnalazione create(Segnalazione segnalazione) {
+        return repository.save(segnalazione);
+    }
 
     @Override
     public Segnalazione delete(Long id) {
-        for (int idx = 0; idx < segnalazioni.size(); idx++) {
-            Segnalazione s = segnalazioni.get(idx);
-            if (s.getId().equals(id)) {
-                return segnalazioni.remove(idx);
-            }
+        Segnalazione segnalazione = repository.findById(id).orElse(null);
+        if (segnalazione != null) {
+            repository.delete(segnalazione);
         }
-        return null;
+        return segnalazione;
     }
 
     @Override
     public Segnalazione update(Segnalazione segnalazione) {
-        for (int idx = 0; idx < segnalazioni.size(); idx++) {
-            Segnalazione s = segnalazioni.get(idx);
-            if (s.getId().equals(segnalazione.getId())) {
-                segnalazioni.set(idx, segnalazione);
-                return segnalazione;
-            }
-        }
-        return null;
+        return repository.save(segnalazione);
     }
-
 
     @Override
-        public Segnalazione getById (Long id){
-            for (Segnalazione i : segnalazioni) {
-                if (i.getId().equals(id)) {
-                    return i;
-                }
-            }
-            return null;
-        }
-
-        @Override
-        public List<Segnalazione> getAll () {
-            return segnalazioni;
-        }
+    public Segnalazione getById(Long id) {
+        return repository.findById(id).orElse(null);
     }
+
+    @Override
+    public List<Segnalazione> getAll() {
+        return repository.findAll();
+    }
+}

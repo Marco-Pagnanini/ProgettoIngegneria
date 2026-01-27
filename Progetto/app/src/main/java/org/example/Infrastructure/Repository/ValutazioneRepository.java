@@ -2,58 +2,45 @@ package org.example.Infrastructure.Repository;
 
 import org.example.Application.Abstraction.Repository.IValutazioneRepository;
 import org.example.Core.models.Valutazione;
+import org.example.Infrastructure.Abstraction.ValutazioneRepositoryJpa;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ValutazioneRepository implements IValutazioneRepository {
-    private List<Valutazione> valutazioni;
+    private final ValutazioneRepositoryJpa repository;
 
-    public ValutazioneRepository() {
-        valutazioni = new ArrayList<>();
+    public ValutazioneRepository(ValutazioneRepositoryJpa repository) {
+        this.repository = repository;
     }
 
     @Override
     public Valutazione create(Valutazione valutazione) {
-        valutazioni.add(valutazione);
-        return valutazione;
+        return repository.save(valutazione);
     }
 
     @Override
     public Valutazione delete(Long id) {
-        for (Valutazione valutazione : valutazioni) {
-            if (valutazione.getId().equals(id)) {
-                valutazioni.remove(valutazione);
-                return valutazione;
-            }
+        Valutazione valutazione = repository.findById(id).orElse(null);
+        if (valutazione != null) {
+            repository.delete(valutazione);
         }
-        return null;
+        return valutazione;
     }
 
     @Override
     public Valutazione update(Valutazione valutazione) {
-        for (Valutazione valutazione1 : valutazioni) {
-            if (valutazione1.getId().equals(valutazione.getId())) {
-                valutazioni.remove(valutazione1);
-                valutazioni.add(valutazione);
-                return valutazione;
-            }
-        }
-        return null;
+        return repository.save(valutazione);
     }
 
     @Override
     public Valutazione getById(Long id) {
-        for (Valutazione valutazione : valutazioni) {
-            if (valutazione.getId().equals(id)) {
-                return valutazione;
-            }
-        }
-        return null;
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     public List<Valutazione> getAll() {
-        return valutazioni;
+        return repository.findAll();
     }
 }

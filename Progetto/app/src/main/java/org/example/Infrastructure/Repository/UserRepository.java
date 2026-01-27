@@ -2,71 +2,52 @@ package org.example.Infrastructure.Repository;
 
 import org.example.Application.Abstraction.Repository.IUserRepository;
 import org.example.Core.models.User;
+import org.example.Infrastructure.Abstraction.UserRepositoryJpa;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class UserRepository implements IUserRepository {
-    private List<User> users;
+    private final UserRepositoryJpa repository;
 
-    public UserRepository() {
-        users = new ArrayList<>();
+    public UserRepository(UserRepositoryJpa repository) {
+        this.repository = repository;
+
     }
 
 
     @Override
     public User create(User user) {
-        user.setId(1L);
-        users.add(user);
-        return user;
+        return repository.save(user);
     }
 
     @Override
     public User delete(Long id) {
-        for (int idx = 0; idx < users.size(); idx++) {
-            User u = users.get(idx);
-            if (u.getId().equals(id)) {
-                return users.remove(idx);
-            }
-        }
-        return null;
+        User user = repository.findById(id).orElse(null);
+        repository.delete(user);
+        return user;
     }
 
     @Override
     public User update(User user) {
-        for (int idx = 0; idx < users.size(); idx++) {
-            User u = users.get(idx);
-            if (u.getId().equals(user.getId())) {
-                users.set(idx, user);
-                return user;
-            }
-        }
-        return null;
+        return repository.save(user);
     }
 
 
     @Override
     public User getById(Long id) {
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                return user;
-            }
-        }
-        return null;
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     public List<User> getAll() {
-        return users;
+        return repository.findAll();
     }
 
     @Override
     public User findByEmail(String email) {
-        for(User user : users) {
-            if(user.getEmail().equals(email)) {
-                return user;
-            }
-        }
-        return null;
+        return repository.findByEmail(email);
     }
 }

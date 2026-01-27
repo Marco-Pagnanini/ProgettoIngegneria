@@ -1,60 +1,43 @@
 package org.example.Core.models;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@Entity
 public class Risposta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String testo;
+
+    // Molte Risposte sono inviate da 1 Team
+    @ManyToOne
+    @JoinColumn(name = "team_id")
     private Team team;
+
+    // Molte Risposte appartengono a 1 Hackathon
+    @ManyToOne
+    @JoinColumn(name = "hackathon_id")
     private Hackathon hackathon;
+
+    // Molte Risposte rispondono a 1 SottoMissione
+    @ManyToOne
+    @JoinColumn(name = "sotto_missione_id")
     private SottoMissione sottoMissione;
+
     private LocalDateTime dataInvio;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // 1 Risposta ha Molte Valutazioni
+    @OneToMany(mappedBy = "risposta")
+    private List<Valutazione> valutazioni = new ArrayList<>();
 
-    public void setTesto(String testo) {
-        this.testo = testo;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public void setHackathon(Hackathon hackathon) {
-        this.hackathon = hackathon;
-    }
-
-    public void setSottoMissione(SottoMissione sottoMissione) {
-        this.sottoMissione = sottoMissione;
-    }
-
-    public void setDataInvio(LocalDateTime dataInvio) {
-        this.dataInvio = dataInvio;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTesto() {
-        return testo;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public Hackathon getHackathon() {
-        return hackathon;
-    }
-
-    public SottoMissione getSottoMissione() {
-        return sottoMissione;
-    }
-
-    public LocalDateTime getDataInvio() {
-        return dataInvio;
-    }
 }

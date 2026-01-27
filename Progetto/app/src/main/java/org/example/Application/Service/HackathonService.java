@@ -1,20 +1,25 @@
 package org.example.Application.Service;
 
+import org.example.Api.Exception.BadRequestException;
+import org.example.Api.Exception.ConflictException;
+import org.example.Api.Exception.ResourceNotFoundException;
+import org.example.Api.Exception.ValidationException;
 import org.example.Api.Models.Request.HackathonRequest;
 import org.example.Application.Abstraction.Service.IHackathonService;
 import org.example.Application.Abstraction.Validator.Validator;
-import org.example.Core.enums.RuoloStaff;
 import org.example.Core.enums.State;
 import org.example.Core.models.Hackathon;
+import org.example.Core.models.Segnalazione;
 import org.example.Core.models.Team;
 import org.example.Core.models.UserStaff;
 import org.example.utils.Builder.HackathonBuilderImplementation;
 import org.example.utils.UnitOfWork.IUnitOfWork;
-import org.example.utils.UnitOfWork.UnitOfWork;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class HackathonService implements IHackathonService {
 
     private final IUnitOfWork unitOfWork;
@@ -27,14 +32,19 @@ public class HackathonService implements IHackathonService {
     }
 
     @Override
-    public Hackathon creazioneHackathon(HackathonRequest request) {
-        UserStaff giudice = unitOfWork.userStaffRepository().getById(request.getGiudice());
+    public Hackathon creazioneHackathon(Long idOrganizzatore,HackathonRequest request) {
+        UserStaff giudice = unitOfWork.userStaffRepository().getById(request.getIdGiudice());
+        if(giudice == null) throw new ResourceNotFoundException("giudice con id " + request.getIdGiudice() + " non trovato");
 
         List<UserStaff> mentori = new ArrayList<>();
-        for(Long idMentore : request.getMentori()) {
+        for(Long idMentore : request.getIdMentori()) {
             UserStaff mentore = unitOfWork.userStaffRepository().getById(idMentore);
+            if(mentore == null) throw new ResourceNotFoundException("mentore non trovato");
             mentori.add(mentore);
         }
+
+        UserStaff organizzatore =  unitOfWork.userStaffRepository().getById(idOrganizzatore);
+
 
         Hackathon hackathon = new HackathonBuilderImplementation()
                 .nome(request.getNome())
@@ -51,9 +61,12 @@ public class HackathonService implements IHackathonService {
                 .numeroMinimoPersone(request.getNumeroMinimoPersone())
                 .giudice(giudice)
                 .mentori(mentori)
+                .organizzatore(organizzatore)
                 .build();
 
-        if(!hackathonValidator.validate(hackathon)) return null;
+        if(!hackathonValidator.validate(hackathon)){
+            throw new ValidationException("Dati hackathon non validi");
+        }
 
         unitOfWork.hackathonRepository().create(hackathon);
         unitOfWork.saveChanges();
@@ -63,8 +76,13 @@ public class HackathonService implements IHackathonService {
 
     @Override
     public Hackathon updateHackathon(Hackathon hackathon) {
-        if(!hackathonValidator.validate(hackathon)) return null;
+        if(!hackathonValidator.validate(hackathon)) {
+            throw new ValidationException("Dati hackathon non validi");
+        }
         Hackathon response = unitOfWork.hackathonRepository().update(hackathon);
+        if(response == null) {
+            throw new ResourceNotFoundException("Hackathon non trovato");
+        }
         unitOfWork.saveChanges();
         return response;
     }
@@ -72,6 +90,9 @@ public class HackathonService implements IHackathonService {
     @Override
     public Hackathon deleteHackathon(Long id) {
         Hackathon response = unitOfWork.hackathonRepository().delete(id);
+        if(response == null) {
+            throw new ResourceNotFoundException("Hackathon con id " + id + " non trovato");
+        }
         unitOfWork.saveChanges();
         return response;
     }
@@ -79,6 +100,9 @@ public class HackathonService implements IHackathonService {
     @Override
     public Hackathon getHackathonById(Long id) {
         Hackathon response = unitOfWork.hackathonRepository().getById(id);
+        if(response == null) {
+            throw new ResourceNotFoundException("Hackathon con id " + id + " non trovato");
+        }
         unitOfWork.saveChanges();
         return response;
     }
@@ -93,21 +117,35 @@ public class HackathonService implements IHackathonService {
     @Override
     public Hackathon iscrizioneTeam(Long idTeam, Long idHackathon) {
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
+        if(hackathon == null) {
+            throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
+        }
+
         Team toFind = unitOfWork.teamRepository().getById(idTeam);
+        if(toFind == null) {
+            throw new ResourceNotFoundException("Team con id " + idTeam + " non trovato");
+        }
 
-        if(hackathon == null || toFind == null) return null;
+        if(hackathon.getStato() != State.IN_ISCRIZIONE) {
+            throw new BadRequestException("L'hackathon non è in fase di iscrizione");
+        }
 
-        //STATE
-        if(hackathon.getStato() != State.IN_ISCRIZIONE) return null;
+        if(hackathon.getTeams().contains(toFind)) {
+            throw new ConflictException("Il team è già iscritto a questo hackathon");
+        }
 
-        if(hackathon.getTeams().contains(toFind)) return null;
-
-        if(hackathon.getDimensioneMassimaTeam() < toFind.getMembriTeam().size() + 1) return null;
-        if(hackathon.getDimensioneMinimaTeam() > toFind.getMembriTeam().size() + 1) return null;
+        int teamSize = toFind.getMembriTeam().size() + 1;
+        if(hackathon.getDimensioneMassimaTeam() < teamSize) {
+            throw new BadRequestException("Il team supera la dimensione massima consentita");
+        }
+        if(hackathon.getDimensioneMinimaTeam() > teamSize) {
+            throw new BadRequestException("Il team non raggiunge la dimensione minima richiesta");
+        }
 
         List<Team> teams = hackathon.getTeams();
-
-        if(hackathon.getNumeroMassimoPersone() < numPersone(teams) + toFind.getMembriTeam().size() + 1) return null;
+        if(hackathon.getNumeroMassimoPersone() < numPersone(teams) + teamSize) {
+            throw new BadRequestException("Numero massimo di partecipanti raggiunto");
+        }
 
         teams.add(toFind);
         hackathon.setTeams(teams);
@@ -116,6 +154,13 @@ public class HackathonService implements IHackathonService {
         unitOfWork.saveChanges();
 
         return hackathon;
+    }
+
+    @Override
+    public List<Hackathon> getAllHackathon() {
+        List<Hackathon> response =  unitOfWork.hackathonRepository().getAll();
+        unitOfWork.saveChanges();
+        return  response;
     }
 
     private int numPersone(List<Team> teams){

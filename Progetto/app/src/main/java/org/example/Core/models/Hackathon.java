@@ -1,12 +1,22 @@
 package org.example.Core.models;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.example.Core.enums.State;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@Entity(name = "hackathon")
 public class Hackathon {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String regolamento;
@@ -20,208 +30,53 @@ public class Hackathon {
     private Integer dimensioneMinimaTeam;
     private Integer numeroMassimoPersone;
     private Integer numeroMinimoPersone;
+
+    // 1 Hackathon è organizzato da 1 Organizzatore (ManyToOne perché un organizzatore può organizzare più hackathon)
+    @ManyToOne
+    @JoinColumn(name = "organizzatore_id")
     private UserStaff organizzatore;
+
+    // 1 Hackathon è valutato da 1 Giudice (ManyToOne perché un giudice può valutare più hackathon)
+    @ManyToOne
+    @JoinColumn(name = "giudice_id")
     private UserStaff giudice;
-    private List<UserStaff> mentori;
-    private List<Team> teams;
+
+    // Molti Mentori supportano Molti Hackathon
+    @ManyToMany
+    @JoinTable(
+            name = "hackathon_mentori",
+            joinColumns = @JoinColumn(name = "hackathon_id"),
+            inverseJoinColumns = @JoinColumn(name = "mentore_id")
+    )
+    private List<UserStaff> mentori = new ArrayList<>();
+
+    // Molti Team partecipano a Molti Hackathon
+    @ManyToMany
+    @JoinTable(
+            name = "hackathon_teams",
+            joinColumns = @JoinColumn(name = "hackathon_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id")
+    )
+    private List<Team> teams = new ArrayList<>();
+
+    // 1 Hackathon ha 1 Vincitore (può essere null)
+    @OneToOne
+    @JoinColumn(name = "vincitore_id")
     private Team vincitore;
+
+    @Enumerated(EnumType.STRING)
     private State stato;
-    private List<Segnalazione> segnalazioni;
-    private List<SottoMissione> sottoMissioni;
 
-    public Hackathon() {
-        segnalazioni = new ArrayList<>();
-        teams =  new ArrayList<>();
-        sottoMissioni =  new ArrayList<>();
-    }
+    // 1 Hackathon contiene Molte Segnalazioni
+    @OneToMany(mappedBy = "hackathon")
+    private List<Segnalazione> segnalazioni = new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    public String getRegolamento() {
-        return regolamento;
-    }
-    public void setRegolamento(String regolamento) {
-        this.regolamento = regolamento;
-    }
-    public LocalDate getScadenzaIscrizioni() {
-        return scadenzaIscrizioni;
-    }
+    // 1 Hackathon contiene Molte SottoMissioni
+    @OneToMany(mappedBy = "hackathon")
+    private List<SottoMissione> sottoMissioni = new ArrayList<>();
 
-    public void setScadenzaIscrizioni(LocalDate scadenzaIscrizioni) {
-        this.scadenzaIscrizioni = scadenzaIscrizioni;
-    }
+    // 1 Hackathon contiene Molte Risposte
+    @OneToMany(mappedBy = "hackathon")
+    private List<Risposta> risposte = new ArrayList<>();
 
-    public double getPremio() {
-        return premio;
-    }
-
-    public void setPremio(double premio) {
-        this.premio = premio;
-    }
-
-    public void setDataInizio(LocalDate dataInizio) {
-        this.dataInizio = dataInizio;
-    }
-
-    public LocalDate getDataFine() {
-        return dataFine;
-    }
-
-    public LocalDate getDataInizio() {
-        return dataInizio;
-    }
-
-    public void setDataFine(LocalDate dataFine) {
-        this.dataFine = dataFine;
-    }
-
-    public void setLuogo(String luogo) {
-        this.luogo = luogo;
-    }
-
-    public String getLuogo() {
-        return luogo;
-    }
-
-    public void setDimensioneMassimaTeam(int dimensioneMassimaTeam) {
-        this.dimensioneMassimaTeam = dimensioneMassimaTeam;
-    }
-
-    public int getDimensioneMassimaTeam() {
-        return dimensioneMassimaTeam;
-    }
-
-    public List<SottoMissione> getSottoMissioni() {
-        return sottoMissioni;
-    }
-
-    public List<Segnalazione> getSegnalazioni() {
-        return segnalazioni;
-    }
-
-    public int getDimensioneMinimaTeam() {
-        return dimensioneMinimaTeam;
-    }
-
-    public void setDimensioneMinimaTeam(int dimensioneMinimaTeam) {
-        this.dimensioneMinimaTeam = dimensioneMinimaTeam;
-    }
-
-    public void setGiudice(UserStaff giudice) {
-        this.giudice = giudice;
-    }
-
-    public UserStaff getGiudice() {
-        return giudice;
-    }
-
-    public void setMentori(List<UserStaff> mentori) {
-        this.mentori = mentori;
-    }
-
-    public List<UserStaff> getMentori() {
-        return mentori;
-    }
-
-    public Team getVincitore() {
-        return vincitore;
-    }
-
-    public void setVincitore(Team vincitore) {
-        this.vincitore = vincitore;
-    }
-
-    public void setStato(State stato) {
-        this.stato = stato;
-    }
-
-    public State getStato() {
-        return stato;
-    }
-
-    public void setOrganizzatore(UserStaff organizzatore) {
-        this.organizzatore = organizzatore;
-    }
-
-    public UserStaff getOrganizzatore() {
-        return organizzatore;
-    }
-
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
-    }
-
-    public List<Team> getTeams() {
-        return teams;
-    }
-
-    public void setArgomento(String argomento) {
-        this.argomento = argomento;
-    }
-
-    public String getArgomento() {
-        return argomento;
-    }
-
-    public void setSottomissioni(List<SottoMissione> sottoMissioni) {
-        this.sottoMissioni = sottoMissioni;
-    }
-
-    public List<SottoMissione> getSottomissioni() {
-        return sottoMissioni;
-    }
-
-    public void setNumeroMinimoPersone(int numeroMinimoPersone) {
-        this.numeroMinimoPersone = numeroMinimoPersone;
-    }
-
-    public int getNumeroMinimoPersone() {
-        return numeroMinimoPersone;
-    }
-
-    public void setNumeroMassimoPersone(int numeroMassimoPersone) {
-        this.numeroMassimoPersone = numeroMassimoPersone;
-    }
-
-    public int getNumeroMassimoPersone() {
-        return numeroMassimoPersone;
-    }
-
-    public void setPremio(Double premio) {
-        this.premio = premio;
-    }
-
-    public void setDimensioneMassimaTeam(Integer dimensioneMassimaTeam) {
-        this.dimensioneMassimaTeam = dimensioneMassimaTeam;
-    }
-
-    public void setDimensioneMinimaTeam(Integer dimensioneMinimaTeam) {
-        this.dimensioneMinimaTeam = dimensioneMinimaTeam;
-    }
-
-    public void setNumeroMassimoPersone(Integer numeroMassimoPersone) {
-        this.numeroMassimoPersone = numeroMassimoPersone;
-    }
-
-    public void setNumeroMinimoPersone(Integer numeroMinimoPersone) {
-        this.numeroMinimoPersone = numeroMinimoPersone;
-    }
-
-    public void setSottoMissioni(List<SottoMissione> sottoMissioni) {
-        this.sottoMissioni = sottoMissioni;
-    }
-
-    public void setSegnalazioni(List<Segnalazione> segnalazioni) {
-        this.segnalazioni = segnalazioni;
-    }
 }

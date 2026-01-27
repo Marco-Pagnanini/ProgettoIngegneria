@@ -2,7 +2,9 @@ package org.example.Application.Validator;
 
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Risposta;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RispostaValidator implements Validator<Risposta> {
     @Override
     public boolean validate(Risposta entity) {

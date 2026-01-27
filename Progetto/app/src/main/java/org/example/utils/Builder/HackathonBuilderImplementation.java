@@ -102,7 +102,7 @@ public class HackathonBuilderImplementation implements HackathonBuilder {
 
     @Override
     public HackathonBuilder sottomissioni(List<SottoMissione> sottomissioni) {
-        hackathon.setSottomissioni(sottomissioni);
+        hackathon.setSottoMissioni(sottomissioni);
         return this;
     }
 

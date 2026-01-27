@@ -1,14 +1,16 @@
 package org.example.Api.Models.Mapper;
 
 import org.example.Api.Models.Request.RispostaRequest;
+import org.example.Api.Models.Response.RispostaResponse;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Risposta;
 import org.example.Core.models.SottoMissione;
 import org.example.Core.models.Team;
 import org.example.utils.UnitOfWork.IUnitOfWork;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-
+@Component
 public class RispostaMapper {
     private final IUnitOfWork unitOfWork;
 
@@ -30,5 +32,10 @@ public class RispostaMapper {
 
         return risposta;
 
+    }
+    public static RispostaResponse toResponse(Risposta entity) {
+        RispostaResponse res = new RispostaResponse();
+        res.setRisposta(entity.getTesto());
+        return res;
     }
 }

@@ -3,9 +3,11 @@ package org.example.Application.Validator;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Team;
 import org.example.utils.UnitOfWork.IUnitOfWork;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class TeamValidator implements Validator<Team> {
 
     private final IUnitOfWork unitOfWork;

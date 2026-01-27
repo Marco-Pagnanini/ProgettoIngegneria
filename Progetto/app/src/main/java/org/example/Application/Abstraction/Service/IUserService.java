@@ -2,6 +2,7 @@ package org.example.Application.Abstraction.Service;
 
 import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
+import org.example.Api.Models.Response.TokenResponse;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Core.models.Invito;
 import org.example.Core.models.User;
@@ -15,6 +16,10 @@ public interface IUserService {
 
     List<Invito> consultaInviti(Long idUtente);
 
-    User accesso(UserLoginRequest request);
+    TokenResponse accesso(UserLoginRequest request);
+
+    List<User> findAll();
+
+    User deleteById(Long id);
 
 }
