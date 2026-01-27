@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HackHub.iml" filepath="$PROJECT_DIR$/.idea/modules/HackHub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/HackHub.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/HackHub.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/HackHub.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/HackHub.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/HackHub.app.test.iml" filepath="$PROJECT_DIR$/.idea/modules/app/HackHub.app.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ProgettoIngegneria.iml" filepath="$PROJECT_DIR$/.idea/ProgettoIngegneria.iml" />
     </modules>
   </component>
