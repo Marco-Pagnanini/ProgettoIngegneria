@@ -30,9 +30,9 @@ public class SupportoController {
         return ResponseEntity.ok(supportoService.richiediSupporto(supporto));
     }
 
-    @PostMapping("/crea_call/{id}")
-    public ResponseEntity<CallEventCalendar> addCall(@PathVariable Long id, @RequestBody ScheduleCallRequest call) {
-        return ResponseEntity.ok(supportoService.richiediCallEvent(id,call));
+    @PostMapping("/crea_call/{idSottomissione}/{idMentore}")
+    public ResponseEntity<CallEventCalendar> addCall(@PathVariable Long idMentore,@PathVariable Long idSottomissione, @RequestBody ScheduleCallRequest call) {
+        return ResponseEntity.ok(supportoService.richiediCallEvent(idSottomissione,idMentore,call));
     }
 
 }
