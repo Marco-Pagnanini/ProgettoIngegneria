@@ -7,6 +7,7 @@ import org.example.Application.Abstraction.Service.IInvitoService;
 import org.example.Core.models.Invito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class InvitoController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ORGANIZZATORE','GIUDICE','MENTORE')")
     public ResponseEntity<List<InvitoResponse>> getAllInviti() {
         List<Invito> inviti = invitoService.getAllInviti();
         List<InvitoResponse> response = new ArrayList<>();
@@ -32,6 +34,7 @@ public class InvitoController {
     }
 
     @GetMapping("/{idInvito}")
+    @PreAuthorize("hasRole('UTENTE_NON_ISCRITTO')")
     public ResponseEntity<InvitoResponse> getInvitoById(@PathVariable Long idInvito) {
         Invito invito = invitoService.getInvitoById(idInvito);
         return ResponseEntity.ok(InvitoMapper.toResponse(invito));
@@ -39,18 +42,21 @@ public class InvitoController {
     }
 
     @PutMapping("/accetta/{idInvito}")
+    @PreAuthorize("hasRole('UTENTE_NON_ISCRITTO')")
     public ResponseEntity<InvitoResponse> accettaInvito(@PathVariable Long idInvito) {
         Invito invito = invitoService.accettaInvito(idInvito);
         return ResponseEntity.ok(InvitoMapper.toResponse(invito));
     }
 
     @PutMapping("/rifiuta/{idInvito}")
+    @PreAuthorize("hasRole('UTENTE_NON_ISCRITTO')")
     public ResponseEntity<InvitoResponse> rifiutaInvito(@PathVariable Long idInvito) {
         Invito invito = invitoService.rifiutaInvito(idInvito);
         return ResponseEntity.ok(InvitoMapper.toResponse(invito));
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('TEAM_LEADER')")
     public ResponseEntity<InvitoResponse> creaInvito(@RequestBody InvitoRequest invitoRequest) {
         if (invitoRequest == null) {
             return ResponseEntity.badRequest().build();
@@ -60,6 +66,7 @@ public class InvitoController {
     }
 
     @DeleteMapping("/{idInvito}")
+    @PreAuthorize("hasRole('TEAM_LEADER')")
     public ResponseEntity<InvitoResponse> deleteInvito(@PathVariable Long idInvito) {
         Invito invito = invitoService.deleteInvito(idInvito);
         return ResponseEntity.ok(InvitoMapper.toResponse(invito));

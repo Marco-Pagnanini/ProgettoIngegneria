@@ -11,6 +11,7 @@ import org.example.Core.models.Invito;
 import org.example.Core.models.Segnalazione;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class SegnalazioneController {
     }
 
     @PostMapping("/{idHackathon}")
+    @PreAuthorize("hasRole('MENTORE')")
     public ResponseEntity<SegnalazioneResponse> addSegnalazione(
             @PathVariable Long idHackathon,
             @RequestBody SegnalazioneRequest request) {
@@ -37,6 +39,7 @@ public class SegnalazioneController {
     }
 
     @GetMapping("/{idHackathon}")
+
     public ResponseEntity<List<SegnalazioneResponse>> getAllSegnalazioni(@PathVariable Long idHackathon) {
         List<Segnalazione> segnalazione = segnalazioneService.getAllSegnalazioni();
         List<SegnalazioneResponse> response = new ArrayList<>();
@@ -47,6 +50,7 @@ public class SegnalazioneController {
     }
 
     @GetMapping("/{idHackathon}/{idSegnalazione}")
+    @PreAuthorize("hasRole('ORGANIZZATORE')")
     public ResponseEntity<SegnalazioneResponse> getSegnalazioneById(
             @PathVariable Long idHackathon,
             @PathVariable Long idSegnalazione) {
@@ -56,6 +60,7 @@ public class SegnalazioneController {
     }
 
     @DeleteMapping("/{idHackathon}/{idSegnalazione}")
+    @PreAuthorize("hasRole('ORGANIZZATORE')")
     public ResponseEntity<SegnalazioneResponse> deleteSegnalazione(
             @PathVariable Long idHackathon,
             @PathVariable Long idSegnalazione) {

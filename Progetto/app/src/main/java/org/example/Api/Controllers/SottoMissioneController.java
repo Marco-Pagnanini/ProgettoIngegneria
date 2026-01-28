@@ -5,6 +5,7 @@ import org.example.Application.Abstraction.Service.ISottoMissioniService;
 import org.example.Core.models.SottoMissione;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class SottoMissioneController {
     }
 
     @PostMapping("/{idHackathon}")
+    @PreAuthorize("hasAnyRole('TEAM_MEMBER', 'TEAM_LEADER')")
     public ResponseEntity<SottoMissione> aggiungiSottoMissione(
             @PathVariable Long idHackathon,
             @RequestBody SottoMissioneRequest request) {

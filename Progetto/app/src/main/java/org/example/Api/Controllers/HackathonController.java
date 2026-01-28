@@ -15,6 +15,7 @@ import org.example.Core.models.Invito;
 import org.example.Core.models.Segnalazione;
 import org.example.Core.models.SottoMissione;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class HackathonController {
     }
 
     @PostMapping("/{idOrganizzatore}")
+    @PreAuthorize("hasRole('ORGANIZZATORE')")
     public ResponseEntity<HackathonResponse> creazioneHackathon(@PathVariable Long idOrganizzatore,@RequestBody HackathonRequest request) {
         if (request == null) {
             return ResponseEntity.badRequest().build();
@@ -51,6 +53,7 @@ public class HackathonController {
     }
 
     @PutMapping("/iscrizione/{idTeam}/{idHackathon}")
+    @PreAuthorize("hasRole('TEAM_LEADER')")
     public ResponseEntity<HackathonResponse> iscrizioneTeam(@PathVariable  Long idTeam, @PathVariable Long idHackathon){
         Hackathon hackathon = hackathonService.iscrizioneTeam(idTeam,idHackathon);
         return ResponseEntity.ok(HackathonMapper.toResponse(hackathon));

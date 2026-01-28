@@ -7,10 +7,12 @@ import org.example.Application.Abstraction.Service.IRispostaService;
 import org.example.Core.models.Risposta;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/risposta")
+@PreAuthorize("hasAnyRole('TEAM_LEADER','TEAM_MEMBER')")
 public class RispostaController {
     private final IRispostaService rispostaService;
 

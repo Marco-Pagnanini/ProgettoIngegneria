@@ -5,10 +5,12 @@ import org.example.Application.Abstraction.Service.IValutazioniService;
 import org.example.Core.models.Valutazione;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/valutazioni")
+@PreAuthorize("hasRole('GIUDICE')")
 public class ValutazioneController {
     private final IValutazioniService valutazioniService;
 

@@ -1,4 +1,4 @@
-package org.example.config;
+package org.example.utils.Facade;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtFacade {
 
     @Value("${jwt.secret}")
     private String secretKey;

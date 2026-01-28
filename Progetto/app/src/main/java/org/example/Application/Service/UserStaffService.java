@@ -8,7 +8,7 @@ import org.example.Api.Models.Request.UserStaffRequest;
 import org.example.Api.Models.Response.TokenResponse;
 import org.example.Application.Abstraction.Service.IUserStaffService;
 import org.example.Core.models.UserStaff;
-import org.example.config.JwtService;
+import org.example.utils.Facade.JwtFacade;
 import org.example.utils.UnitOfWork.IUnitOfWork;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,9 +23,9 @@ public class UserStaffService implements IUserStaffService {
 
     private final IUnitOfWork unitOfWork;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JwtFacade jwtService;
 
-    public UserStaffService(IUnitOfWork unitOfWork, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public UserStaffService(IUnitOfWork unitOfWork, PasswordEncoder passwordEncoder, JwtFacade jwtService) {
         this.unitOfWork = unitOfWork;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;

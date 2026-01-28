@@ -41,7 +41,7 @@ public class SecurityConfig {
                                 "/api-docs/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
-                        // Tutti gli altri endpoint richiedono autenticazione
+                        // Autenticazione
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -49,7 +49,6 @@ public class SecurityConfig {
                 )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                // Necessario per H2 Console (frame)
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
         return http.build();

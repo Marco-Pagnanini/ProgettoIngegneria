@@ -10,6 +10,7 @@ import org.example.Core.models.Team;
 import org.example.Core.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class TeamController {
 
 
     @PutMapping
+    @PreAuthorize("hasRole('TEAM_LEADER')")
     public ResponseEntity<TeamResponse> updateTeam(@RequestBody Team team) {
         if (team == null) {
             return ResponseEntity.badRequest().build();
@@ -63,6 +65,7 @@ public class TeamController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('TEAM_LEADER')")
     public ResponseEntity<TeamResponse> deleteTeam(@PathVariable Long id) {
         Team deleted = teamService.deleteTeam(id);
         if (deleted == null) {

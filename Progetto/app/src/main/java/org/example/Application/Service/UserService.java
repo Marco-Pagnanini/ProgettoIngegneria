@@ -12,7 +12,7 @@ import org.example.Application.Abstraction.Service.IUserService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.models.Invito;
 import org.example.Core.models.User;
-import org.example.config.JwtService;
+import org.example.utils.Facade.JwtFacade;
 import org.example.utils.UnitOfWork.IUnitOfWork;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,10 +29,10 @@ public class UserService implements IUserService {
     private final IUnitOfWork unitOfWork;
     private final Validator<User> validator;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JwtFacade jwtService;
 
     public UserService(IUnitOfWork unitOfWork, Validator<User> validator,
-                       PasswordEncoder passwordEncoder, JwtService jwtService) {
+                       PasswordEncoder passwordEncoder, JwtFacade jwtService) {
         this.unitOfWork = unitOfWork;
         this.validator = validator;
         this.passwordEncoder = passwordEncoder;
