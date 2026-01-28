@@ -6,7 +6,6 @@ public record ScheduleCallRequest(
         String title,
         LocalDateTime dateTime,
         String meetingLink,
-        Long mentorId,
         Long teamId,
         Long hackathonId
 ) {}

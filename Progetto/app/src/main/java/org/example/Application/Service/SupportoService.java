@@ -58,6 +58,6 @@ public class SupportoService implements ISupportoService {
 
         unitOfWork.supportoRepository().update(supporto);
         unitOfWork.saveChanges();
-        return callEventFacade.schedule(request);
+        return callEventFacade.schedule(request, idMentore);
     }
 }

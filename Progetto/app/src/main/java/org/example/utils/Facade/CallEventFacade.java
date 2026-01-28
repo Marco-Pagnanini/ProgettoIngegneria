@@ -18,13 +18,13 @@ public class CallEventFacade {
     private final CallEventRepository repository;
     private final IUnitOfWork unitOfWork;
 
-    public CallEventCalendar schedule(ScheduleCallRequest request) {
+    public CallEventCalendar schedule(ScheduleCallRequest request, Long idMentore) {
         CallEventCalendar call = new CallEventCalendar();
         call.setTitle(request.title());
         call.setDateTime(request.dateTime());
         call.setMeetingLink(request.meetingLink());
 
-        call.setMentor(unitOfWork.userStaffRepository().getById(request.mentorId()));
+        call.setMentor(unitOfWork.userStaffRepository().getById(idMentore));
         call.setTeam(unitOfWork.teamRepository().getById(request.teamId()));
         call.setHackathon(unitOfWork.hackathonRepository().getById(request.hackathonId()));
 
