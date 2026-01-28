@@ -8,7 +8,7 @@ import org.example.Infrastructure.Service.Calendar.ScheduleCallRequest;
 import java.util.List;
 
 public interface ISupportoService {
-    public List<Supporto> visualizzaSupporto(Long idMentore);
+    public List<Supporto> visualizzaSupporto(Long idHackathon);
     public Supporto richiediSupporto(SupportoRequest request);
-    public CallEventCalendar richiediCallEvent(Long idSupporto, ScheduleCallRequest request);
+    public CallEventCalendar richiediCallEvent(Long idMentore,Long idMentore, ScheduleCallRequest request);
 }
