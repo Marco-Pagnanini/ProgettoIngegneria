@@ -10,5 +10,5 @@ import java.util.List;
 public interface ISupportoService {
     public List<Supporto> visualizzaSupporto(Long idHackathon);
     public Supporto richiediSupporto(SupportoRequest request);
-    public CallEventCalendar richiediCallEvent(Long idMentore,Long idMentore, ScheduleCallRequest request);
+    public CallEventCalendar richiediCallEvent(Long idSupporto,Long idMentore, ScheduleCallRequest request);
 }
