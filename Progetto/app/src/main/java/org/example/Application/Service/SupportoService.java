@@ -1,5 +1,7 @@
 package org.example.Application.Service;
 
+import jakarta.xml.bind.ValidationException;
+import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Models.Mapper.SupportoMapper;
 import org.example.Api.Models.Request.SupportoRequest;
 import org.example.Api.Models.Response.SupportoResponse;
@@ -55,7 +57,13 @@ public class SupportoService implements ISupportoService {
     @Override
     public CallEventCalendar richiediCallEvent(Long idSupporto,Long idMentore, ScheduleCallRequest request) {
         Supporto supporto = unitOfWork.supportoRepository().getById(idSupporto);
+        if(supporto == null) {
+            throw new ResourceNotFoundException("Supporto con id" + idSupporto + "non esiste");
+        }
         UserStaff mentore = unitOfWork.userStaffRepository().getById(idMentore);
+        if(mentore == null) {
+            throw new ResourceNotFoundException("Mentore con id" + idSupporto + "non esiste");
+        }
         supporto.setState(SupportoState.PRESA_IN_CARICA);
         supporto.setUserStaff(mentore);
 
