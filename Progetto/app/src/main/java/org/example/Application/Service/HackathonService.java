@@ -5,30 +5,39 @@ import org.example.Api.Exception.ConflictException;
 import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Exception.ValidationException;
 import org.example.Api.Models.Request.HackathonRequest;
+import org.example.Api.Models.Request.PaymentRequest;
 import org.example.Application.Abstraction.Service.IHackathonService;
 import org.example.Application.Abstraction.Validator.Validator;
+import org.example.Core.enums.PaymentType;
 import org.example.Core.enums.State;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Segnalazione;
 import org.example.Core.models.Team;
 import org.example.Core.models.UserStaff;
 import org.example.utils.Builder.HackathonBuilderImplementation;
+import org.example.utils.Strategy.PaymentStrategy;
 import org.example.utils.UnitOfWork.IUnitOfWork;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class HackathonService implements IHackathonService {
 
     private final IUnitOfWork unitOfWork;
     private final Validator<Hackathon> hackathonValidator;
+    private final Map<PaymentType, PaymentStrategy> paymentStrategies;
 
 
-    public HackathonService(IUnitOfWork unitOfWork, Validator<Hackathon> hackathonValidator) {
+    public HackathonService(IUnitOfWork unitOfWork, Validator<Hackathon> hackathonValidator, List<PaymentStrategy> strategies) {
         this.unitOfWork = unitOfWork;
         this.hackathonValidator = hackathonValidator;
+        this.paymentStrategies = strategies.stream()
+                .collect(Collectors.toMap(PaymentStrategy::getType, Function.identity()));
     }
 
     @Override
@@ -161,6 +170,32 @@ public class HackathonService implements IHackathonService {
         List<Hackathon> response =  unitOfWork.hackathonRepository().getAll();
         unitOfWork.saveChanges();
         return  response;
+    }
+
+    @Override
+    public Boolean assegnaVincitore(PaymentType type,Long idTeam, Long idHackathon) {
+        PaymentStrategy strategy = paymentStrategies.get(type);
+        Team vincitore = unitOfWork.teamRepository().getById(idTeam);
+        if(vincitore == null) {
+            throw new ResourceNotFoundException("Team con id " + idTeam + " non trovato");
+        }
+
+        Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
+        if(hackathon == null) {
+            throw new ResourceNotFoundException("Hackathon non trovato");
+        }
+
+        hackathon.setVincitore(vincitore);
+
+        PaymentRequest request = new PaymentRequest();
+        request.setAmount(hackathon.getPremio());
+        request.setTeam(vincitore);
+        if(strategy.pay(request)){
+            return true;
+        }
+        else {
+            throw new BadRequestException("Impossibile pagamento");
+        }
     }
 
     private int numPersone(List<Team> teams){

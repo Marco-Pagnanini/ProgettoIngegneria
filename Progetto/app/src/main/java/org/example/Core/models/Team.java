@@ -23,6 +23,8 @@ public class Team {
     private Long id;
     private String nome;
 
+    private Double saldo = 0.0;
+
     // 1 Team è composto da 1 TeamLeader
     @ManyToOne
     @JoinColumn(name = "team_leader_id")
