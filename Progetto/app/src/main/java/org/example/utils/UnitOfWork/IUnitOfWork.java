@@ -13,6 +13,7 @@ public interface IUnitOfWork {
     IRispostaRepository rispostaRepository();
     IValutazioneRepository valutazioneRepository();
     IUserStaffRepository userStaffRepository();
+    ISupportoRepository supportoRepository();
     void saveChanges();
 
 }

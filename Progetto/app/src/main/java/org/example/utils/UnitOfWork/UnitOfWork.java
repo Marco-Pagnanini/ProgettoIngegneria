@@ -20,6 +20,7 @@ public class UnitOfWork implements IUnitOfWork{
     private IRispostaRepository rispostaRepository;
     private IValutazioneRepository valutazioneRepository;
     private IUserStaffRepository userStaffRepository;
+    private ISupportoRepository supportoRepository;
 
     public UnitOfWork(IHackathonRepository hackathonRepository,
                       ITeamRepository teamRepository,
@@ -29,7 +30,8 @@ public class UnitOfWork implements IUnitOfWork{
                       ISottoMissioneRepository sottoMissioneRepository,
                       IRispostaRepository rispostaRepository,
                       IValutazioneRepository valutazioneRepository,
-                      IUserStaffRepository userStaffRepository
+                      IUserStaffRepository userStaffRepository,
+                      ISupportoRepository supportoRepository
 
     ) {
         this.hackathonRepository = hackathonRepository;
@@ -41,6 +43,7 @@ public class UnitOfWork implements IUnitOfWork{
         this.rispostaRepository = rispostaRepository;
         this.valutazioneRepository = valutazioneRepository;
         this.userStaffRepository = userStaffRepository;
+        this.supportoRepository = supportoRepository;
     }
 
     public IHackathonRepository hackathonRepository() {
@@ -64,6 +67,8 @@ public class UnitOfWork implements IUnitOfWork{
     public ISottoMissioneRepository sottoMissioneRepository() {
         return sottoMissioneRepository;
     }
+
+    public ISupportoRepository supportoRepository(){return supportoRepository;}
 
     @Override
     public void saveChanges() {
