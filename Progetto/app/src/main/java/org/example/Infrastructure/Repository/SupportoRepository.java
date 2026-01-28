@@ -35,7 +35,7 @@ public class SupportoRepository implements ISupportoRepository {
 
     @Override
     public Supporto getById(Long id) {
-        return repository.getReferenceById(id);
+        return repository.findById(id).orElse(null);
     }
 
     @Override

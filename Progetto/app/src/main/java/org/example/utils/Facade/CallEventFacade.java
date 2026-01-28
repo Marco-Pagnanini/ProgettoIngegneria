@@ -12,21 +12,25 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CallEventFacade {
 
     private final CallEventRepository repository;
     private final IUnitOfWork unitOfWork;
 
-    public CallEventCalendar schedule(ScheduleCallRequest request, Long idMentore) {
+    public CallEventFacade(CallEventRepository repository, IUnitOfWork unitOfWork) {
+        this.repository = repository;
+        this.unitOfWork = unitOfWork;
+    }
+
+    public CallEventCalendar schedule(ScheduleCallRequest request, Long idMentore, Long idTeam, Long idHackathon) {
         CallEventCalendar call = new CallEventCalendar();
         call.setTitle(request.title());
         call.setDateTime(request.dateTime());
         call.setMeetingLink(request.meetingLink());
 
         call.setMentor(unitOfWork.userStaffRepository().getById(idMentore));
-        call.setTeam(unitOfWork.teamRepository().getById(request.teamId()));
-        call.setHackathon(unitOfWork.hackathonRepository().getById(request.hackathonId()));
+        call.setTeam(unitOfWork.teamRepository().getById(idTeam));
+        call.setHackathon(unitOfWork.hackathonRepository().getById(idHackathon));
 
         return repository.save(call);
     }

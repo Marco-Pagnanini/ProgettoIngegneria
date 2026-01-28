@@ -1,6 +1,8 @@
 package org.example.Api.Models.Mapper;
 
 import org.example.Api.Models.Request.SupportoRequest;
+import org.example.Api.Models.Response.SupportoResponse;
+import org.example.Core.enums.SupportoState;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Supporto;
 import org.example.Core.models.Team;
@@ -16,7 +18,16 @@ public class SupportoMapper {
 
         supporto.setHackathon(hackathon);
         supporto.setTeam(team);
+        supporto.setState(SupportoState.APERTA);
 
         return supporto;
+    }
+
+    public static SupportoResponse toResponse(Supporto supporto){
+        SupportoResponse response = new SupportoResponse();
+        response.setHackthon(supporto.getHackathon().getNome());
+        response.setTeam(supporto.getTeam().getNome());
+        response.setState(supporto.getState());
+        return response;
     }
 }

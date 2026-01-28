@@ -2,8 +2,8 @@ package org.example.Api.Controllers;
 
 
 import org.example.Api.Models.Request.SupportoRequest;
+import org.example.Api.Models.Response.SupportoResponse;
 import org.example.Application.Abstraction.Service.ISupportoService;
-import org.example.Core.models.Supporto;
 import org.example.Infrastructure.Service.Calendar.CallEventCalendar;
 import org.example.Infrastructure.Service.Calendar.ScheduleCallRequest;
 import org.springframework.http.ResponseEntity;
@@ -21,18 +21,20 @@ public class SupportoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<Supporto>> getSupportoById(@PathVariable Long idMentore) {
+    public ResponseEntity<List<SupportoResponse>> getSupportoById(@PathVariable Long idMentore) {
         return ResponseEntity.ok(supportoService.visualizzaSupporto(idMentore));
     }
 
     @PostMapping("/richiedi_supporto")
-    public ResponseEntity<Supporto> addSupporto(@RequestBody SupportoRequest supporto) {
+    public ResponseEntity<SupportoResponse> addSupporto(@RequestBody SupportoRequest supporto) {
         return ResponseEntity.ok(supportoService.richiediSupporto(supporto));
     }
 
-    @PostMapping("/crea_call/{idSottomissione}/{idMentore}")
-    public ResponseEntity<CallEventCalendar> addCall(@PathVariable Long idMentore,@PathVariable Long idSottomissione, @RequestBody ScheduleCallRequest call) {
-        return ResponseEntity.ok(supportoService.richiediCallEvent(idSottomissione,idMentore,call));
+    @PostMapping("/crea_call/{idSupporto}/{idMentore}")
+    public ResponseEntity<String> addCall(@PathVariable Long idMentore, @PathVariable Long idSupporto, @RequestBody ScheduleCallRequest call) {
+        supportoService.richiediCallEvent(idSupporto,idMentore,call);
+        return ResponseEntity.ok("Call Inviata"
+                );
     }
 
 }

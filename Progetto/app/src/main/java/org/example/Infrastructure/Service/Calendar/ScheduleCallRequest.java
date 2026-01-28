@@ -5,7 +5,5 @@ import java.time.LocalDateTime;
 public record ScheduleCallRequest(
         String title,
         LocalDateTime dateTime,
-        String meetingLink,
-        Long teamId,
-        Long hackathonId
+        String meetingLink
 ) {}

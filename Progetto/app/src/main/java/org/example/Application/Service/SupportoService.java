@@ -2,6 +2,7 @@ package org.example.Application.Service;
 
 import org.example.Api.Models.Mapper.SupportoMapper;
 import org.example.Api.Models.Request.SupportoRequest;
+import org.example.Api.Models.Response.SupportoResponse;
 import org.example.Application.Abstraction.Service.ISupportoService;
 import org.example.Core.enums.SupportoState;
 import org.example.Core.models.Supporto;
@@ -21,16 +22,17 @@ public class SupportoService implements ISupportoService {
     private final IUnitOfWork unitOfWork;
     private CallEventFacade callEventFacade;
 
-    public SupportoService(IUnitOfWork unitOfWork) {
+    public SupportoService(IUnitOfWork unitOfWork, CallEventFacade callEventFacade) {
         this.unitOfWork = unitOfWork;
+        this.callEventFacade = callEventFacade;
     }
 
-    public List<Supporto> visualizzaSupporto(Long idHackathon){
+    public List<SupportoResponse> visualizzaSupporto(Long idHackathon){
         List<Supporto> all = unitOfWork.supportoRepository().getAll();
-        List<Supporto> response = new ArrayList<>();
+        List<SupportoResponse> response = new ArrayList<>();
         for(Supporto supporto : all){
             if(Objects.equals(supporto.getHackathon().getId(), idHackathon)){
-                response.add(supporto);
+                response.add(SupportoMapper.toResponse(supporto));
             }
         }
         unitOfWork.saveChanges();
@@ -39,13 +41,14 @@ public class SupportoService implements ISupportoService {
 
 
     @Override
-    public Supporto richiediSupporto(SupportoRequest request) {
+    public SupportoResponse richiediSupporto(SupportoRequest request) {
         Supporto supporto = SupportoMapper.toEntity(request, unitOfWork);
+
 
         unitOfWork.supportoRepository().create(supporto);
         unitOfWork.saveChanges();
 
-        return supporto;
+        return SupportoMapper.toResponse(supporto);
     }
 
 
@@ -58,6 +61,6 @@ public class SupportoService implements ISupportoService {
 
         unitOfWork.supportoRepository().update(supporto);
         unitOfWork.saveChanges();
-        return callEventFacade.schedule(request, idMentore);
+        return callEventFacade.schedule(request, idMentore, supporto.getHackathon().getId(), supporto.getTeam().getId());
     }
 }
