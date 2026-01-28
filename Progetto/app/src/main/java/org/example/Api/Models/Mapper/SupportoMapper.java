@@ -13,11 +13,9 @@ public class SupportoMapper {
         Supporto supporto = new Supporto();
         Hackathon hackathon = unitOfWork.hackathonRepository().getById(request.getIdHackathon());
         Team team = unitOfWork.teamRepository().getById(request.getIdTeam());
-        UserStaff userStaff = unitOfWork.userStaffRepository().getById(request.getIdMentore());
 
         supporto.setHackathon(hackathon);
         supporto.setTeam(team);
-        supporto.setUserStaff(userStaff);
 
         return supporto;
     }

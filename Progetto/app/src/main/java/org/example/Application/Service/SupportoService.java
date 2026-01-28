@@ -24,11 +24,11 @@ public class SupportoService implements ISupportoService {
         this.unitOfWork = unitOfWork;
     }
 
-    public List<Supporto> visualizzaSupporto(Long idMentore){
+    public List<Supporto> visualizzaSupporto(Long idHackathon){
         List<Supporto> all = unitOfWork.supportoRepository().getAll();
         List<Supporto> response = new ArrayList<>();
-        for(Supporto supporto : response){
-            if(Objects.equals(supporto.getUserStaff().getId(), idMentore)){
+        for(Supporto supporto : all){
+            if(Objects.equals(supporto.getHackathon().getId(), idHackathon)){
                 response.add(supporto);
             }
         }

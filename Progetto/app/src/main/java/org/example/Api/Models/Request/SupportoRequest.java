@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class SupportoRequest {
-    private Long idMentore;
     private Long idHackathon;
     private Long idTeam;
 }
