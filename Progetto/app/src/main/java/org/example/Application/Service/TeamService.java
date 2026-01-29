@@ -98,16 +98,6 @@ public class TeamService implements ITeamService {
     }
 
     @Override
-    public Team deleteTeam(Long id) {
-        Team response = unitOfWork.teamRepository().delete(id);
-        if(response == null) {
-            throw new ResourceNotFoundException("Team con id " + id + " non trovato");
-        }
-        unitOfWork.saveChanges();
-        return response;
-    }
-
-    @Override
     public List<Team> getAllTeams() {
         List<Team> response = unitOfWork.teamRepository().getAll();
         unitOfWork.saveChanges();

@@ -64,14 +64,5 @@ public class TeamController {
         Team updated = teamService.updateTeam(team);
         return ResponseEntity.ok(TeamMapper.toResponse(updated));
     }
-
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('TEAM_LEADER')")
-    public ResponseEntity<TeamResponse> deleteTeam(@PathVariable Long id) {
-        Team deleted = teamService.deleteTeam(id);
-        if (deleted == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(TeamMapper.toResponse(deleted));
-    }
+    
 }
