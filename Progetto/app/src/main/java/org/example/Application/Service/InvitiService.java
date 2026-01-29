@@ -127,7 +127,7 @@ public class InvitiService implements IInvitoService {
         }
 
         utente.setRuolo(RuoloUser.TEAM_MEMBER);
-        unitOfWork.userRepository().update(utente);
+
 
         List<User> membri = unitOfWork.teamRepository().getById(team.getId()).getMembriTeam();
         if(membri == null) {
@@ -137,6 +137,8 @@ public class InvitiService implements IInvitoService {
 
         team.setMembriTeam(membri);
         unitOfWork.teamRepository().update(team);
+        utente.setTeam(team);
+        unitOfWork.userRepository().update(utente);
 
         unitOfWork.saveChanges();
         return invito;
