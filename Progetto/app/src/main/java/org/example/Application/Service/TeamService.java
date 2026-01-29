@@ -68,13 +68,13 @@ public class TeamService implements ITeamService {
 
 
 
-        unitOfWork.teamRepository().create(team);
+        Team createTeam = unitOfWork.teamRepository().create(team);
         leader.setTeam(team);
         unitOfWork.userRepository().update(leader);
 
 
         for(Long id : request.getIdMembriDelTeam()) {
-            invitoService.creaInvito(new InvitoRequest(id,team.getId(), LocalDate.now()));
+            invitoService.creaInvito(new InvitoRequest(team.getId(), id, LocalDate.now()));
         }
 
         unitOfWork.saveChanges();
