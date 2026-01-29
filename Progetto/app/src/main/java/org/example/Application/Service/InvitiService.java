@@ -108,6 +108,9 @@ public class InvitiService implements IInvitoService {
         if(invito == null) {
             throw new ResourceNotFoundException("Invito con id " + idInvito + " non trovato");
         }
+        if(!invito.getStato().equals(StatoInvito.PENDENTE)) {
+            throw new ConflictException("Invito rifiutato");
+        }
         invito.setStato(StatoInvito.ACCETTATO);
         unitOfWork.invitoRepository().update(invito);
 
@@ -149,6 +152,9 @@ public class InvitiService implements IInvitoService {
         Invito invito = unitOfWork.invitoRepository().getById(idInvito);
         if(invito == null) {
             throw new ResourceNotFoundException("Invito con id " + idInvito + " non trovato");
+        }
+        if(!invito.getStato().equals(StatoInvito.PENDENTE)) {
+            throw new ConflictException("Invito rifiutato");
         }
         invito.setStato(StatoInvito.RIFIUTATO);
         unitOfWork.invitoRepository().update(invito);

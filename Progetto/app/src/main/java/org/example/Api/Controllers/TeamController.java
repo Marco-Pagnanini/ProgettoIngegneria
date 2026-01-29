@@ -64,5 +64,5 @@ public class TeamController {
         Team updated = teamService.updateTeam(team);
         return ResponseEntity.ok(TeamMapper.toResponse(updated));
     }
-    
+
 }
