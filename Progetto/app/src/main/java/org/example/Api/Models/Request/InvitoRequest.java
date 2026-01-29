@@ -1,5 +1,6 @@
 package org.example.Api.Models.Request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class InvitoRequest {
     private Long idDelTeam;
     private Long idUtente;

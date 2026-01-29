@@ -1,9 +1,11 @@
 package org.example.Application.Service;
 
+import org.example.Api.Exception.ConflictException;
 import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Exception.ValidationException;
 import org.example.Application.Abstraction.Service.IValutazioniService;
 import org.example.Application.Abstraction.Validator.Validator;
+import org.example.Core.enums.State;
 import org.example.Core.models.Risposta;
 import org.example.Core.models.Valutazione;
 import org.example.utils.UnitOfWork.IUnitOfWork;
@@ -25,6 +27,9 @@ public class ValutazioneService implements IValutazioniService {
         if(risposta == null) {
             throw new ResourceNotFoundException("Risposta con id " + idRisposta + " non trovata");
         }
+
+        if(risposta.getHackathon().getStato() != State.IN_VALUTAZIONE)
+            throw new ConflictException("Hackathon non in stato di valutazione");
 
         Valutazione valutazione = new Valutazione();
         valutazione.setRisposta(risposta);

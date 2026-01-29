@@ -1,11 +1,13 @@
 package org.example.Application.Service;
 
 import org.example.Api.Exception.BadRequestException;
+import org.example.Api.Exception.ConflictException;
 import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Exception.ValidationException;
 import org.example.Api.Models.Request.SegnalazioneRequest;
 import org.example.Application.Abstraction.Service.ISegnalazioneService;
 import org.example.Application.Abstraction.Validator.Validator;
+import org.example.Core.enums.State;
 import org.example.Core.enums.StatoSegnalazione;
 import org.example.Core.models.*;
 import org.example.utils.UnitOfWork.IUnitOfWork;
@@ -30,6 +32,9 @@ public class SegnalazioneService implements ISegnalazioneService {
         if(hackathon == null) {
             throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
         }
+
+        if(hackathon.getStato() != State.IN_CORSO)
+            throw new ConflictException("Hackthon non in corso");
 
         Team team = unitOfWork.teamRepository().getById(request.getIdTeamSegnalazione());
         if (team == null) {
@@ -73,6 +78,9 @@ public class SegnalazioneService implements ISegnalazioneService {
             throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
         }
 
+        if(hackathon.getStato() != State.IN_CORSO)
+            throw new ConflictException("Hackthon non in corso");
+
         Segnalazione toRemove = null;
         for(Segnalazione s : hackathon.getSegnalazioni()) {
             if(s.getId().equals(idSegnalazione)) {
@@ -98,6 +106,10 @@ public class SegnalazioneService implements ISegnalazioneService {
         if(hackathon == null) {
             throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
         }
+
+        if(hackathon.getStato() != State.IN_CORSO && hackathon.getStato() != State.IN_VALUTAZIONE)
+            throw new ConflictException("Hackthon non in corso");
+
         unitOfWork.saveChanges();
 
         for(Segnalazione s : hackathon.getSegnalazioni()) {
@@ -109,6 +121,10 @@ public class SegnalazioneService implements ISegnalazioneService {
         return null;
     }
 
+    /**
+     * METODO DI TEST
+     * @return
+     */
     @Override
     public List<Segnalazione> getAllSegnalazioni() {
         List<Segnalazione> response =  unitOfWork.segnalazioneRepository().getAll();
@@ -122,6 +138,11 @@ public class SegnalazioneService implements ISegnalazioneService {
         if(hackathon == null) {
             throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
         }
+
+
+        if(hackathon.getStato() != State.IN_CORSO)
+            throw new ConflictException("Hackthon non in corso");
+
         unitOfWork.saveChanges();
         return hackathon.getSegnalazioni();
     }

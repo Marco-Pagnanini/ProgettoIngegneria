@@ -52,7 +52,15 @@ public class InvitiService implements IInvitoService {
             throw new ValidationException("Dati invito non validi");
         }
 
+        /**
+         * Logica per aggiungere gli inviti all'utente
+         */
         Invito response = unitOfWork.invitoRepository().create(invito);
+        List<Invito> invitiUtente = user.getInviti();
+        invitiUtente.add(invito);
+        user.setInviti(invitiUtente);
+        unitOfWork.userRepository().update(user);
+
         unitOfWork.saveChanges();
         return response;
     }
