@@ -1,5 +1,6 @@
 package org.example.Application.Service;
 
+import jakarta.validation.ConstraintViolationException;
 import org.example.Api.Exception.BadRequestException;
 import org.example.Api.Exception.ConflictException;
 import org.example.Api.Exception.ResourceNotFoundException;
@@ -130,9 +131,20 @@ public class HackathonService implements IHackathonService {
             throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
         }
 
+        if(hackathon.getStato() != State.IN_ISCRIZIONE) throw new ValidationException("Stato non in iscrizione");
+
         Team toFind = unitOfWork.teamRepository().getById(idTeam);
         if(toFind == null) {
             throw new ResourceNotFoundException("Team con id " + idTeam + " non trovato");
+        }
+
+        if(toFind.getHackathons().contains(hackathon)) {
+            throw new ConflictException("Hackathon non trovato");
+        }
+
+        for(Hackathon hackathon1 : toFind.getHackathons()) {
+            if(hackathon.getDataInizio().isAfter(hackathon1.getDataInizio()) && hackathon.getDataFine().isBefore(hackathon1.getDataFine()))
+                throw new ConflictException("Team Già Iscritto");
         }
 
         if(hackathon.getStato() != State.IN_ISCRIZIONE) {
@@ -184,6 +196,8 @@ public class HackathonService implements IHackathonService {
         if(hackathon == null) {
             throw new ResourceNotFoundException("Hackathon non trovato");
         }
+
+        if(hackathon.getStato() != State.CONCLUSO) throw new ValidationException("Stato non concluso");
 
         hackathon.setVincitore(vincitore);
 

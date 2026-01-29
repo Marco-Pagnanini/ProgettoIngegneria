@@ -74,4 +74,5 @@ public class User {
     @OneToMany(mappedBy = "perUtente")
     private List<Invito> inviti = new ArrayList<>();
 
+
 }

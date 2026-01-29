@@ -1,13 +1,16 @@
 package org.example.Application.Service;
 
 import org.example.Api.Exception.BadRequestException;
+import org.example.Api.Exception.ConflictException;
 import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Exception.ValidationException;
 import org.example.Api.Models.Request.InvitoRequest;
 import org.example.Application.Abstraction.Service.IInvitoService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.enums.RuoloUser;
+import org.example.Core.enums.State;
 import org.example.Core.enums.StatoInvito;
+import org.example.Core.models.Hackathon;
 import org.example.Core.models.Invito;
 import org.example.Core.models.Team;
 import org.example.Core.models.User;
@@ -108,6 +111,11 @@ public class InvitiService implements IInvitoService {
         }
         if(team == null) {
             throw new BadRequestException("Team associato all'invito non trovato");
+        }
+
+        for(Hackathon hackathon : team.getHackathons()) {
+            if(hackathon.getStato().equals(State.IN_CORSO))
+                throw new ConflictException("Hackathon stato in corso");
         }
 
         utente.setRuolo(RuoloUser.TEAM_MEMBER);

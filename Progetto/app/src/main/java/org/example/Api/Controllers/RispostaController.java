@@ -20,6 +20,7 @@ public class RispostaController {
         this.rispostaService = rispostaService;
     }
 
+    @PreAuthorize("hasAnyRole('TEAM_MEMBER','TEAM_LEADER')")
     @PostMapping
     public ResponseEntity<RispostaResponse> inviaRisposta(@RequestBody RispostaRequest request) {
         if (request == null) {
@@ -29,6 +30,7 @@ public class RispostaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(RispostaMapper.toResponse(risposta));
     }
 
+    @PreAuthorize("hasAnyRole('TEAM_MEMBER','TEAM_LEADER')")
     @PutMapping
     public ResponseEntity<Risposta> aggiornaRisposta(@RequestBody RispostaRequest request) {
         if (request == null || request.getIdRisposta() == null) {

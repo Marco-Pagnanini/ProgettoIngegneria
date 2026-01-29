@@ -20,7 +20,7 @@ public class SottoMissioneController {
     }
 
     @PostMapping("/{idHackathon}")
-    @PreAuthorize("hasAnyRole('TEAM_MEMBER', 'TEAM_LEADER')")
+    @PreAuthorize("hasRole('ORGANIZZATORE')")
     public ResponseEntity<SottoMissione> aggiungiSottoMissione(
             @PathVariable Long idHackathon,
             @RequestBody SottoMissioneRequest request) {
@@ -31,6 +31,7 @@ public class SottoMissioneController {
         return ResponseEntity.status(HttpStatus.CREATED).body(sottoMissione);
     }
 
+    @PreAuthorize("hasAnyRole('TEAM_MEMBER','TEAM_LEADER','ORGANIZZATORE','MENTORE', GIUDICE)")
     @GetMapping("/{idHackathon}")
     public ResponseEntity<List<SottoMissione>> visualizzaSottoMissione(@PathVariable Long idHackathon) {
         List<SottoMissione> sottoMissioni = sottoMissioniService.visualizzaSottoMissione(idHackathon);

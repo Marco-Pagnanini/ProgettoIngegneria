@@ -1,12 +1,15 @@
 package org.example.Application.Service;
 
 import org.example.Api.Exception.BadRequestException;
+import org.example.Api.Exception.ConflictException;
 import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Exception.ValidationException;
 import org.example.Api.Models.Mapper.RispostaMapper;
 import org.example.Api.Models.Request.RispostaRequest;
 import org.example.Application.Abstraction.Service.IRispostaService;
 import org.example.Application.Abstraction.Validator.Validator;
+import org.example.Core.enums.State;
+import org.example.Core.models.Hackathon;
 import org.example.Core.models.Risposta;
 import org.example.utils.UnitOfWork.IUnitOfWork;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,10 @@ public class RispostaService implements IRispostaService {
     public Risposta inviaRisposta(RispostaRequest request) {
         Risposta risposta = new RispostaMapper(unitOfWork).toEntity(request);
 
+        if(checkStatoInCorso(request))
+            throw new ConflictException("Hackathon non in corso");
+
+
         if(!validator.validate(risposta)) {
             throw new ValidationException("Dati risposta non validi");
         }
@@ -42,6 +49,8 @@ public class RispostaService implements IRispostaService {
         if (request.getRisposta() == null) {
             throw new BadRequestException("Testo risposta mancante");
         }
+        if(checkStatoInCorso(request))
+            throw new ConflictException("Hackathon non in corso");
 
         Risposta risposta = unitOfWork.rispostaRepository().getById(request.getIdRisposta());
         if(risposta == null) {
@@ -56,5 +65,10 @@ public class RispostaService implements IRispostaService {
         Risposta aggiornata = unitOfWork.rispostaRepository().update(risposta);
         unitOfWork.saveChanges();
         return aggiornata;
+    }
+
+    public boolean checkStatoInCorso(RispostaRequest request){
+        Hackathon hackathon = unitOfWork.hackathonRepository().getById(request.getIdHackathon());
+        return hackathon.getStato() != State.IN_CORSO;
     }
 }

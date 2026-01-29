@@ -26,6 +26,7 @@ public class TeamController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('UTENTE_NON_ISCRITTO')")
     public ResponseEntity<String> addTeam(@RequestBody TeamRequest request) {
         if (request == null) {
             return ResponseEntity.badRequest().build();

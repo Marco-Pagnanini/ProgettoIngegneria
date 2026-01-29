@@ -38,8 +38,8 @@ public class SegnalazioneController {
         return ResponseEntity.status(HttpStatus.CREATED).body(SegnalazioneMapper.toResponse(segnalazione));
     }
 
+    @PreAuthorize("hasAnyRole('ORGANIZZATORE')")
     @GetMapping("/{idHackathon}")
-
     public ResponseEntity<List<SegnalazioneResponse>> getAllSegnalazioni(@PathVariable Long idHackathon) {
         List<Segnalazione> segnalazione = segnalazioneService.getAllSegnalazioni();
         List<SegnalazioneResponse> response = new ArrayList<>();
