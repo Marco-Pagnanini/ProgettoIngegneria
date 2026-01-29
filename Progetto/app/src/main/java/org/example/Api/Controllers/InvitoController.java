@@ -34,7 +34,7 @@ public class InvitoController {
     }
 
     @GetMapping("/{idInvito}")
-    @PreAuthorize("hasRole('UTENTE_NON_ISCRITTO')")
+    @PreAuthorize("hasAnyRole('UTENTE_NON_ISCRITTO', 'TEAM_MEMBER', 'TEAM_LEADER')")
     public ResponseEntity<InvitoResponse> getInvitoById(@PathVariable Long idInvito) {
         Invito invito = invitoService.getInvitoById(idInvito);
         return ResponseEntity.ok(InvitoMapper.toResponse(invito));
