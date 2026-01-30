@@ -1,12 +1,15 @@
 package org.example.Application.Service;
 
 import jakarta.xml.bind.ValidationException;
+import org.example.Api.Exception.ConflictException;
 import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Models.Mapper.SupportoMapper;
 import org.example.Api.Models.Request.SupportoRequest;
 import org.example.Api.Models.Response.SupportoResponse;
 import org.example.Application.Abstraction.Service.ISupportoService;
+import org.example.Core.enums.State;
 import org.example.Core.enums.SupportoState;
+import org.example.Core.models.Hackathon;
 import org.example.Core.models.Supporto;
 import org.example.Core.models.UserStaff;
 import org.example.Infrastructure.Service.Calendar.CallEventCalendar;
@@ -30,6 +33,11 @@ public class SupportoService implements ISupportoService {
     }
 
     public List<SupportoResponse> visualizzaSupporto(Long idHackathon){
+        Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
+
+        if(hackathon.getStato() != State.IN_CORSO)
+            throw new ConflictException("Hackathon non è in corso");
+
         List<Supporto> all = unitOfWork.supportoRepository().getAll();
         List<SupportoResponse> response = new ArrayList<>();
         for(Supporto supporto : all){
@@ -41,12 +49,13 @@ public class SupportoService implements ISupportoService {
         return response;
     }
 
-
     @Override
     public SupportoResponse richiediSupporto(SupportoRequest request) {
+        Hackathon hackathon = unitOfWork.hackathonRepository().getById(request.getIdHackathon());
+        if(hackathon.getStato() != State.IN_CORSO)
+            throw new ConflictException("Hackathon non in Corso");
+
         Supporto supporto = SupportoMapper.toEntity(request, unitOfWork);
-
-
         unitOfWork.supportoRepository().create(supporto);
         unitOfWork.saveChanges();
 
@@ -56,10 +65,15 @@ public class SupportoService implements ISupportoService {
 
     @Override
     public CallEventCalendar richiediCallEvent(Long idSupporto,Long idMentore, ScheduleCallRequest request) {
+
         Supporto supporto = unitOfWork.supportoRepository().getById(idSupporto);
         if(supporto == null) {
             throw new ResourceNotFoundException("Supporto con id" + idSupporto + "non esiste");
         }
+
+        if(supporto.getHackathon().getStato() != State.IN_CORSO)
+            throw new ConflictException("Hackathon non in Corso");
+
         UserStaff mentore = unitOfWork.userStaffRepository().getById(idMentore);
         if(mentore == null) {
             throw new ResourceNotFoundException("Mentore con id" + idSupporto + "non esiste");

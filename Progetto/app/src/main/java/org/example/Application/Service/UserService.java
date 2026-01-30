@@ -120,4 +120,9 @@ public class UserService implements IUserService {
         return deleted;
     }
 
+    @Override
+    public User getById(Long id) {
+        return unitOfWork.userRepository().getById(id);
+    }
+
 }

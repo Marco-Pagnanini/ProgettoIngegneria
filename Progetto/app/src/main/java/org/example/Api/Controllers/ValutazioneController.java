@@ -19,6 +19,7 @@ public class ValutazioneController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('GIUDICE')")
     public ResponseEntity<Valutazione> valutaSottoMissione(@RequestBody ValutazioneRequest request) {
         if (request == null || request.getIdRisposta() == null || request.getPunteggio() == null) {
             return ResponseEntity.badRequest().build();

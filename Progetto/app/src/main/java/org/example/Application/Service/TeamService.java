@@ -1,9 +1,12 @@
 package org.example.Application.Service;
 
 import org.example.Api.Exception.BadRequestException;
+import org.example.Api.Exception.ConflictException;
 import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Exception.ValidationException;
+import org.example.Api.Models.Request.InvitoRequest;
 import org.example.Api.Models.Request.TeamRequest;
+import org.example.Application.Abstraction.Service.IInvitoService;
 import org.example.Application.Abstraction.Service.ITeamService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.enums.RuoloUser;
@@ -12,6 +15,8 @@ import org.example.Core.models.User;
 import org.example.utils.UnitOfWork.IUnitOfWork;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +25,12 @@ public class TeamService implements ITeamService {
 
     private final IUnitOfWork unitOfWork;
     private final Validator<Team> validator;
+    private final IInvitoService invitoService;
 
-    public TeamService(IUnitOfWork unitOfWork, Validator<Team> validator) {
+    public TeamService(IUnitOfWork unitOfWork, Validator<Team> validator, IInvitoService invitoService) {
         this.unitOfWork = unitOfWork;
         this.validator = validator;
+        this.invitoService = invitoService;
     }
 
 
@@ -35,6 +42,8 @@ public class TeamService implements ITeamService {
         if(leader == null) {
             throw new ResourceNotFoundException("Team leader con id " + request.getIdTeamLeader() + " non trovato");
         }
+
+        if(leader.getTeam() != null) throw new ConflictException("Già in un Team");
 
         //TODO InvitoService per inviare l'invito
         List<User> membriDelTeam = new ArrayList<>();
@@ -62,32 +71,34 @@ public class TeamService implements ITeamService {
 
 
 
-        unitOfWork.teamRepository().create(team);
+        Team createTeam = unitOfWork.teamRepository().create(team);
         leader.setTeam(team);
         unitOfWork.userRepository().update(leader);
+
+
+        for(Long id : request.getIdMembriDelTeam()) {
+            invitoService.creaInvito(new InvitoRequest(team.getId(), id, LocalDate.now()));
+        }
+
         unitOfWork.saveChanges();
 
         return team;
     }
 
+    /**
+     * FIX Team with TeamRequest
+     * @return
+     */
     @Override
-    public Team updateTeam(Team team) {
-        if(!validator.validate(team)) {
-            throw new ValidationException("Dati team non validi");
-        }
-        unitOfWork.teamRepository().update(team);
+    public Team updateTeam(Long idUser, Long idTeam) {
+        User member = unitOfWork.userRepository().getById(idUser);
+        Team team = unitOfWork.teamRepository().getById(idTeam);
+        team.getMembriTeam().add(member);
+
+        invitoService.creaInvito(new InvitoRequest(team.getId(), idUser, LocalDate.now()));
+
         unitOfWork.saveChanges();
         return team;
-    }
-
-    @Override
-    public Team deleteTeam(Long id) {
-        Team response = unitOfWork.teamRepository().delete(id);
-        if(response == null) {
-            throw new ResourceNotFoundException("Team con id " + id + " non trovato");
-        }
-        unitOfWork.saveChanges();
-        return response;
     }
 
     @Override

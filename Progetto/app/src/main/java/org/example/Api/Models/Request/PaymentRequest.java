@@ -1,17 +1,14 @@
 package org.example.Api.Models.Request;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.Core.models.Team;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class RispostaRequest {
-    private Long idHackathon;
-    private Long idTeam;
-    private Long idSottomissione;
-    private String risposta;
-
+public class PaymentRequest {
+    private Double amount;
+    private Team team;
 }

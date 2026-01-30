@@ -37,6 +37,6 @@ public class Segnalazione {
     @JoinColumn(name = "hackathon_id")
     private Hackathon hackathon;
 
-    private LocalDateTime dataCreazione;
+    private LocalDateTime dataCreazione = LocalDateTime.now();
 
 }

@@ -1,13 +1,16 @@
 package org.example.Application.Service;
 
 import org.example.Api.Exception.BadRequestException;
+import org.example.Api.Exception.ConflictException;
 import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Exception.ValidationException;
 import org.example.Api.Models.Request.InvitoRequest;
 import org.example.Application.Abstraction.Service.IInvitoService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.enums.RuoloUser;
+import org.example.Core.enums.State;
 import org.example.Core.enums.StatoInvito;
+import org.example.Core.models.Hackathon;
 import org.example.Core.models.Invito;
 import org.example.Core.models.Team;
 import org.example.Core.models.User;
@@ -49,7 +52,15 @@ public class InvitiService implements IInvitoService {
             throw new ValidationException("Dati invito non validi");
         }
 
+        /**
+         * Logica per aggiungere gli inviti all'utente
+         */
         Invito response = unitOfWork.invitoRepository().create(invito);
+        List<Invito> invitiUtente = user.getInviti();
+        invitiUtente.add(invito);
+        user.setInviti(invitiUtente);
+        unitOfWork.userRepository().update(user);
+
         unitOfWork.saveChanges();
         return response;
     }
@@ -97,6 +108,9 @@ public class InvitiService implements IInvitoService {
         if(invito == null) {
             throw new ResourceNotFoundException("Invito con id " + idInvito + " non trovato");
         }
+        if(!invito.getStato().equals(StatoInvito.PENDENTE)) {
+            throw new ConflictException("Invito rifiutato");
+        }
         invito.setStato(StatoInvito.ACCETTATO);
         unitOfWork.invitoRepository().update(invito);
 
@@ -110,8 +124,13 @@ public class InvitiService implements IInvitoService {
             throw new BadRequestException("Team associato all'invito non trovato");
         }
 
+        for(Hackathon hackathon : team.getHackathons()) {
+            if(hackathon.getStato().equals(State.IN_CORSO))
+                throw new ConflictException("Hackathon stato in corso");
+        }
+
         utente.setRuolo(RuoloUser.TEAM_MEMBER);
-        unitOfWork.userRepository().update(utente);
+
 
         List<User> membri = unitOfWork.teamRepository().getById(team.getId()).getMembriTeam();
         if(membri == null) {
@@ -121,6 +140,8 @@ public class InvitiService implements IInvitoService {
 
         team.setMembriTeam(membri);
         unitOfWork.teamRepository().update(team);
+        utente.setTeam(team);
+        unitOfWork.userRepository().update(utente);
 
         unitOfWork.saveChanges();
         return invito;
@@ -131,6 +152,9 @@ public class InvitiService implements IInvitoService {
         Invito invito = unitOfWork.invitoRepository().getById(idInvito);
         if(invito == null) {
             throw new ResourceNotFoundException("Invito con id " + idInvito + " non trovato");
+        }
+        if(!invito.getStato().equals(StatoInvito.PENDENTE)) {
+            throw new ConflictException("Invito rifiutato");
         }
         invito.setStato(StatoInvito.RIFIUTATO);
         unitOfWork.invitoRepository().update(invito);

@@ -27,17 +27,18 @@ public class SottoMissioniService implements ISottoMissioniService {
     @Override
     public SottoMissione createSottoMissione(Long idHackathon, SottoMissioneRequest request) {
         SottoMissione sottoMissione = SottoMissioneMapper.toEntity(request);
+        Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
 
+        if(hackathon == null) {
+            throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
+        }
+
+        sottoMissione.setHackathon(hackathon);
         if(!validator.validate(sottoMissione)) {
             throw new ValidationException("Dati sottomissione non validi");
         }
 
         SottoMissione response = unitOfWork.sottoMissioneRepository().create(sottoMissione);
-
-        Hackathon hackathon = unitOfWork.hackathonRepository().getById(idHackathon);
-        if(hackathon == null) {
-            throw new ResourceNotFoundException("Hackathon con id " + idHackathon + " non trovato");
-        }
 
         hackathon.getSottoMissioni().add(response);
         unitOfWork.hackathonRepository().update(hackathon);

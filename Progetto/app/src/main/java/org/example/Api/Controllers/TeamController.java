@@ -3,6 +3,7 @@ package org.example.Api.Controllers;
 import org.example.Api.Models.Mapper.TeamMapper;
 import org.example.Api.Models.Mapper.UserMapper;
 import org.example.Api.Models.Request.TeamRequest;
+import org.example.Api.Models.Request.UserRequest;
 import org.example.Api.Models.Response.TeamResponse;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.ITeamService;
@@ -26,6 +27,7 @@ public class TeamController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('UTENTE_NON_ISCRITTO')")
     public ResponseEntity<String> addTeam(@RequestBody TeamRequest request) {
         if (request == null) {
             return ResponseEntity.badRequest().build();
@@ -56,21 +58,12 @@ public class TeamController {
 
     @PutMapping
     @PreAuthorize("hasRole('TEAM_LEADER')")
-    public ResponseEntity<TeamResponse> updateTeam(@RequestBody Team team) {
-        if (team == null) {
+    public ResponseEntity<TeamResponse> invitaUtente(@RequestBody Long idUser, Long idTeam) {
+        if (idUser == null) {
             return ResponseEntity.badRequest().build();
         }
-        Team updated = teamService.updateTeam(team);
+        Team updated = teamService.updateTeam(idUser, idTeam);
         return ResponseEntity.ok(TeamMapper.toResponse(updated));
     }
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('TEAM_LEADER')")
-    public ResponseEntity<TeamResponse> deleteTeam(@PathVariable Long id) {
-        Team deleted = teamService.deleteTeam(id);
-        if (deleted == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(TeamMapper.toResponse(deleted));
-    }
 }

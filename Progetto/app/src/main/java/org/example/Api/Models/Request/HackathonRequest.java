@@ -27,7 +27,6 @@ public class HackathonRequest {
     private Integer dimensioneMinimaTeam;
     private Integer numeroMassimoPersone;
     private Integer numeroMinimoPersone;
-    private Long idOrganizzatore;
     private Long idGiudice;
     private List<Long> idMentori;
 

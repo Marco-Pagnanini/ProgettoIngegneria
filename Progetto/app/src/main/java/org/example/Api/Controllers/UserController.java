@@ -4,12 +4,15 @@ import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.example.Api.Exception.BadRequestException;
 import org.example.Api.Exception.UnauthorizedException;
+import org.example.Api.Models.Mapper.HackathonMapper;
 import org.example.Api.Models.Mapper.UserMapper;
 import org.example.Api.Models.Request.UserLoginRequest;
 import org.example.Api.Models.Request.UserRequest;
+import org.example.Api.Models.Response.HackathonResponse;
 import org.example.Api.Models.Response.TokenResponse;
 import org.example.Api.Models.Response.UserResponse;
 import org.example.Application.Abstraction.Service.IUserService;
+import org.example.Core.models.Hackathon;
 import org.example.Core.models.Invito;
 import org.example.Core.models.User;
 import org.springframework.http.HttpStatus;
@@ -82,8 +85,19 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("isAuthenticated")
+    @GetMapping("hackathons/{idUtente}")
+    public ResponseEntity<List<HackathonResponse>> getHackathons(Long idUtente) {
+        List<Hackathon> hackathons = userService.getById(idUtente).getTeam().getHackathons();
+        List<HackathonResponse> response = new ArrayList<>();
+        for (Hackathon hackathon : hackathons) {
+            response.add(HackathonMapper.toResponse(hackathon));
+        }
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('')")
+    @PreAuthorize("hasRole('ORGANIZZATORE,GIUDICE,MENTORE')")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         try {
             userService.deleteById(id);

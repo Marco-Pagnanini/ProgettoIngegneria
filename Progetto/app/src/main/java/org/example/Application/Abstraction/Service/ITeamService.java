@@ -7,8 +7,7 @@ import java.util.List;
 
 public interface ITeamService {
     Team creazioneTeam(TeamRequest team);
-    Team updateTeam(Team team);
-    Team deleteTeam(Long id);
+    Team updateTeam(Long idUser, Long idTeam);
     List<Team> getAllTeams();
     Team getTeamById(Long id);
 }

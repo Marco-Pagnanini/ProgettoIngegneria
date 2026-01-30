@@ -41,6 +41,7 @@ public class User {
      * email dell'utente
      * future implementazioni : validatore per l'email
      */
+    @Column(unique = true)
     private String email;
     /**
      * password crittografata dell'utente
@@ -73,5 +74,6 @@ public class User {
     // 1 User riceve Molti Inviti
     @OneToMany(mappedBy = "perUtente")
     private List<Invito> inviti = new ArrayList<>();
+
 
 }

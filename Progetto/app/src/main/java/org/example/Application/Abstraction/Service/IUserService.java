@@ -22,4 +22,6 @@ public interface IUserService {
 
     User deleteById(Long id);
 
+    User getById(Long id);
+
 }
