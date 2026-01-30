@@ -6,16 +6,20 @@ import org.example.Api.Models.Mapper.HackathonMapper;
 import org.example.Api.Models.Mapper.InvitoMapper;
 import org.example.Api.Models.Mapper.SegnalazioneMapper;
 import org.example.Api.Models.Request.HackathonRequest;
+import org.example.Api.Models.Request.PaymentRequest;
 import org.example.Api.Models.Response.HackathonResponse;
 import org.example.Api.Models.Response.InvitoResponse;
+import org.example.Api.Models.Response.TeamResponse;
 import org.example.Application.Abstraction.Service.IHackathonService;
 import org.example.Application.Abstraction.Validator.Validator;
+import org.example.Core.enums.PaymentType;
 import org.example.Core.models.Hackathon;
 import org.example.Core.models.Invito;
 import org.example.Core.models.Segnalazione;
 import org.example.Core.models.SottoMissione;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -64,6 +68,11 @@ public class HackathonController {
     public ResponseEntity<HackathonResponse> visualizzaHackathonById(@PathVariable Long idHackathon) {
         Hackathon hackathon =  hackathonService.getHackathonById(idHackathon);
         return ResponseEntity.ok(HackathonMapper.toResponse(hackathon));
+    }
+
+    @PostMapping("/vincitore/{idTeam}/{idHackathon}")
+    public ResponseEntity<Boolean> assegnaVincitore(@PathVariable Long idTeam, Long idHackathon, @RequestBody PaymentType paymentType){
+        return ResponseEntity.ok(hackathonService.assegnaVincitore(paymentType,idTeam,idHackathon));
     }
 
 }

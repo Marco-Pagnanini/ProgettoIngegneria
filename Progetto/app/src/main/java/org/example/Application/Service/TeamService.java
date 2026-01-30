@@ -1,6 +1,7 @@
 package org.example.Application.Service;
 
 import org.example.Api.Exception.BadRequestException;
+import org.example.Api.Exception.ConflictException;
 import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Exception.ValidationException;
 import org.example.Api.Models.Request.InvitoRequest;
@@ -41,6 +42,8 @@ public class TeamService implements ITeamService {
         if(leader == null) {
             throw new ResourceNotFoundException("Team leader con id " + request.getIdTeamLeader() + " non trovato");
         }
+
+        if(leader.getTeam() != null) throw new ConflictException("Già in un Team");
 
         //TODO InvitoService per inviare l'invito
         List<User> membriDelTeam = new ArrayList<>();
@@ -84,15 +87,16 @@ public class TeamService implements ITeamService {
 
     /**
      * FIX Team with TeamRequest
-     * @param team
      * @return
      */
     @Override
-    public Team updateTeam(Team team) {
-        if(!validator.validate(team)) {
-            throw new ValidationException("Dati team non validi");
-        }
-        unitOfWork.teamRepository().update(team);
+    public Team updateTeam(Long idUser, Long idTeam) {
+        User member = unitOfWork.userRepository().getById(idUser);
+        Team team = unitOfWork.teamRepository().getById(idTeam);
+        team.getMembriTeam().add(member);
+
+        invitoService.creaInvito(new InvitoRequest(team.getId(), idUser, LocalDate.now()));
+
         unitOfWork.saveChanges();
         return team;
     }

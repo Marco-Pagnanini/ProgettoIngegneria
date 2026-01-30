@@ -31,12 +31,12 @@ public class RispostaController {
     }
 
     @PreAuthorize("hasAnyRole('TEAM_MEMBER','TEAM_LEADER')")
-    @PutMapping
-    public ResponseEntity<Risposta> aggiornaRisposta(@RequestBody RispostaRequest request) {
-        if (request == null || request.getIdRisposta() == null) {
+    @PutMapping("/{idRisposta}")
+    public ResponseEntity<RispostaResponse> aggiornaRisposta(@RequestBody RispostaRequest request, @PathVariable Long idRisposta) {
+        if (request == null || idRisposta == null) {
             return ResponseEntity.badRequest().build();
         }
-        Risposta risposta = rispostaService.aggiornaRisposta(request);
-        return ResponseEntity.ok(risposta);
+        Risposta risposta = rispostaService.aggiornaRisposta(request, idRisposta);
+        return ResponseEntity.ok(RispostaMapper.toResponse(risposta));
     }
 }

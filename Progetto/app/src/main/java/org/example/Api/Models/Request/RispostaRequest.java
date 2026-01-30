@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RispostaRequest {
-    private Long idRisposta;
     private Long idHackathon;
     private Long idTeam;
     private Long idSottomissione;

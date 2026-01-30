@@ -42,8 +42,8 @@ public class RispostaService implements IRispostaService {
     }
 
     @Override
-    public Risposta aggiornaRisposta(RispostaRequest request) {
-        if (request == null || request.getIdRisposta() == null) {
+    public Risposta aggiornaRisposta(RispostaRequest request, Long idRisposta) {
+        if (request == null || idRisposta == null) {
             throw new BadRequestException("Id risposta mancante");
         }
         if (request.getRisposta() == null) {
@@ -52,9 +52,9 @@ public class RispostaService implements IRispostaService {
         if(checkStatoInCorso(request))
             throw new ConflictException("Hackathon non in corso");
 
-        Risposta risposta = unitOfWork.rispostaRepository().getById(request.getIdRisposta());
+        Risposta risposta = unitOfWork.rispostaRepository().getById(idRisposta);
         if(risposta == null) {
-            throw new ResourceNotFoundException("Risposta con id " + request.getIdRisposta() + " non trovata");
+            throw new ResourceNotFoundException("Risposta con id " + idRisposta + " non trovata");
         }
         risposta.setTesto(request.getRisposta());
 

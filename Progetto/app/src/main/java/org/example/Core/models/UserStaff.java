@@ -41,6 +41,7 @@ public class UserStaff {
      * email dell'utente
      * future implementazioni : validatore per l'email
      */
+    @Column(unique = true)
     private String email;
     /**
      * password crittografata dell'utente

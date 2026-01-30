@@ -95,6 +95,7 @@ public class SegnalazioneService implements ISegnalazioneService {
 
         hackathon.getSegnalazioni().remove(toRemove);
         unitOfWork.hackathonRepository().update(hackathon);
+        unitOfWork.segnalazioneRepository().delete(toRemove.getId());
         unitOfWork.saveChanges();
 
         return toRemove;
