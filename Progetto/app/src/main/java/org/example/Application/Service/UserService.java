@@ -75,10 +75,10 @@ public class UserService implements IUserService {
         if(request == null || request.getEmail() == null || request.getPassword() == null)
             throw new ValidationException("Email e password sono obbligatorie");
         User user = unitOfWork.userRepository().findByEmail(request.getEmail())
-                .orElseThrow(() -> new UnauthorizedException("Credenziali non valide"));
+                .orElseThrow(() -> new UnauthorizedException("Email non valida"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new UnauthorizedException("Password o email errati");
+            throw new UnauthorizedException("Password errati");
         }
 
         // Crea UserDetails per generare il token
