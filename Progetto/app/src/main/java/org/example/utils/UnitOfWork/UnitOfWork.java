@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class UnitOfWork implements IUnitOfWork{
 
-    private final EntityManager entityManager;
     private IHackathonRepository hackathonRepository;
     private ITeamRepository teamRepository;
     private IInvitoRepository invitoRepository;
@@ -24,7 +23,7 @@ public class UnitOfWork implements IUnitOfWork{
     private IUserStaffRepository userStaffRepository;
     private ISupportoRepository supportoRepository;
 
-    public UnitOfWork( EntityManager entityManager,
+    public UnitOfWork(
             IHackathonRepository hackathonRepository,
                       ITeamRepository teamRepository,
                       IInvitoRepository invitoRepository,
@@ -47,7 +46,6 @@ public class UnitOfWork implements IUnitOfWork{
         this.valutazioneRepository = valutazioneRepository;
         this.userStaffRepository = userStaffRepository;
         this.supportoRepository = supportoRepository;
-        this.entityManager = entityManager;
     }
 
     public IHackathonRepository hackathonRepository() {
@@ -76,6 +74,5 @@ public class UnitOfWork implements IUnitOfWork{
 
     @Override
     public void saveChanges() {
-        entityManager.flush();
     }
 }
