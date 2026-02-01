@@ -5,8 +5,10 @@ import org.example.Api.Exception.BadRequestException;
 import org.example.Api.Exception.ConflictException;
 import org.example.Api.Exception.ResourceNotFoundException;
 import org.example.Api.Exception.ValidationException;
+import org.example.Api.Models.Mapper.HackathonMapper;
 import org.example.Api.Models.Request.HackathonRequest;
 import org.example.Api.Models.Request.PaymentRequest;
+import org.example.Api.Models.Response.HackathonResponse;
 import org.example.Application.Abstraction.Service.IHackathonService;
 import org.example.Application.Abstraction.Validator.Validator;
 import org.example.Core.enums.PaymentType;
@@ -210,6 +212,16 @@ public class HackathonService implements IHackathonService {
         else {
             throw new BadRequestException("Impossibile pagamento");
         }
+    }
+
+    @Override
+    public HackathonResponse cambiaStato(Long id) {
+        Hackathon hackathon = unitOfWork.hackathonRepository().getById(id);
+        State stato = hackathon.getStato();
+        hackathon.setStato(stato.next());
+        unitOfWork.hackathonRepository().update(hackathon);
+        unitOfWork.saveChanges();
+        return HackathonMapper.toResponse(hackathon);
     }
 
     private int numPersone(List<Team> teams){

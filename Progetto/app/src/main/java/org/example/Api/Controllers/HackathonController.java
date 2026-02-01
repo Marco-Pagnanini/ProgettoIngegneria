@@ -71,8 +71,14 @@ public class HackathonController {
     }
 
     @PostMapping("/vincitore/{idTeam}/{idHackathon}")
+    @PreAuthorize("hasRole('ORGANIZZATORE')")
     public ResponseEntity<Boolean> assegnaVincitore(@PathVariable Long idTeam, Long idHackathon, @RequestBody PaymentType paymentType){
         return ResponseEntity.ok(hackathonService.assegnaVincitore(paymentType,idTeam,idHackathon));
+    }
+
+    @PostMapping("/cambiaStato/{id}")
+    public ResponseEntity<HackathonResponse> cambiaStato(@PathVariable Long id){
+        return ResponseEntity.ok(hackathonService.cambiaStato(id));
     }
 
 }

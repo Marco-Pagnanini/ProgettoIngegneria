@@ -1,6 +1,7 @@
 package org.example.Application.Abstraction.Service;
 
 import org.example.Api.Models.Request.HackathonRequest;
+import org.example.Api.Models.Response.HackathonResponse;
 import org.example.Core.enums.PaymentType;
 import org.example.Core.models.Hackathon;
 
@@ -15,6 +16,7 @@ public interface IHackathonService {
     Hackathon iscrizioneTeam(Long idTeam, Long idHackathon);
     List<Hackathon> getAllHackathon();
     Boolean assegnaVincitore(PaymentType type,Long idTeam, Long idHackathon);
+    HackathonResponse cambiaStato(Long id);
 
 
 }
