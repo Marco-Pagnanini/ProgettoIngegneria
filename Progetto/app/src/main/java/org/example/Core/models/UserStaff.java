@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Entità UserStaff:
  * gestisce tutti i MembriDelloStaff
+ * Uno UserStaff può cambiare ruolo nel tempo
  *
  * @author Marco Pagnanini
  */
@@ -66,15 +67,24 @@ public class UserStaff {
     @Enumerated(EnumType.STRING)
     private RuoloStaff ruolo;
 
-    // 1 Organizzatore organizza Molti Hackathon (lato inverso)
+    /**
+     * Storico degli hackathon che ha organizzato
+     * 1 Organizzatore organizza Molti Hackathon
+     */
     @OneToMany(mappedBy = "organizzatore")
     private List<Hackathon> hackathonOrganizzati = new ArrayList<>();
 
-    // 1 Giudice valuta Molti Hackathon (lato inverso)
+    /**
+     * Storico degli Hackathon valutati dello userStaff
+     * 1 Giudice valuta Molti Hackathon
+     */
     @OneToMany(mappedBy = "giudice")
     private List<Hackathon> hackathonValutati = new ArrayList<>();
 
-    // Molti Mentori supportano Molti Hackathon (lato inverso)
+    /**
+     * Storico degli hackathon che gestito come mentore
+     * Molti Mentori supportano Molti Hackathon
+     */
     @ManyToMany(mappedBy = "mentori")
     private List<Hackathon> hackathonSupportati = new ArrayList<>();
 

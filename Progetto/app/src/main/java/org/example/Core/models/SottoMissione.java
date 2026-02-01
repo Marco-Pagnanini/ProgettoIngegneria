@@ -13,18 +13,33 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class SottoMissione {
+    /**
+     * identificativo univoco della sottomissione
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * titolo della sottomisisone relativa
+     */
     private String titolo;
+    /**
+     * descrizione della sottomissione
+     */
     private String descrizione;
 
-    // Molte SottoMissioni appartengono a 1 Hackathon
+    /**
+     * hackathon a cui si riferisce la sottomisisone
+     * Molte SottoMissioni appartengono a 1 Hackathon
+     */
     @ManyToOne
     @JoinColumn(name = "hackathon_id")
     private Hackathon hackathon;
 
-    // 1 SottoMissione contiene Molte Risposte
+    /**
+     * insieme delle rispsota dei team partecipanti
+     * 1 SottoMissione contiene Molte Risposte
+     */
     @OneToMany(mappedBy = "sottoMissione")
     private List<Risposta> risposte = new ArrayList<>();
 

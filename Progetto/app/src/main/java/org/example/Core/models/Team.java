@@ -18,29 +18,52 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Team {
+    /**
+     * identificativo univoco del team
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * nome del team
+     */
     private String nome;
-
+    /**
+     * saldo del team relativo alle vincite che hanno fatto
+     */
     private Double saldo = 0.0;
 
-    // 1 Team è composto da 1 TeamLeader
+    /**
+     * team Leader del team (colui che ha creato il team)
+     * 1 Team è composto da 1 TeamLeader
+     */
     @ManyToOne
     @JoinColumn(name = "team_leader_id")
     private User teamLeader;
 
-    // 1 Team è composto da Molti MembriDelTeam
+    /**
+     * membri del team che fanno parte del team
+     * 1 Team è composto da Molti MembriDelTeam
+     */
     @OneToMany(mappedBy = "team")
     private List<User> membriTeam = new ArrayList<>();
 
-    private LocalDate dataCreazione;
+    /**
+     * data di creazione del team
+     */
+    private LocalDate dataCreazione = LocalDate.now();
 
-    // 1 Team invia Molti Inviti
+    /**
+     * inviti mandati dal team ad utente con ruolo (UTENTE_NON_ISCRITTO)
+     * 1 Team invia Molti Inviti
+     */
     @OneToMany(mappedBy = "dalTeam")
     private List<Invito> inviti = new ArrayList<>();
 
-    // Molti Team partecipano a Molti Hackathon (lato inverso)
+    /**
+     * Storico degli hackathon dei team
+     * Molti Team partecipano a Molti Hackathon
+     */
     @ManyToMany(mappedBy = "teams")
     private List<Hackathon> hackathons = new ArrayList<>();
 

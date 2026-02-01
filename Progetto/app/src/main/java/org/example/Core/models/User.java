@@ -66,11 +66,18 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RuoloUser ruolo = RuoloUser.UTENTE_NON_ISCRITTO;
 
-    // Molti User (MembriDelTeam) appartengono a 1 Team
+    /**
+     * il team di cui fa parte
+     * se l'utente ha ruolo UTENTE_NON_ISCRITTO allora team sarà nullo
+     * Molti User (MembriDelTeam) appartengono a 1 Team
+     */
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
 
+    /**
+     * inviti ricevuti da team
+     */
     // 1 User riceve Molti Inviti
     @OneToMany(mappedBy = "perUtente")
     private List<Invito> inviti = new ArrayList<>();

@@ -10,16 +10,27 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class Valutazione {
+    /**
+     * identificativo univoco della valutazione
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Molte Valutazioni si riferiscono a 1 Risposta
-    @ManyToOne
-    @JoinColumn(name = "risposta_id")
+    /**
+     * la risposta riferita alla valutazione
+     */
+    @OneToOne
+    @JoinColumn(name = "risposta_id", unique = true)
     private Risposta risposta;
 
+    /**
+     * punteggio per la risposta
+     */
     private Integer punteggio;
+    /**
+     * giudicizio del giudice
+     */
     private String giudizio;
 
 }

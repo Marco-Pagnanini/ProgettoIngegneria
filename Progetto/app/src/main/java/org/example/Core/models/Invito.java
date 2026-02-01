@@ -13,25 +13,47 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 public class Invito {
+    /**
+     * identificativo univoco dell'Invito
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * titolo dell'invito (non implementato)
+     */
     private String titolo;
+    /**
+     * descrizione dell'invito (non implementato)
+     */
     private String descrizione;
 
-    // Molti Inviti sono inviati da 1 Team
+    /**
+     * team che invia l'invito
+     * Molti Inviti sono inviati da 1 Team
+     *
+     */
     @ManyToOne
     @JoinColumn(name = "dal_team_id")
     private Team dalTeam;
 
-    // Molti Inviti sono ricevuti da 1 User
+    /**
+     * user (con ruolo UTENTE_NON_ISCRITTO) invitato a partecipare ad un team
+     * Molti Inviti sono ricevuti da 1 User
+     */
     @ManyToOne
     @JoinColumn(name = "per_utente_id")
     private User perUtente;
 
+    /**
+     * stato dell'invito del team
+     */
     @Enumerated(EnumType.STRING)
     private StatoInvito stato;
 
-    private LocalDate dataInvito;
+    /**
+     * data dell'invio dell'invito
+     */
+    private LocalDate dataInvito = LocalDate.now();
 
 }

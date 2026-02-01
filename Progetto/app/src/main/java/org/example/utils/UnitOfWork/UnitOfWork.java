@@ -1,5 +1,6 @@
 package org.example.utils.UnitOfWork;
 
+import jakarta.persistence.EntityManager;
 import org.example.Application.Abstraction.Repository.*;
 import org.example.Application.Abstraction.Service.IRispostaService;
 import org.example.Application.Abstraction.Service.ISottoMissioniService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UnitOfWork implements IUnitOfWork{
 
+    private final EntityManager entityManager;
     private IHackathonRepository hackathonRepository;
     private ITeamRepository teamRepository;
     private IInvitoRepository invitoRepository;
@@ -22,7 +24,8 @@ public class UnitOfWork implements IUnitOfWork{
     private IUserStaffRepository userStaffRepository;
     private ISupportoRepository supportoRepository;
 
-    public UnitOfWork(IHackathonRepository hackathonRepository,
+    public UnitOfWork( EntityManager entityManager,
+            IHackathonRepository hackathonRepository,
                       ITeamRepository teamRepository,
                       IInvitoRepository invitoRepository,
                       ISegnalazioneRepository segnalazioneRepository,
@@ -44,6 +47,7 @@ public class UnitOfWork implements IUnitOfWork{
         this.valutazioneRepository = valutazioneRepository;
         this.userStaffRepository = userStaffRepository;
         this.supportoRepository = supportoRepository;
+        this.entityManager = entityManager;
     }
 
     public IHackathonRepository hackathonRepository() {
@@ -72,6 +76,6 @@ public class UnitOfWork implements IUnitOfWork{
 
     @Override
     public void saveChanges() {
-        //TODO TRANSACTION
+        entityManager.flush();
     }
 }
