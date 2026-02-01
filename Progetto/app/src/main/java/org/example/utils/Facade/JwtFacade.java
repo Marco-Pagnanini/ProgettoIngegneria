@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Facade per metodo per gestire il jwt tramite la libreria jjwt
+ * Raccoglie i principali metodo di aiuto per il jwt
+ */
 @Service
 public class JwtFacade {
 

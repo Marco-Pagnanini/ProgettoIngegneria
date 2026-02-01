@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class InvitoValidator implements Validator<Invito> {
-    private Invito  invito;
 
     @Override
     public boolean validate(Invito entity) {

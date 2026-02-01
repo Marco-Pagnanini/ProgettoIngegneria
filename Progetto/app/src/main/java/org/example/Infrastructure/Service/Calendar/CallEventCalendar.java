@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+/**
+ * {@link CallEventCalendar} simula un servizio a calendario per la gestione dei supporti per il mentore
+ */
 public class CallEventCalendar {
 
     @Id

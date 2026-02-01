@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Design Pattern Facade
+ * visto che la gestione del calendario è data da un servizio esterno con molte operazione usiamo
+ * un facade pattern per semplificare il lavoro per creare una chiamata
+ */
 @Service
 public class CallEventFacade {
 
